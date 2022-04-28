@@ -18,11 +18,13 @@ public class Game {
 	private ArrayList<Entity> entities;
 	private HashSet<Integer> keysDown;
 	private Dimension size;
+	private long frameCount;
 	
 	public Game(Dimension size) {
 		this.entities = new ArrayList();
 		this.keysDown = new HashSet<Integer>();
 		this.size = size;
+		this.frameCount = 0;
 		
 		initialDebug();
 	}
@@ -44,6 +46,10 @@ public class Game {
 	
 	public HashSet<Integer> getKeysDown() {
 		return keysDown;
+	}
+	
+	public long getFrameCount() {
+		return frameCount;
 	}
 	
 	public void addEntity(Entity entity) {
@@ -77,6 +83,7 @@ public class Game {
 				entity.cycle(this);
 			}
 		}
+		frameCount++;
 		//debugger.print("Game Loop");
 	}
 	
