@@ -5,7 +5,7 @@
 // This is a template comment that you should paste verbatim above every class.
 // Fill out any necessary information:
 //
-// File: FloorTile.java
+// File: WallTile.java
 //
 // Add your name here if you work on this class:
 /** @authors Alex */ 
@@ -13,7 +13,7 @@ public class WallTile extends Entity{
     
     public static final String TYPE = "WallTile";
     public WallTile(String id){
-        super(id, WallTile.TYPE, 0, "WallTIle.png");
+        super(id, WallTile.TYPE, 0, "WallTile.png");
 
     }
 
