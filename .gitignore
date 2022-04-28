@@ -1,3 +1,16 @@
+# AP CS Project
+# Alex, Johnny, Ethan, and Uday
+#
+# This is a template comment that you should paste verbatim.
+# Fill out any necessary information:
+#
+# File: .gitignore
+#
+# Add your name here if you work on this file:
+# Authors: Ethan
 
+# MacOS
 .DS_Store
-*.class
+
+# No .class files
+bin/
