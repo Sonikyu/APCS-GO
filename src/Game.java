@@ -15,14 +15,16 @@ import java.util.HashSet;
 // Add your name here if you work on this class:
 /** @authors Ethan */ 
 public class Game {
-	ArrayList<Entity> entities;
-	HashSet<Integer> keysDown;
-	Dimension size;
+	private ArrayList<Entity> entities;
+	private HashSet<Integer> keysDown;
+	private Dimension size;
 	
 	public Game(Dimension size) {
 		this.entities = new ArrayList();
 		this.keysDown = new HashSet<Integer>();
 		this.size = size;
+		
+		initialDebug();
 	}
 	
 	public Dimension getSize() {
@@ -45,6 +47,7 @@ public class Game {
 	}
 	
 	public void addEntity(Entity entity) {
+		Debugger.main.print("entities[" + entities.size() + "] = " + entity);
 		entities.add(entity);
 	}
 	
@@ -74,6 +77,7 @@ public class Game {
 				entity.cycle(this);
 			}
 		}
+		//debugger.print("Game Loop");
 	}
 	
 	// https://stackoverflow.com/questions/37490551/disabling-key-repeat-in-swing
@@ -94,4 +98,13 @@ public class Game {
 	        keysDown.remove(keycode);
 	    }
 	}
+	
+	private void initialDebug() {
+		Debugger.main.start();
+		
+		Debugger.main.print("Game Debug\n==========");
+		
+		Debugger.main.print("Window Size: " + size.getWidth() + "px by " + size.getHeight() + "px");
+	}
 }
+
