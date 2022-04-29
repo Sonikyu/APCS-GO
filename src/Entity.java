@@ -25,26 +25,13 @@ public abstract class Entity implements ImageObserver {
 	private Dimension size;
 	private boolean visible;
 	
-	/*
-	 * @deprecated Use other constructor instead.
-	 */
-	@Deprecated
+	private static String[] singleArray(String str) {
+		String[] strs = {str};
+		return strs;
+	}
+	
 	public Entity(String id, String type, int maxHealth, String imageName) {
-		this.id = id;
-		this.type = type;
-		this.health = maxHealth;
-		this.maxHealth = maxHealth;
-		this.x = 0;
-		this.y = 0;
-		this.images = new Image[1];
-		this.images[0] = new ImageIcon("images/" + imageName).getImage();
-		this.currentImage = 0;
-		
-		int width = this.images[0].getWidth(this);
-		int height = this.images[0].getHeight(this);
-		this.size = new Dimension(width, height);
-		
-		this.visible = true;
+		this(id, type, maxHealth, singleArray(imageName));
 	}
 	
 	/*
