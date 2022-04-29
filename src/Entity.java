@@ -30,12 +30,23 @@ public abstract class Entity implements ImageObserver {
 		return strs;
 	}
 	
+	/**
+	 * Creates a new entity
+	 * @param id Unique out of every entity
+	 * @param type The class of entity
+	 * @param maxHealth Maximum health allowed to have
+	 * @param imageName Image name of costume
+	 */
 	public Entity(String id, String type, int maxHealth, String imageName) {
 		this(id, type, maxHealth, singleArray(imageName));
 	}
-	
-	/*
-	 * Precondition: imageNames.length > 0
+
+	/**
+	 * Creates a new entity
+	 * @param id Unique out of every entity
+	 * @param type The class of entity
+	 * @param maxHealth Maximum health allowed to have
+	 * @param imageNames Image names of costumes
 	 */
 	public Entity(String id, String type, int maxHealth, String[] imageNames) {		
 		this.id = id;
@@ -58,46 +69,89 @@ public abstract class Entity implements ImageObserver {
 		this.visible = true;
 	}
 	
+	/**
+	 * Gets the entity's id
+	 * @return
+	 */
 	public String getID() {
 		return id;
 	}
 	
+	/**
+	 * Gets the entity's type
+	 * @return
+	 */
 	public String getType() {
 		return type;
 	}
 	
+	/**
+	 * Gets the entity's health
+	 * @return
+	 */
 	public int getHealth() {
 		return health;
 	}
 	
+	/**
+	 * Checks whether entity is alive
+	 * @return Whether the entity is dead
+	 */
 	public boolean isDead() {
 		return getHealth() == 0;
 	}
 	
+	/**
+	 * Gets the maximum health of entity
+	 * @return
+	 */
 	public int getMaxHealth() {
 		return maxHealth;
 	}
 	
+	/**
+	 * Gets the entity's x position
+	 * @return
+	 */
 	public int getX() {
 		return x;
 	}
 	
+	/**
+	 * Gets the entity's y position
+	 * @return
+	 */
 	public int getY() {
 		return y;
 	}
 	
+	/**
+	 * Gets the entity's visibility
+	 * @return Whether the entity is currently visible on screen
+	 */
 	public boolean isVisible() {
 		return visible;
 	}
 	
+	/**
+	 * Makes the entity visible
+	 */
 	public void show() {
 		visible = true;
 	}
 	
+	/**
+	 * Makes the entity invisible
+	 */
 	public void hide() {
 		visible = false;
 	}
 	
+	/**
+	 * Checks if the entity is in the specified bounds
+	 * @param containerSize The container in which the entity should be checked
+	 * @return Whether the entity is on screen
+	 */
 	public boolean isOnScreen(Dimension containerSize) {
 		return (x + size.width > 0 && y + size.height > 0)							// top left
 				&& (x < containerSize.getWidth() && y < containerSize.getHeight());	// bottom right
@@ -111,10 +165,18 @@ public abstract class Entity implements ImageObserver {
 		return size;
 	}
 	
+	/**
+	 * Gets the entity's width
+	 * @return
+	 */
 	public int getWidth() {
 		return (int)size.getWidth();
 	}
 	
+	/**
+	 * Gets the entity's height
+	 * @return
+	 */
 	public int getHeight() {
 		return (int)size.getHeight();
 	}
@@ -123,14 +185,24 @@ public abstract class Entity implements ImageObserver {
         g.drawImage(images[currentImage], x, y, this);
 	}
 	
+	/**
+	 * Sets the entity's first costume
+	 */
 	public void setFirstImage() {
 		currentImage = 0;
 	}
 	
+	/**
+	 * Sets a specific costume of the entity
+	 * @param index The index of the costume to set
+	 */
 	public void setImageAtIndex(int index) {
 		currentImage = index;
 	}
 	
+	/**
+	 * Moves to the next costume, wrapping to the front if necessary
+	 */
 	public void setNextImage() {
 		currentImage++;
 		if (currentImage >= images.length) {
@@ -138,6 +210,9 @@ public abstract class Entity implements ImageObserver {
 		}
 	}
 	
+	/**
+	 * Moves to the previous costume, wrapping to the back if necessary
+	 */
 	public void setPreviousImage() {
 		currentImage--;
 		if (currentImage < 0) {
@@ -145,19 +220,36 @@ public abstract class Entity implements ImageObserver {
 		}
 	}
 	
+	/**
+	 * Sets the entity's new position
+	 * @param x
+	 * @param y
+	 */
 	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
+	/**
+	 * Changes the entity's x position
+	 * @param delta How much to change the x position by
+	 */
 	public void updateXBy(int delta) {
 		x += delta;
 	}
 	
+	/**
+	 * Changes the entity's y position
+	 * @param delta How much to change the y position by
+	 */
 	public void updateYBy(int delta) {
 		y += delta;
 	}
 	
+	/**
+	 * Heals the entity
+	 * @param change How much to heal the entity by
+	 */
 	public void heal(int change) {
 		if (health + change > maxHealth) {
 			health = maxHealth;
@@ -166,6 +258,10 @@ public abstract class Entity implements ImageObserver {
 		}
 	}
 	
+	/**
+	 * Hurts the entity
+	 * @param change How much to hurt the entity by
+	 */
 	public void takeDamage(int change) {
 		if (health - change < 0) {
 			health = 0;
@@ -180,6 +276,11 @@ public abstract class Entity implements ImageObserver {
 	}
 			
 			
+	/**
+	 * Whether the entity collides with another
+	 * @param otherEntity The entity to check collision with
+	 * @return
+	 */
 	// https://jeffreythompson.org/collision-detection/rect-rect.php
 	public boolean collidesWith(Entity otherEntity) {
 		if (id.equals(otherEntity.id)) {
