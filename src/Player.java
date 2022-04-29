@@ -20,9 +20,9 @@ public class Player extends Entity {
 	private static String IMAGE_FILE = "star.png";
 	private static int PLAYER_SPEED = 1;
 
-	int framesDisabled;
-	int xDelta;
-	int yDelta;
+	private int framesDisabled;
+	private int xDelta;
+	private int yDelta;
 	
 	Player() {
 		super(Player.ID, Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILE);
