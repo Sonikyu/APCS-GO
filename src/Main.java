@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 // File: Main.java
 //
 // Add your name here if you work on this class:
-/** @authors Ethan */ 
+/** @author Ethan */ 
 public class Main {
 	public static void main(String[] args) {		
 		// Window size
