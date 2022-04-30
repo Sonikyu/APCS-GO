@@ -8,7 +8,7 @@
 // File: WallTile.java
 //
 // Add your name here if you work on this class:
-/** @author Alex */ 
+/** @authors Alex */ 
 public class WallTile extends Entity{
     
     public static final String TYPE = "WallTile";

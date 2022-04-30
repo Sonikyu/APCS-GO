@@ -13,7 +13,7 @@ import java.awt.Graphics2D;
 // File: Entity.java
 //
 // Add your name here if you work on this class:
-/** @author Ethan */ 
+/** @authors Ethan */ 
 public abstract class Entity implements ImageObserver {
 	private final String id;
 	private String type;

@@ -13,7 +13,7 @@ import java.util.HashSet;
 // File: Game.java
 //
 // Add your name here if you work on this class:
-/** @author Ethan */ 
+/** @authors Ethan */ 
 public class Game {
 	private ArrayList<Entity> entities;
 	private HashSet<Integer> keysDown;
