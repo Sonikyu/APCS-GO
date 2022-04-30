@@ -12,39 +12,41 @@ import java.awt.Dimension;
 // File: Player.java
 //
 // Add your name here if you work on this class:
-/** @authors Ethan */ 
+/** @author Ethan */ 
 public class Player extends Entity {
 	public static String ID = "Player";
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
-	private static String IMAGE_FILE = "star.png";
+	private static String IMAGE_FILE = "Player.png";
 	private static int PLAYER_SPEED = 1;
 
-	private int framesDisabled;
 	private int xDelta;
 	private int yDelta;
 	
 	Player() {
 		super(Player.ID, Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILE);
-		this.framesDisabled = 0;
 		this.xDelta = 0;
 		this.yDelta = 0;
 	}
 	
+	/**
+	 *  Gets player heart count for display
+	 */
 	public int getHeartCount() {
+		// A player has ten hearts
 		return getHealth() / 10;
 	}
 	
 	@Override
 	public void cycle(Game game) {
+		// Player does not move automatically
 		xDelta = 0;
 		yDelta = 0;
 		
-		if (framesDisabled == 0) {
-			// Move with arrow keys
-			moveOnKeys(game.getKeysDown(), game.getSize());
-		}
+		// Move with arrow keys
+		moveOnKeys(game.getKeysDown(), game.getSize());
 				
+		// Check for collisions
 		ArrayList<Entity> visibleEntities = game.getVisibleEntities();
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
@@ -54,17 +56,8 @@ public class Player extends Entity {
 				// TODO: Replace with the static variables
 				if (entity.getType() == "WallTile" || entity.getType() == "DoorTile") {
 					revertLastMovement();
-				} else if (entity.getType() == "Enemy") {
-					// Enemy enemy = (Enemy)entity;
-					// harm(entity.getDamage());
-					revertLastMovement();
-					disableMovementForFrames(100);
 				}
 			}			
-		}
-		
-		if (framesDisabled > 0) {
-			framesDisabled--;
 		}
 	}
 	
@@ -85,7 +78,8 @@ public class Player extends Entity {
 			if (getY() > 0) {
 				yDelta = -Player.PLAYER_SPEED;
 			}
-		} else if (keysDown.contains(KeyEvent.VK_DOWN)) {
+		}
+		if (keysDown.contains(KeyEvent.VK_DOWN)) {
 			if (getY() + getHeight() < windowSize.getHeight()) {
 				yDelta = Player.PLAYER_SPEED;
 			}
@@ -94,7 +88,8 @@ public class Player extends Entity {
 			if (getX() > 0) {
 				xDelta -= Player.PLAYER_SPEED;
 			}
-		} else if (keysDown.contains(KeyEvent.VK_RIGHT)) {
+		}
+		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
 			if (getX() + getWidth() < windowSize.getWidth()) {
 				xDelta += Player.PLAYER_SPEED;
 			}
@@ -104,15 +99,14 @@ public class Player extends Entity {
 		updateYBy(yDelta);
 	}
 	
+	/**
+	 * Reverts the last movement made by the player
+	 */
 	private void revertLastMovement() {
 		xDelta = -xDelta;
 		yDelta = -yDelta;
 		updateXBy(xDelta);
 		updateYBy(yDelta);
-	}
-	
-	private void disableMovementForFrames(int frames) {
-		framesDisabled = frames;
 	}
 }
  

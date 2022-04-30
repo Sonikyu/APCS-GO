@@ -9,7 +9,7 @@ import java.util.ArrayList;
 //File: Debugger.java
 //
 //Add your name here if you work on this class:
-/** @authors Ethan */ 
+/** @author Ethan */ 
 public class Debugger extends Thread {
 	public static final Debugger main = new Debugger();
 	
