@@ -25,12 +25,24 @@ public class Main {
 		// Initialize game
 		Player p = new Player();
 		WallTile wall = new WallTile("MyWallTile");
+		WallTile wall1 = new WallTile("MyWallTile1");
+		WallTile wall2 = new WallTile("MyWallTile2");
+		WallTile wall3 = new WallTile("MyWallTile3");
 		wall.setPosition(100, 100);
+		wall1.setPosition(70, 100);
+		wall2.setPosition(40,100);
+		wall3.setPosition(10,100);
+		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0,100);
+		enemy1.setPosition(100, 0);
 		
 		// Setup game
 		Game game = new Game(size);
 		game.addEntity(p);
 		game.addEntity(wall);
+		game.addEntity(wall1);
+		game.addEntity(wall2);
+		game.addEntity(wall3);
+		game.addEntity(enemy1);
 
 		// Sets up frame with GameView
 		GameView gameView = new GameView(game);
