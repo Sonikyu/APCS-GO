@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 
+import restore.Coder;
+import restore.Restorer;
+
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
 //
@@ -15,6 +18,10 @@ import java.util.HashSet;
 // Add your name here if you work on this class:
 /** @author Ethan */ 
 public class Game {
+	public static int VER_BREAK = 0;
+	public static int VER_BACK = 0;
+	
+	private int verBack = VER_BACK;
 	private ArrayList<Entity> entities;
 	private HashSet<Integer> keysDown;
 	private Dimension size;
@@ -50,6 +57,18 @@ public class Game {
 	
 	public long getFrameCount() {
 		return frameCount;
+	}
+	
+	ArrayList<Entity> __getEntities() {
+		return entities;
+	}
+	
+	void __setVerBack(int verBack) {
+		this.verBack = verBack;
+	}
+	
+	void __setFrameCount(long frameCount) {
+		this.frameCount = frameCount;
 	}
 	
 	public void addEntity(Entity entity) {
@@ -109,8 +128,7 @@ public class Game {
 	private void initialDebug() {
 		Debugger.main.start();
 		
-		System.out.println("Game Debug\n==========");
+		System.out.println("Game v" + VER_BREAK + "." + verBack + "\n==========");
 		System.out.println("Window Size: " + size.getWidth() + "px by " + size.getHeight() + "px");
 	}
 }
-

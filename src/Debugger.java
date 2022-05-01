@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.time.LocalTime;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -25,7 +26,7 @@ public class Debugger extends Thread {
 	
 	public void print(String str) {
 		this.mutex = false;
-		backlog.add(str);
+		backlog.add("<" + LocalTime.now() + "> " + str);
 		this.mutex = true;
 	}
 	

@@ -20,6 +20,7 @@ public abstract class Entity implements ImageObserver {
 	private int health;
 	private final int maxHealth;
 	private int x, y;
+	private String[] imageNames;
 	private Image[] images;
 	private int currentImage;
 	private Dimension size;
@@ -32,7 +33,6 @@ public abstract class Entity implements ImageObserver {
 	
 	/**
 	 * Creates a new entity
-	 * @param id Unique out of every entity
 	 * @param type The class of entity
 	 * @param maxHealth Maximum health allowed to have
 	 * @param imageName Image name of costume
@@ -43,12 +43,11 @@ public abstract class Entity implements ImageObserver {
 
 	/**
 	 * Creates a new entity
-	 * @param id Unique out of every entity
 	 * @param type The class of entity
 	 * @param maxHealth Maximum health allowed to have
 	 * @param imageNames Image names of costumes
 	 */
-	public Entity(String type, int maxHealth, String[] imageNames) {		
+	public Entity(String type, int maxHealth, String[] imageNames) {
 		this.id = IDGen.make(type);
 		this.type = type;
 		this.health = maxHealth;
@@ -56,6 +55,7 @@ public abstract class Entity implements ImageObserver {
 		this.x = 0;
 		this.y = 0;
 		
+		this.imageNames = imageNames;
 		this.images = new Image[imageNames.length];
 		this.currentImage = 0;
 		for (int i = 0; i < imageNames.length; i++) {
@@ -183,6 +183,18 @@ public abstract class Entity implements ImageObserver {
 	
 	public void paint(Graphics2D g) {
         g.drawImage(images[currentImage], x, y, this);
+	}
+	
+	String[] __getImageNames() {
+		return imageNames;
+	}
+	
+	int __getCurrentImage() {
+		return currentImage;
+	}
+	
+	void __setHealth(int health) {
+		this.health = health;
 	}
 	
 	/**
