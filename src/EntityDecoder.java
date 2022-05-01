@@ -14,10 +14,21 @@ public class EntityDecoder {
 	public static Entity decode(Coder coder) {
 		String type = coder.decodeString();
 		coder.putBack(type);
-
+		
+		System.out.println("Entity is being decoded" + type);
 		if (type.equals(Player.TYPE)) {
 			return new Player(coder);
-		} else {
+		} 
+		else if (type.equals(MoveOnlyEnemy.TYPE)) {
+			System.out.println("Entity decoding: MoveOnlyEnemy");
+			return new MoveOnlyEnemy(coder);
+		}
+		else {
+			for (String tileType : StaticTile.TYPES) {
+				if (type.equals(tileType)) {
+					return new StaticTile(coder);
+				}
+			}
 			return null;
 		}
 	}

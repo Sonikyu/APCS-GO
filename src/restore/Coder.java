@@ -36,7 +36,7 @@ public class Coder {
 				if (!acc.isEmpty()) {
 					tokens.add(acc);
 				}
-				return;
+				break;
 			}
 			
 			char cur = data.charAt(i);
@@ -56,6 +56,9 @@ public class Coder {
 			}
 		}
 		tokens.add("");
+		for (String token : tokens) {
+			System.out.println("Token:" + token);
+		}
 	}
 	
 	public String result() {

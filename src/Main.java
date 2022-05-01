@@ -43,10 +43,10 @@ public class Main {
 
 			// Initialize game
 			Player p = new Player();
-			WallTile wall = new WallTile();
-			WallTile wall1 = new WallTile();
-			WallTile wall2 = new WallTile();
-			WallTile wall3 = new WallTile();
+			StaticTile wall = new StaticTile(StaticTile.Material.WALL);
+			StaticTile wall1 = new StaticTile(StaticTile.Material.WALL);
+			StaticTile wall2 = new StaticTile(StaticTile.Material.WALL);
+			StaticTile wall3 = new StaticTile(StaticTile.Material.WALL);
 			wall.setPosition(100, 100);
 			wall1.setPosition(70, 100);
 			wall2.setPosition(40,100);

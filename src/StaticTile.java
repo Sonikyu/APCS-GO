@@ -7,18 +7,29 @@
 // File: StaticTile.java
 //
 // Add your name here if you work on this class:
-/** @authors Alex */ 
+/** @author Alex, Johnny */
+
+import restore.Coder;
+
 public class StaticTile extends Entity {
     public enum Material {
         WALL, FLOOR, DOOR, START, GOAL
     }
     
-    private static final String[] pngs = {"WallTile.png", "FloorTile.png", "DoorTile.png", "StartTile.png", "GoalTile.png"};
-    private static final String[] names = {"WallTile", "FloorTile", "DoorTile", "StartTile", "GoalTile"};
+    private static final String[] PNGS = {"WallTile.png", "FloorTile.png", "DoorTile.png", "StartTile.png", "GoalTile.png"};
+    public static final String[] TYPES = {"WallTile", "FloorTile", "DoorTile", "StartTile", "GoalTile"};
 
     
     public StaticTile(Material material){
-        super(names[material.ordinal()], 0, pngs[material.ordinal()]);
+        super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);
+    }
+    
+    public StaticTile(Coder coder) {
+    	super(coder);
+    }
+    
+    public void encode(Coder coder) {
+    	super.encode(coder);
     }
 
     public void cycle(Game game){

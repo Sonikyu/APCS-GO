@@ -55,6 +55,7 @@ public class Game implements Encodable {
 		this.frameCount = coder.decodeLong();
 		
 		int entityCount = coder.decodeInt();
+		System.out.println("Entity Count:" + entityCount);
 		for (int i = 0; i < entityCount; i++) {
 			Entity entity = EntityDecoder.decode(coder);
 			if (entity != null) {
