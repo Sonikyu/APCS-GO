@@ -1,4 +1,3 @@
-
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
 //
@@ -12,8 +11,8 @@
 public class WallTile extends Entity{
     
     public static final String TYPE = "WallTile";
-    public WallTile(String id){
-        super(id, WallTile.TYPE, 0, "WallTile.png");
+    public WallTile() {
+        super(WallTile.TYPE, 0, "WallTile.png");
 
     }
 

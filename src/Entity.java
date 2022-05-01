@@ -37,8 +37,8 @@ public abstract class Entity implements ImageObserver {
 	 * @param maxHealth Maximum health allowed to have
 	 * @param imageName Image name of costume
 	 */
-	public Entity(String id, String type, int maxHealth, String imageName) {
-		this(id, type, maxHealth, singleArray(imageName));
+	public Entity(String type, int maxHealth, String imageName) {
+		this(type, maxHealth, singleArray(imageName));
 	}
 
 	/**
@@ -48,8 +48,8 @@ public abstract class Entity implements ImageObserver {
 	 * @param maxHealth Maximum health allowed to have
 	 * @param imageNames Image names of costumes
 	 */
-	public Entity(String id, String type, int maxHealth, String[] imageNames) {		
-		this.id = id;
+	public Entity(String type, int maxHealth, String[] imageNames) {		
+		this.id = IDGen.make(type);
 		this.type = type;
 		this.health = maxHealth;
 		this.maxHealth = maxHealth;
@@ -303,6 +303,6 @@ public abstract class Entity implements ImageObserver {
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[id=" + id + ", type=" + type + ", health=" + health + "/" + maxHealth + ", position=(" + x + ", " + y + "), visible=" + visible + "]"; 
+		return getClass().getName() + "[" + id + ", " + health + "/" + maxHealth + "health, (" + x + ", " + y + "), " + (visible ? "visible" : "not visible") + "]"; 
 	}
 }

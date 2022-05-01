@@ -1,7 +1,5 @@
-
 public class MoveOnlyEnemy extends Entity{
-	public static String ID = "MoveOnlyEnemy";
-	public static String TYPE = "Enemy";
+	public static String TYPE = "MoveOnlyEnemy";
 	private static int MAX_HEALTH = 100;
 	private static String IMAGE_FILE = "Enemy.png";
 	
@@ -13,7 +11,7 @@ public class MoveOnlyEnemy extends Entity{
 	private int totalYDelta;
 	
 	public MoveOnlyEnemy(int totalXDelta, int totalYDelta) {
-		super(MoveOnlyEnemy.ID, MoveOnlyEnemy.TYPE, MoveOnlyEnemy.MAX_HEALTH, MoveOnlyEnemy.IMAGE_FILE);
+		super(MoveOnlyEnemy.TYPE, MoveOnlyEnemy.MAX_HEALTH, MoveOnlyEnemy.IMAGE_FILE);
 		this.totalXDelta = totalXDelta;
 		this.totalYDelta = totalYDelta;
 	}

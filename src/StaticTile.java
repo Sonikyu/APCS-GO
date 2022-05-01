@@ -8,20 +8,18 @@
 //
 // Add your name here if you work on this class:
 /** @authors Alex */ 
-public class StaticTile extends Entity{
-    
+public class StaticTile extends Entity {
     public enum Material {
         WALL, FLOOR, DOOR, START, GOAL
     }
+    
     private static final String[] pngs = {"WallTile.png", "FloorTile.png", "DoorTile.png", "StartTile.png", "GoalTile.png"};
     private static final String[] names = {"WallTile", "FloorTile", "DoorTile", "StartTile", "GoalTile"};
 
     
-    public StaticTile(String id, Material material){
-        super(id, names[material.ordinal()], 0, pngs[material.ordinal()]);
+    public StaticTile(Material material){
+        super(names[material.ordinal()], 0, pngs[material.ordinal()]);
     }
-
-
 
     public void cycle(Game game){
         if(getType().equals("FloorTile")){

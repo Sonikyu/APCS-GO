@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 // File: Main.java
 //
 // Add your name here if you work on this class:
-/** @author Ethan */ 
+/** @author Ethan Alex Uday Johnny */ 
 public class Main {
 	public static void main(String[] args) {		
 		// Window size
@@ -24,15 +24,15 @@ public class Main {
 
 		// Initialize game
 		Player p = new Player();
-		WallTile wall = new WallTile("MyWallTile");
-		WallTile wall1 = new WallTile("MyWallTile1");
-		WallTile wall2 = new WallTile("MyWallTile2");
-		WallTile wall3 = new WallTile("MyWallTile3");
+		WallTile wall = new WallTile();
+		WallTile wall1 = new WallTile();
+		WallTile wall2 = new WallTile();
+		WallTile wall3 = new WallTile();
 		wall.setPosition(100, 100);
 		wall1.setPosition(70, 100);
 		wall2.setPosition(40,100);
 		wall3.setPosition(10,100);
-		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0,100);
+		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100);
 		enemy1.setPosition(100, 0);
 		
 		// Setup game
