@@ -303,6 +303,6 @@ public abstract class Entity implements ImageObserver {
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[" + id + ", " + health + "/" + maxHealth + "health, (" + x + ", " + y + "), " + (visible ? "visible" : "not visible") + "]"; 
+		return id + "[health=" + health + ", at=(" + x + ", " + y + "), " + (visible ? "visible" : "not visible") + "]"; 
 	}
 }

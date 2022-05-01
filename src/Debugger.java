@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
-//AP CS Project
-//Alex, Johnny, Ethan, and Uday
+// AP CS Project
+// Alex, Johnny, Ethan, and Uday
 //
-//This is a template comment that you should paste verbatim above every class.
-//Fill out any necessary information:
+// This is a template comment that you should paste verbatim above every class.
+// Fill out any necessary information:
 //
-//File: Debugger.java
+// File: Debugger.java
 //
-//Add your name here if you work on this class:
+// Add your name here if you work on this class:
 /** @author Ethan */ 
 public class Debugger extends Thread {
 	public static final Debugger main = new Debugger();

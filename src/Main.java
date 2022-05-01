@@ -71,7 +71,7 @@ public class Main {
 		
 		// Set frame properties and show it
 		frame.setVisible(true);
-		frame.setTitle("Game");
+		frame.setTitle("Escape from the Galactic Cruiser");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 	}

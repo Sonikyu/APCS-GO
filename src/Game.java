@@ -53,7 +53,7 @@ public class Game {
 	}
 	
 	public void addEntity(Entity entity) {
-		Debugger.main.print("entities[" + entities.size() + "] = " + entity);
+		System.out.println("entities[" + entities.size() + "] = " + entity);
 		entities.add(entity);
 	}
 	
@@ -109,9 +109,8 @@ public class Game {
 	private void initialDebug() {
 		Debugger.main.start();
 		
-		Debugger.main.print("Game Debug\n==========");
-		
-		Debugger.main.print("Window Size: " + size.getWidth() + "px by " + size.getHeight() + "px");
+		System.out.println("Game Debug\n==========");
+		System.out.println("Window Size: " + size.getWidth() + "px by " + size.getHeight() + "px");
 	}
 }
 

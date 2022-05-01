@@ -17,10 +17,10 @@ public class IDGen {
 		Integer count = idMap.get(type);
 		if (count == null) {
 			idMap.put(type, 1);
-			return type + "0";
+			return type + "_0";
 		} else {
 			idMap.put(type, count + 1);
-			return type + count;
+			return type + "_" + count;
 		}
 	}
 	
