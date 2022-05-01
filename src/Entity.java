@@ -2,6 +2,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 import javax.swing.ImageIcon;
+import restore.Coder;
+import restore.Encodable;
 import java.awt.Graphics2D;
 
 // AP CS Project
@@ -14,7 +16,7 @@ import java.awt.Graphics2D;
 //
 // Add your name here if you work on this class:
 /** @author Ethan */ 
-public abstract class Entity implements ImageObserver {
+public abstract class Entity implements ImageObserver, Encodable {
 	private final String id;
 	private String type;
 	private int health;
@@ -67,6 +69,65 @@ public abstract class Entity implements ImageObserver {
 		this.size = new Dimension(width, height);
 		
 		this.visible = true;
+	}
+	
+	/**
+	 * Loads an entity from the given coder
+	 * @param coder
+	 */
+	public Entity(Coder coder) {
+		String type = coder.decodeString();
+		
+		int health = coder.decodeInt();		
+		int maxHealth = coder.decodeInt();
+		int x = coder.decodeInt();
+		int y = coder.decodeInt();
+		
+		int imageCount = coder.decodeInt();
+		String[] imageNames = new String[imageCount];
+		coder.encode(imageNames.length);
+		for (int i = 0; i < imageCount; i++) {
+			imageNames[i] = coder.decodeString();
+		}
+		
+		int currentImage = coder.decodeInt();
+		boolean isVisible = coder.decodeBoolean();
+
+		this.id = IDGen.make(type);
+		this.type = type;
+		this.health = health;
+		this.maxHealth = maxHealth;
+		this.x = x;
+		this.y = y;
+		
+		this.imageNames = imageNames;
+		this.images = new Image[imageNames.length];
+		this.currentImage = currentImage;
+		for (int i = 0; i < imageNames.length; i++) {
+			this.images[i] = new ImageIcon("images/" + imageNames[i]).getImage();
+		}
+
+		int width = this.images[0].getWidth(this);
+		int height = this.images[0].getHeight(this);
+		this.size = new Dimension(width, height);
+		
+		this.visible = isVisible;
+	}
+	
+	public void encode(Coder coder) {		
+		coder.encode(getType());
+		coder.encode(getHealth());
+		coder.encode(getMaxHealth());
+		coder.encode(getX());
+		coder.encode(getY());
+		
+		coder.encode(imageNames.length);
+		for (String imageName: imageNames) {
+			coder.encode(imageName);
+		}
+		
+		coder.encode(currentImage);
+		coder.encode(visible);
 	}
 	
 	/**
@@ -183,18 +244,6 @@ public abstract class Entity implements ImageObserver {
 	
 	public void paint(Graphics2D g) {
         g.drawImage(images[currentImage], x, y, this);
-	}
-	
-	String[] __getImageNames() {
-		return imageNames;
-	}
-	
-	int __getCurrentImage() {
-		return currentImage;
-	}
-	
-	void __setHealth(int health) {
-		this.health = health;
 	}
 	
 	/**

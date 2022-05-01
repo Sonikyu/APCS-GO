@@ -2,6 +2,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.awt.Dimension;
+import restore.Coder;
+import restore.Encodable;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -13,7 +15,7 @@ import java.awt.Dimension;
 //
 // Add your name here if you work on this class:
 /** @author Ethan */ 
-public class Player extends Entity {
+public class Player extends Entity implements Encodable {
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
 	private static String IMAGE_FILE = "Player.png";
@@ -22,10 +24,20 @@ public class Player extends Entity {
 	private int xDelta;
 	private int yDelta;
 	
-	Player() {
+	public Player() {
 		super(Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILE);
 		this.xDelta = 0;
 		this.yDelta = 0;
+	}
+	
+	public Player(Coder coder) {
+		super(coder);
+		this.xDelta = 0;
+		this.yDelta = 0;
+	}
+	
+	public void encode(Coder coder) {
+		super.encode(coder);
 	}
 	
 	/**

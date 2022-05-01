@@ -7,7 +7,7 @@ import java.util.ArrayList;
 //This is a template comment that you should paste verbatim above every class.
 //Fill out any necessary information:
 //
-//File: Codable.java
+//File: Coder.java
 //
 //Add your name here if you work on this class:
 /** @author Ethan */ 
@@ -176,5 +176,13 @@ public class Coder {
 	
 	public void encode(double num) {
 		tokens.add("" + num);
+	}
+	
+	public void encode(Encodable encodable) {
+		encodable.encode(this);
+	}
+	
+	public void putBack(String str) {
+		tokens.add(0, str);
 	}
 }

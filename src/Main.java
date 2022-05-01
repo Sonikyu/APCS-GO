@@ -31,8 +31,7 @@ public class Main {
 		
 		if (!line.isEmpty()) {
 			Coder coder = new Coder(line);
-			GameRestorer restorer = new GameRestorer();
-			game = (Game)restorer.decode(coder);
+			game = new Game(coder);
 			if (game == null) {
 				System.err.println("Invalid game string: " + coder.getError());
 				return;
@@ -83,8 +82,7 @@ public class Main {
 					Debugger.main.showDebug(!Debugger.main.isShowing());
 				} else if (e.getKeyCode() == KeyEvent.VK_G) {
 					Coder coder = new Coder();
-					GameRestorer gameRestorer = new GameRestorer();
-					gameRestorer.encode(gameBox.game, coder);
+					coder.encode(gameBox.game);
 					System.out.println("GAME STRING: " + coder.result());
 				}
 				

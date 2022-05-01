@@ -3,9 +3,8 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
-
 import restore.Coder;
-import restore.Restorer;
+import restore.Encodable;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -17,7 +16,7 @@ import restore.Restorer;
 //
 // Add your name here if you work on this class:
 /** @author Ethan */ 
-public class Game {
+public class Game implements Encodable {
 	public static int VER_BREAK = 0;
 	public static int VER_BACK = 0;
 	
@@ -28,12 +27,55 @@ public class Game {
 	private long frameCount;
 	
 	public Game(Dimension size) {
-		this.entities = new ArrayList();
+		this.entities = new ArrayList<Entity>();
 		this.keysDown = new HashSet<Integer>();
 		this.size = size;
 		this.frameCount = 0;
 		
 		initialDebug();
+	}
+	
+	public Game(Coder coder) {
+		this.entities = new ArrayList<Entity>();
+		this.keysDown = new HashSet<Integer>();
+		
+		int verBreak = coder.decodeInt();
+		int verBack = coder.decodeInt();
+		if (Game.VER_BREAK != verBreak) {
+			coder.setError("Incompatible game versions");
+			return;
+		}
+		
+		int width = coder.decodeInt();
+		int height = coder.decodeInt();
+		
+		this.size = new Dimension(width, height);
+		this.verBack = verBack;
+		
+		this.frameCount = coder.decodeLong();
+		
+		int entityCount = coder.decodeInt();
+		for (int i = 0; i < entityCount; i++) {
+			Entity entity = EntityDecoder.decode(coder);
+			if (entity != null) {
+				this.addEntity(entity);
+			}
+		}
+	}
+	
+	public void encode(Coder coder) {
+		coder.encode(Game.VER_BREAK);
+		coder.encode(Game.VER_BACK);
+		
+		coder.encode((int)getSize().getWidth());
+		coder.encode((int)getSize().getHeight());
+		
+		coder.encode((long)getFrameCount());
+		
+		coder.encode(entities.size());
+		for (int i = 0; i < entities.size(); i++) {
+			coder.encode(entities.get(i));
+		}
 	}
 	
 	public Dimension getSize() {
@@ -57,18 +99,6 @@ public class Game {
 	
 	public long getFrameCount() {
 		return frameCount;
-	}
-	
-	ArrayList<Entity> __getEntities() {
-		return entities;
-	}
-	
-	void __setVerBack(int verBack) {
-		this.verBack = verBack;
-	}
-	
-	void __setFrameCount(long frameCount) {
-		this.frameCount = frameCount;
 	}
 	
 	public void addEntity(Entity entity) {
