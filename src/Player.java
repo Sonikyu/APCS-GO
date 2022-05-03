@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.awt.Dimension;
 import restore.Coder;
-import restore.Encodable;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -15,7 +14,7 @@ import restore.Encodable;
 //
 // Add your name here if you work on this class:
 /** @author Ethan */ 
-public class Player extends Entity implements Encodable {
+public class Player extends Entity {
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
 	private static String IMAGE_FILE = "Player.png";

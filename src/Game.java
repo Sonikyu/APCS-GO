@@ -63,6 +63,8 @@ public class Game implements Encodable {
 				this.addEntity(entity);
 			}
 		}
+		
+		initialDebug();
 	}
 	
 	public void encode(Coder coder) {
