@@ -20,13 +20,14 @@ public class EntityDecoder {
 			return new Player(coder);
 		} 
 		else if (type.equals(MoveOnlyEnemy.TYPE)) {
-			System.out.println("Entity decoding: MoveOnlyEnemy");
 			return new MoveOnlyEnemy(coder);
 		}
 		else {
 			for (String tileType : StaticTile.TYPES) {
 				if (type.equals(tileType)) {
-					return new StaticTile(coder);
+					StaticTile x = new StaticTile(coder);
+					System.out.print("ID: " + x.getID() + "\nType: " + x.getType());
+					return x;
 				}
 			}
 			return null;

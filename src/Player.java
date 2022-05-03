@@ -65,7 +65,7 @@ public class Player extends Entity implements Encodable {
 				Debugger.main.print(this + " collided with " + entity);
 				
 				// TODO: Replace with the static variables
-				if (entity.getType() == "WallTile" || entity.getType() == "DoorTile") {
+				if (entity.getType().equals("WallTile") || entity.getType().equals("DoorTile")) {
 					revertLastMovement();
 				}
 			}

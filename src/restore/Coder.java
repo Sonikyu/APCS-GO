@@ -56,9 +56,6 @@ public class Coder {
 			}
 		}
 		tokens.add("");
-		for (String token : tokens) {
-			System.out.println("Token:" + token);
-		}
 	}
 	
 	public String result() {
