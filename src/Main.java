@@ -32,7 +32,7 @@ public class Main {
 		if (!line.isEmpty()) {
 			Coder coder = new Coder(line);
 			game = new Game(coder);
-			if (game == null) {
+			if (coder.isError()) {
 				System.err.println("Invalid game string: " + coder.getError());
 				return;
 			}
@@ -51,7 +51,7 @@ public class Main {
 			wall1.setPosition(70, 100);
 			wall2.setPosition(40,100);
 			wall3.setPosition(10,100);
-			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100);
+			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
 			enemy1.setPosition(100, 0);
 			
 			// Setup game

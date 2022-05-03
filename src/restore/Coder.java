@@ -85,6 +85,10 @@ public class Coder {
 		return errStr;
 	}
 	
+	public boolean isError() {
+		return !error.isEmpty() || !message.isEmpty();
+	}
+	
 	public void setError(String message) {
 		this.message = message;
 	}

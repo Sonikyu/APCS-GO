@@ -9,6 +9,8 @@
 // Add your name here if you work on this class:
 /** @author Uday, Johnny */ 
 
+import java.util.ArrayList;
+
 import restore.Coder;
 
 public class MoveOnlyEnemy extends Entity {
@@ -22,11 +24,13 @@ public class MoveOnlyEnemy extends Entity {
 	private int offsetY;
 	private int totalXDelta;
 	private int totalYDelta;
+	private int attackStrength;
 	
-	public MoveOnlyEnemy(int totalXDelta, int totalYDelta) {
+	public MoveOnlyEnemy(int totalXDelta, int totalYDelta, int attackStrength) {
 		super(MoveOnlyEnemy.TYPE, MoveOnlyEnemy.MAX_HEALTH, MoveOnlyEnemy.IMAGE_FILE);
 		this.totalXDelta = totalXDelta;
 		this.totalYDelta = totalYDelta;
+		this.attackStrength = attackStrength;
 	}
 	
 	public MoveOnlyEnemy(Coder coder) {
@@ -35,6 +39,7 @@ public class MoveOnlyEnemy extends Entity {
 		this.offsetY = coder.decodeInt();
 		this.totalXDelta = coder.decodeInt();
 		this.totalYDelta = coder.decodeInt();
+		this.attackStrength = coder.decodeInt();
 	}
 	
 	public void encode(Coder coder) {
@@ -43,21 +48,44 @@ public class MoveOnlyEnemy extends Entity {
 		coder.encode(this.offsetY);
 		coder.encode(this.totalXDelta);
 		coder.encode(this.totalYDelta);
+		coder.encode(this.attackStrength);
 	}
 	
 	@Override
 	public void cycle(Game game) {
 		if (game.getFrameCount() % 3 == 0) {
+			boolean collidedWithWall = false;
+			ArrayList<Entity> visibleEntities = game.getVisibleEntities();
+			for (int i = 0; i < visibleEntities.size(); i++) {
+				Entity entity = visibleEntities.get(i);
+				if (collidesWith(entity)) {
+					Debugger.main.print("Ememy collided with " + entity);
+					
+					// TODO: Replace with the static variables
+					if (entity.getType().equals("WallTile") || entity.getType().equals("DoorTile")) {
+						collidedWithWall = true;
+					}
+					
+					else if (entity.getType() == Player.TYPE) {
+						if (game.getFrameCount() % 150 == 0) {
+							entity.takeDamage(attackStrength);
+						}
+					} 
+				}			
+			}
+			
+			if (offsetY >= totalYDelta || offsetY < 0 ||  collidedWithWall) {
+				yDelta *= -1;
+			}
+			if (offsetX >= totalXDelta || offsetX < 0 || collidedWithWall) {
+				xDelta *= -1;
+			}
+			
 			offsetX += xDelta;
 			offsetY += yDelta;
 			updateYBy(xDelta);
 			updateYBy(yDelta);
-			if (offsetY >= totalYDelta || offsetY <= 0) {
-				yDelta *= -1;
-			}
-			if (offsetX >= totalXDelta || offsetX <= 0) {
-				xDelta *= -1;
-			}
 		}
 	}
+
 }

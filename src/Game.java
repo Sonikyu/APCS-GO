@@ -17,10 +17,11 @@ import restore.Encodable;
 // Add your name here if you work on this class:
 /** @author Ethan */ 
 public class Game implements Encodable {
-	public static int VER_BREAK = 0;
-	public static int VER_BACK = 0;
+	public static final int VER_MAJ = 0;
+	public static final int VER_BREAK = 1;
 	
-	private int verBack = VER_BACK;
+	
+	private int verBreak = VER_BREAK;
 	private ArrayList<Entity> entities;
 	private HashSet<Integer> keysDown;
 	private Dimension size;
@@ -39,9 +40,9 @@ public class Game implements Encodable {
 		this.entities = new ArrayList<Entity>();
 		this.keysDown = new HashSet<Integer>();
 		
+		int verMaj = coder.decodeInt();
 		int verBreak = coder.decodeInt();
-		int verBack = coder.decodeInt();
-		if (Game.VER_BREAK != verBreak) {
+		if (Game.VER_MAJ != verMaj || Game.VER_BREAK != verBreak) {
 			coder.setError("Incompatible game versions");
 			return;
 		}
@@ -50,7 +51,7 @@ public class Game implements Encodable {
 		int height = coder.decodeInt();
 		
 		this.size = new Dimension(width, height);
-		this.verBack = verBack;
+		this.verBreak = verBreak;
 		
 		this.frameCount = coder.decodeLong();
 		
@@ -65,8 +66,8 @@ public class Game implements Encodable {
 	}
 	
 	public void encode(Coder coder) {
+		coder.encode(Game.VER_MAJ);
 		coder.encode(Game.VER_BREAK);
-		coder.encode(Game.VER_BACK);
 		
 		coder.encode((int)getSize().getWidth());
 		coder.encode((int)getSize().getHeight());
@@ -159,7 +160,7 @@ public class Game implements Encodable {
 	private void initialDebug() {
 		Debugger.main.start();
 		
-		System.out.println("Game v" + VER_BREAK + "." + verBack + "\n==========");
+		System.out.println("Game v" + VER_MAJ + "." + verBreak + "\n==========");
 		System.out.println("Window Size: " + size.getWidth() + "px by " + size.getHeight() + "px");
 	}
 }
