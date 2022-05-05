@@ -15,7 +15,6 @@ public class EntityDecoder {
 		String type = coder.decodeString();
 		coder.putBack(type);
 		
-		System.out.println("Entity is being decoded" + type);
 		if (type.equals(Player.TYPE)) {
 			return new Player(coder);
 		} 
@@ -25,11 +24,10 @@ public class EntityDecoder {
 		else {
 			for (String tileType : StaticTile.TYPES) {
 				if (type.equals(tileType)) {
-					StaticTile x = new StaticTile(coder);
-					System.out.print("ID: " + x.getID() + "\nType: " + x.getType());
-					return x;
+					return new StaticTile(coder);
 				}
 			}
+			coder.setErrorMsg("Unknown entity type");
 			return null;
 		}
 	}
