@@ -59,16 +59,15 @@ public class MoveOnlyEnemy extends Entity {
 			for (int i = 0; i < visibleEntities.size(); i++) {
 				Entity entity = visibleEntities.get(i);
 				if (collidesWith(entity)) {
+					Debugger.main.print("Ememy collided with " + entity);
 					
 					// TODO: Replace with the static variables
 					if (entity.getType().equals("WallTile") || entity.getType().equals("DoorTile")) {
 						collidedWithWall = true;
-						Debugger.main.print(getID() + " hit wall");
 					}
 					
 					else if (entity.getType() == Player.TYPE) {
 						if (game.getFrameCount() % 150 == 0) {
-							Debugger.main.print(getID() + " attacked " + entity.getID());
 							entity.takeDamage(attackStrength);
 						}
 					} 

@@ -32,10 +32,12 @@ public class StaticTile extends Entity {
     	super.encode(coder);
     }
 
-    @Override
     public void cycle(Game game){
-
+        if(getType().equals("FloorTile")){
+            System.out.println("Test");
+        }
     }
+
 }
 
 // Tile images are 30 x 30, total frame is 600 x 600
