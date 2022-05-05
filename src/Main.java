@@ -32,7 +32,7 @@ public class Main {
 		if (!line.isEmpty()) {
 			Coder coder = new Coder(line);
 			game = new Game(coder);
-			if (coder.isError()) {
+			if (coder.hasError()) {
 				System.err.println("Invalid game string: " + coder.getError());
 				return;
 			}

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.time.LocalTime;
+import java.util.Date;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -16,18 +17,26 @@ public class Debugger extends Thread {
 	
 	private ArrayList<String> backlog;
 	private boolean printDebugs;
-	private boolean mutex;
+	private long startTime;
+	private long lastTime;
 	
 	public Debugger() {
 		this.backlog = new ArrayList<String>();
 		this.printDebugs = false;
-		this.mutex = true;
 	}
 	
 	public void print(String str) {
-		this.mutex = false;
-		backlog.add("<" + LocalTime.now() + "> " + str);
-		this.mutex = true;
+		long timestamp = (new Date().getTime() - startTime) / 1000;		
+		if (lastTime == timestamp) {
+			backlog.add("        " + str);
+		} else {
+			String timeStr = "" + timestamp;
+			while (timeStr.length() < 4) {
+				timeStr = "0" + timeStr;
+			}
+			backlog.add("<" + timeStr + "s> " + str);
+			lastTime = timestamp;
+		}
 	}
 	
 	public void showDebug(boolean show) {
@@ -38,24 +47,24 @@ public class Debugger extends Thread {
 		return printDebugs;
 	}
 	
+	public void start() {
+		super.start();
+		this.startTime = new Date().getTime();
+		this.lastTime = -1;
+	}
+	
 	public void run() {
 		while (true) {
 			System.out.print("");
 			if (printDebugs) {
 				String last = null;
 				while (backlog.size() > 0) {
-					while (!this.mutex);
 					String current = backlog.remove(0);
 					if (last == null || !last.equals(current)) {
 						System.out.println(current);
 						last = current;
 					}
 				}
-	            try {
-	                Thread.sleep(100);
-	            } catch (InterruptedException e) {
-	                e.printStackTrace();
-	            }
 			}
 		}
 	}

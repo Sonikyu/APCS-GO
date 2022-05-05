@@ -61,7 +61,7 @@ public class Player extends Entity {
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
 			if (collidesWith(entity)) {
-				Debugger.main.print(this + " collided with " + entity);
+				//Debugger.main.print(this + " collided with " + entity);
 				
 				// TODO: Replace with the static variables
 				if (entity.getType().equals("WallTile") || entity.getType().equals("DoorTile")) {
@@ -74,13 +74,17 @@ public class Player extends Entity {
 	@Override
 	public void heal(int change) {
 		super.heal(change);
-		Debugger.main.print(this + " healed " + change);
+		Debugger.main.print(getID() + " healed " + change + ", now at " + getHealth());
 	}
 	
 	@Override
 	public void takeDamage(int change) {
 		super.takeDamage(change);
-		Debugger.main.print(this + " took " + change + " damage points");
+		if (isDead()) {
+			Debugger.main.print(getID() + " is dead and cannot be damaged further");
+		} else {
+			Debugger.main.print(getID() + " took " + change + " damage points" + ", now at " + getHealth());
+		}
 	}
 	
 	private void moveOnKeys(HashSet<Integer> keysDown, Dimension windowSize) {
