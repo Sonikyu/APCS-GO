@@ -24,7 +24,7 @@ import javax.swing.JFrame;
 // Add your name here if you work on this class:
 /** @author Ethan */ 
 public class GameView extends JComponent implements Runnable {
-    private static final int DELAY = 5;
+    public static final int DELAY = 5;
 	private Dimension size;
     private Game game;
     private Thread animator;

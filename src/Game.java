@@ -40,28 +40,33 @@ public class Game implements Encodable {
 		this.entities = new ArrayList<Entity>();
 		this.keysDown = new HashSet<Integer>();
 		
-		int verMaj = coder.decodeInt();
-		int verBreak = coder.decodeInt();
+		Integer verMaj = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Unknown major version"); return; }
+		Integer verBreak = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Unknown minor version"); return; }
 		if (Game.VER_MAJ != verMaj || Game.VER_BREAK != verBreak) {
-			coder.setError("Incompatible game versions");
+			coder.setErrorMsg("Incompatible game versions");
 			return;
 		}
 		
-		int width = coder.decodeInt();
-		int height = coder.decodeInt();
+		Integer width = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Failed to decode width"); return; }
+		Integer height = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Failed to decode height"); return; }
 		
 		this.size = new Dimension(width, height);
 		this.verBreak = verBreak;
 		
-		this.frameCount = coder.decodeLong();
+		Long frameCount = coder.decodeLong(); if (coder.hasError()) { coder.setErrorMsg("Failed to decode frame count"); return; }
+		this.frameCount = frameCount;
 		
-		int entityCount = coder.decodeInt();
+		Integer entityCount = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Failed to decode number of entities"); return; }
 		System.out.println("Entity Count:" + entityCount);
 		for (int i = 0; i < entityCount; i++) {
 			Entity entity = EntityDecoder.decode(coder);
-			if (entity != null) {
-				this.addEntity(entity);
+			if (entity == null) {
+				if (!coder.hasError()) {
+					coder.setErrorMsg("Unknown entity");
+				}
+				return;
 			}
+			this.addEntity(entity);
 		}
 		
 		initialDebug();
@@ -105,12 +110,42 @@ public class Game implements Encodable {
 		return frameCount;
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return The entity with the given id or null if none exists.
+	 */
+	public Entity getEntityByID(String id) {
+		for (Entity e: entities) {
+			if (e.getID().equals(id)) {
+				return e;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * For example, to get the player, use: game.getEntitiesByType(Player.TYPE).get(0)
+	 * @param type
+	 * @return A list of visible entities of the given type.
+	 */
+	public ArrayList<Entity> getEntitiesByType(String type) {
+		ArrayList<Entity> entitiesByType = new ArrayList<Entity>();
+		for (int i = 0; i < entities.size(); i++) {
+			Entity entity = entities.get(i);
+			if (entity.isVisible() && entity.getType().equals(type)) {
+				entitiesByType.add(entity);
+			}
+		}
+		return entitiesByType;
+	}
+	
 	public void addEntity(Entity entity) {
 		System.out.println("entities[" + entities.size() + "] = " + entity);
 		entities.add(entity);
 	}
 	
-	public void removeEntity(String id) {
+	public void removeEntityByID(String id) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i).getID().equals(id)) {
 				entities.remove(i);
