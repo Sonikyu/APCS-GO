@@ -63,12 +63,14 @@ public class Coder {
 	
 	public String result() {
 		String r = "";
+		System.out.println("calculating result with tokens: " + tokens.size());
 		for (int i = 0; i < tokens.size(); i++) {
 			if (i > 0) {
 				r += " ";
 			}
 			r += tokens.get(i);
 		}
+		System.out.println("Printing result");
 		return r;
 	}
 	

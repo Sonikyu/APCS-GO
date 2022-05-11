@@ -52,10 +52,10 @@ public class MoveOnlyEnemy extends Entity {
 	}
 	
 	@Override
-	public void cycle(Game game) {
-		if (game.getFrameCount() % 3 == 0) {
+	public void cycle(Level level, Game.GameInfo info) {
+		if (info.getFrameCount() % 3 == 0) {
 			boolean collidedWithWall = false;
-			ArrayList<Entity> visibleEntities = game.getVisibleEntities();
+			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 			for (int i = 0; i < visibleEntities.size(); i++) {
 				Entity entity = visibleEntities.get(i);
 				if (collidesWith(entity)) {
@@ -67,7 +67,7 @@ public class MoveOnlyEnemy extends Entity {
 					}
 					
 					else if (entity.getType() == Player.TYPE) {
-						if (game.getFrameCount() % 150 == 0) {
+						if (info.getFrameCount() % 150 == 0) {
 							Debugger.main.print(getID() + " attacked " + entity.getID());
 							entity.takeDamage(attackStrength);
 						}

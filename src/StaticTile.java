@@ -33,8 +33,8 @@ public class StaticTile extends Entity {
     }
 
     @Override
-    public void cycle(Game game){
-
+    public void cycle(Level level, Game.GameInfo info){
+    	
     }
 }
 

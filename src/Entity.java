@@ -330,12 +330,7 @@ public abstract class Entity implements ImageObserver, Encodable {
 			health -= change;
 		}
 	}
-	
-	public void placeOnTile(/* Room room, int row, int col */) {
-		// this.x = room.calculateX(row, col);
-		// this.y = room.calculateY(row, col);
-	}
-			
+		
 			
 	/**
 	 * Whether the entity collides with another
@@ -353,7 +348,7 @@ public abstract class Entity implements ImageObserver, Encodable {
 				&& (y + getHeight() > otherEntity.y);				// Is the TOP edge of r1 ABOVE the BOTTOM edge of r2?
 	}
 	
-	public abstract void cycle(Game game);
+	public abstract void cycle(Level level, Game.GameInfo info);
 
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {

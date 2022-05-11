@@ -23,6 +23,13 @@ public class Player extends Entity {
 	private int xDelta;
 	private int yDelta;
 	
+	private playerDirection pD;
+
+	public enum playerDirection { 
+	NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST
+	}
+	
+	
 	public Player() {
 		super(Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILE);
 		this.xDelta = 0;
@@ -47,17 +54,21 @@ public class Player extends Entity {
 		return getHealth() / 10;
 	}
 	
+	public playerDirection getPlayerDirection() {
+		return pD;
+	}
+	
 	@Override
-	public void cycle(Game game) {
+	public void cycle(Level level, Game.GameInfo info) {
 		// Player does not move automatically
 		xDelta = 0;
 		yDelta = 0;
 		
 		// Move with arrow keys
-		moveOnKeys(game.getKeysDown(), game.getSize());
+		moveOnKeys(level, info.getKeysDown(), info.getSize());
 				
 		// Check for collisions
-		ArrayList<Entity> visibleEntities = game.getVisibleEntities();
+		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
 			if (collidesWith(entity)) {
@@ -87,27 +98,36 @@ public class Player extends Entity {
 		}
 	}
 	
-	private void moveOnKeys(HashSet<Integer> keysDown, Dimension windowSize) {
+	private void moveOnKeys(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
-			if (getY() > 0) {
-				yDelta = -Player.PLAYER_SPEED;
+			yDelta -= Player.PLAYER_SPEED;
+			if (!this.isOnScreen(windowSize) && getY() < 0) {
+				this.setPosition(getX(), (int) windowSize.getHeight());
+				level.moveRoomUp();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
-			if (getY() + getHeight() < windowSize.getHeight()) {
-				yDelta = Player.PLAYER_SPEED;
+			yDelta += Player.PLAYER_SPEED;
+			if (!this.isOnScreen(windowSize) && getY() + getHeight() > windowSize.getHeight()) {
+				this.setPosition(getX(), -getHeight());
+				level.moveRoomDown();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
-			if (getX() > 0) {
-				xDelta -= Player.PLAYER_SPEED;
+			xDelta -= Player.PLAYER_SPEED;
+			if (!this.isOnScreen(windowSize) && getX() < 0) {
+				this.setPosition((int) windowSize.getWidth(), getY());
+				level.moveRoomLeft();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
-			if (getX() + getWidth() < windowSize.getWidth()) {
-				xDelta += Player.PLAYER_SPEED;
+			xDelta += Player.PLAYER_SPEED;
+			if (!this.isOnScreen(windowSize) && getX() + getWidth() > windowSize.getWidth()) {
+				this.setPosition(-getWidth(), getY());
+				level.moveRoomRight();
 			}
 		}
+
 		
 		updateXBy(xDelta);
 		updateYBy(yDelta);

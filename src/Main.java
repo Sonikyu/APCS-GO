@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.util.Scanner;
 import restore.Coder;
+import java.util.ArrayList;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -20,6 +21,7 @@ public class Main {
 	public static void main(String[] args) {
 		Game game = null;
 
+		
 		// Make JFrame
 		JFrame frame = new JFrame();
 		
@@ -37,7 +39,7 @@ public class Main {
 				return;
 			}
 		} else {
-			
+		
 			// Window size
 			Dimension size = new Dimension(600, 600);
 
@@ -55,13 +57,22 @@ public class Main {
 			enemy1.setPosition(100, 0);
 			
 			// Setup game
-			game = new Game(size);
-			game.addEntity(p);
-			game.addEntity(wall);
-			game.addEntity(wall1);
-			game.addEntity(wall2);
-			game.addEntity(wall3);
-			game.addEntity(enemy1);
+			Room room1 = new Room(new ArrayList<Entity>(), new StaticTile[20][20], p);
+			Room room2 = new Room(new ArrayList<Entity>(), new StaticTile[20][20], p);
+			room1.addEntity(wall);
+			room1.addEntity(wall1);
+			room1.addEntity(wall2);
+			room1.addEntity(wall3);
+			room1.addEntity(enemy1);
+			Room[][] rooms = new Room[3][3];
+			for (int r = 0; r < rooms.length; r++) {
+				for (int c = 0; c < rooms[0].length; c++) {
+					rooms[r][c] = new Room(room1);
+				}
+			}
+			rooms[0][0] = room2;
+			Level level = new Level(rooms, 0, 0, p);
+			game = new Game(size,level);
 		}
 
 		// Sets up frame with GameView
@@ -82,7 +93,9 @@ public class Main {
 					Debugger.main.showDebug(!Debugger.main.isShowing());
 				} else if (e.getKeyCode() == KeyEvent.VK_G) {
 					Coder coder = new Coder();
+					System.out.println("Now encoding");
 					coder.encode(gameBox.game);
+					System.out.println("Encoded");
 					System.out.println("GAME STRING: " + coder.result());
 				}
 				
