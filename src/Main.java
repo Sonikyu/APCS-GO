@@ -1,11 +1,13 @@
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 import restore.Coder;
-import java.util.ArrayList;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -21,7 +23,6 @@ public class Main {
 	public static void main(String[] args) {
 		Game game = null;
 
-		
 		// Make JFrame
 		JFrame frame = new JFrame();
 		
@@ -39,7 +40,7 @@ public class Main {
 				return;
 			}
 		} else {
-		
+			
 			// Window size
 			Dimension size = new Dimension(600, 600);
 
@@ -49,21 +50,52 @@ public class Main {
 			StaticTile wall1 = new StaticTile(StaticTile.Material.WALL);
 			StaticTile wall2 = new StaticTile(StaticTile.Material.WALL);
 			StaticTile wall3 = new StaticTile(StaticTile.Material.WALL);
-			wall.setPosition(100, 100);
-			wall1.setPosition(70, 100);
-			wall2.setPosition(40,100);
-			wall3.setPosition(10,100);
+			StaticTile wall4 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall5 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall6 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall7 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall8 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall9 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall10 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall11 = new StaticTile(StaticTile.Material.WALL);
+
+            wall.setPosition(100, 100);
+            wall1.setPosition(70, 100);
+            wall2.setPosition(40,100);
+            wall3.setPosition(10,100);
+
+
+            wall4.setPosition(450, 350);
+            wall5.setPosition(420, 350);
+            wall6.setPosition(390, 350);
+            wall7.setPosition(480, 350);
+            wall8.setPosition(510, 350);
+            wall9.setPosition(540, 350);
+            wall10.setPosition(570, 350);
+            wall11.setPosition(360, 350);
 			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
 			enemy1.setPosition(100, 0);
+			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 100, 2);
+			enemy2.setPosition(450, 450);
 			
-			// Setup game
+
 			Room room1 = new Room(new ArrayList<Entity>(), new StaticTile[20][20], p);
 			Room room2 = new Room(new ArrayList<Entity>(), new StaticTile[20][20], p);
 			room1.addEntity(wall);
 			room1.addEntity(wall1);
 			room1.addEntity(wall2);
 			room1.addEntity(wall3);
+			room1.addEntity(wall4);
+			room1.addEntity(wall5);
+			room1.addEntity(wall6);
+			room1.addEntity(wall7);
+			room1.addEntity(wall8);
+			room1.addEntity(wall9);
+			room1.addEntity(wall10);
+			room1.addEntity(wall11);
+			
 			room1.addEntity(enemy1);
+			room1.addEntity(enemy2);
 			Room[][] rooms = new Room[3][3];
 			for (int r = 0; r < rooms.length; r++) {
 				for (int c = 0; c < rooms[0].length; c++) {
@@ -93,9 +125,7 @@ public class Main {
 					Debugger.main.showDebug(!Debugger.main.isShowing());
 				} else if (e.getKeyCode() == KeyEvent.VK_G) {
 					Coder coder = new Coder();
-					System.out.println("Now encoding");
 					coder.encode(gameBox.game);
-					System.out.println("Encoded");
 					System.out.println("GAME STRING: " + coder.result());
 				}
 				

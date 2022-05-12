@@ -75,13 +75,7 @@ public class Room implements Encodable {
 		}
 	}
 	
-	public ArrayList<Entity> getEntities() {
-		return entities;
-	}
 
-	public StaticTile[][] getTiles() {
-		return tiles;
-	}
 	
 	public void paint(Graphics2D g) {	
 		for (int i = 0; i < tiles.length; i++) {
@@ -159,6 +153,7 @@ public class Room implements Encodable {
 	
 	public ArrayList<Entity> getVisibleEntities() {
 		ArrayList<Entity> visibleEntities = new ArrayList<Entity>();
+		visibleEntities.add(player);
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
 			if (entity.isVisible()) {
