@@ -8,6 +8,35 @@ import javax.sound.sampled.Clip;
 //Still wip, need more storyboarding 
 
 public class Audio extends Thread{
+ 
+   public static void main(String[] args) {
+         File file = new File("Audio.java");
+         String path = file.getAbsolutePath();
+         
+         //Use root as the base string for all the sounds
+         final String root = path.substring(0, path.length()-10) + "\\sounds";
+
+         
+         File background = new File(root + "\\Angry Birds Theme Song.wav");
+         
+         
+         while(2==2) {
+            try {
+                AudioInputStream ais = AudioSystem.getAudioInputStream(background);
+                Clip c = AudioSystem.getClip();
+                c.open(ais); //Clip opens AudioInputStream
+                c.start(); //Start playing audio
+    
+                //sleep thread for length of the song
+                Thread.sleep((int)(c.getMicrosecondLength() * 0.001));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+         }
+ 
+      }
+  /*
+   
    private ArrayList<String> SoundList;
    private static final Audio main = new Audio();
    
@@ -44,30 +73,6 @@ public class Audio extends Thread{
       //TODO fill with 
 
    }
-   public static void main(String[] args) {
-         File file = new File("Audio.java");
-         String path = file.getAbsolutePath();
-         
-         //Use root as the base string for all the sounds
-         final String root = path.substring(0, path.length()-10) + "\\sounds";
 
-         
-         File background = new File(root + "\\Angry Birds Theme Song.wav");
-         
-         
-         while(2==2) {
-            try {
-                AudioInputStream ais = AudioSystem.getAudioInputStream(background);
-                Clip c = AudioSystem.getClip();
-                c.open(ais); //Clip opens AudioInputStream
-                c.start(); //Start playing audio
-    
-                //sleep thread for length of the song
-                Thread.sleep((int)(c.getMicrosecondLength() * 0.001));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-         }
- 
-      }
+   */
 }
