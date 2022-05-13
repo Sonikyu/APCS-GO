@@ -20,7 +20,7 @@ public class Audio extends Thread{
          File background = new File(root + "\\Angry Birds Theme Song.wav");
          
          
-         while(2==2) {
+         while(true) {
             try {
                 AudioInputStream ais = AudioSystem.getAudioInputStream(background);
                 Clip c = AudioSystem.getClip();
