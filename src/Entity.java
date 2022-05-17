@@ -323,7 +323,7 @@ public abstract class Entity implements ImageObserver, Encodable {
 	 * Hurts the entity
 	 * @param change How much to hurt the entity by
 	 */
-	public void takeDamage(int change) {
+	public void takeDamage(Game.GameInfo info, int change) {
 		if (health - change < 0) {
 			health = 0;
 		} else {

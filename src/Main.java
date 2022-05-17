@@ -75,7 +75,7 @@ public class Main {
             wall11.setPosition(360, 350);
 			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
 			enemy1.setPosition(100, 0);
-			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 100, 2);
+			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 2);
 			enemy2.setPosition(450, 450);
 			
 

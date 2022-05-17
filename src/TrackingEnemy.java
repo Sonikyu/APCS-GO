@@ -133,7 +133,8 @@ public class TrackingEnemy extends Entity{
 						else if (entity.getType().equals(Player.TYPE)){
 							if (frameCount - lastFrameAttacked >= attackDelay) {
 								Debugger.main.print(getID() + " attacked " + entity.getID());
-								entity.takeDamage(attackStrength);
+								Player p = (Player) entity;
+								p.takeDamage(info, attackStrength);
 								lastFrameAttacked = frameCount;
 							}
 						}

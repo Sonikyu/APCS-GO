@@ -13,15 +13,20 @@ import restore.Coder;
 // File: Player.java
 //
 // Add your name here if you work on this class:
-/** @author Ethan */ 
+/** @author Johnny Ethan */ 
 public class Player extends Entity {
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
-	private static String IMAGE_FILE = "Player.png";
+	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
 	private static int PLAYER_SPEED = 1;
 
 	private int xDelta;
 	private int yDelta;
+	
+	private int lastFrameAttacked;
+	
+	//time for player to cycle through animation
+	private static final int ANIMATION_TIME = 100;
 	
 	private playerDirection pD;
 
@@ -31,15 +36,17 @@ public class Player extends Entity {
 	
 	
 	public Player() {
-		super(Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILE);
+		super(Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILES);
 		this.xDelta = 0;
 		this.yDelta = 0;
+		lastFrameAttacked = -ANIMATION_TIME;
 	}
 	
 	public Player(Coder coder) {
 		super(coder);
 		this.xDelta = 0;
 		this.yDelta = 0;
+		this.lastFrameAttacked = -ANIMATION_TIME;
 	}
 	
 	public void encode(Coder coder) {
@@ -63,6 +70,14 @@ public class Player extends Entity {
 		// Player does not move automatically
 		xDelta = 0;
 		yDelta = 0;
+		
+		// Determine player costume (damaged or not)
+		if ((int) info.getFrameCount() - lastFrameAttacked < ANIMATION_TIME) {
+			this.setImageAtIndex(1);
+		}
+		else {
+			this.setImageAtIndex(0);
+		}
 		
 		// Move with arrow keys
 		moveOnKeys(level, info.getKeysDown(), info.getSize());
@@ -88,9 +103,9 @@ public class Player extends Entity {
 		Debugger.main.print(getID() + " healed " + change + ", now at " + getHealth());
 	}
 	
-	@Override
-	public void takeDamage(int change) {
-		super.takeDamage(change);
+	public void takeDamage(Game.GameInfo info, int change) {
+		super.takeDamage(info, change);
+		lastFrameAttacked = (int) info.getFrameCount();
 		if (isDead()) {
 			Debugger.main.print(getID() + " is dead and cannot be damaged further");
 		} else {

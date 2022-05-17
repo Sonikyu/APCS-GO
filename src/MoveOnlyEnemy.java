@@ -69,7 +69,8 @@ public class MoveOnlyEnemy extends Entity {
 					else if (entity.getType() == Player.TYPE) {
 						if (info.getFrameCount() % 150 == 0) {
 							Debugger.main.print(getID() + " attacked " + entity.getID());
-							entity.takeDamage(attackStrength);
+							Player p = (Player) entity;
+							p.takeDamage(info, attackStrength);
 						}
 					} 
 				}			
