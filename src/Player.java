@@ -57,8 +57,14 @@ public class Player extends Entity {
 	 *  Gets player heart count for display
 	 */
 	public int getHeartCount() {
-		// A player has ten hearts
-		return getHealth() / 10;
+		int health = getHealth();
+		if (health > 0) {
+			if (health % 5 != 0) {
+				return health/5 + 1;
+			}
+			return health/5;
+		}
+		return 0;
 	}
 	
 	public playerDirection getPlayerDirection() {

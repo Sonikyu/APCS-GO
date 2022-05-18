@@ -15,6 +15,7 @@ public class Room implements Encodable {
 	private ArrayList<Entity> entities;
 	private StaticTile[][] tiles;
 	private Player player;
+	private Heart[] healthBar;
 	
 	public Room(ArrayList<Entity> entities, StaticTile[][] tiles, Player player) {
 		this.tiles = new StaticTile[HEIGHT][WIDTH];
@@ -26,6 +27,12 @@ public class Room implements Encodable {
 		}
 		this.entities = entities;
 		this.player = player;
+		healthBar = new Heart[10];
+		for (int i = 0; i < healthBar.length; i++) {
+			Heart h = new Heart();
+			h.setPosition(10 + i * h.getWidth(), 10);
+			healthBar[i] = h;
+		}
 	}
 	
 	public Room(Coder coder) {
@@ -41,7 +48,12 @@ public class Room implements Encodable {
 				tiles[i][j] = new StaticTile(coder);
 			}
 		}
-		
+		healthBar = new Heart[10];
+		for (int i = 0; i < healthBar.length; i++) {
+			Heart h = new Heart();
+			h.setPosition(0 + i * h.getWidth(), 10);
+			healthBar[i] = h;
+		}
 	}
 	
 	// TESTING CODE DELETE LATER
@@ -57,6 +69,12 @@ public class Room implements Encodable {
 		}
 		this.entities = otherRoom.entities;
 		this.player = otherRoom.player;
+		healthBar = new Heart[10];
+		for (int i = 0; i < healthBar.length; i++) {
+			Heart h = new Heart();
+			h.setPosition(10 + i * h.getWidth(), 10);
+			healthBar[i] = h;
+		}
 	}
 	
 	// END OF TESTING CODE
@@ -93,17 +111,29 @@ public class Room implements Encodable {
 			}	
 		}
 		player.paint(g);
+		for (int i = 0; i < healthBar.length; i++) {
+			Heart heart = healthBar[i];
+			if (heart.isVisible()) {
+				healthBar[i].paint(g);
+			}
+		}
 	}
 	
 	public void loadRoom() {
 		for (Entity entity : entities) {
 			entity.show();
 		}
+		for (Heart heart : healthBar) {
+			heart.show();
+		}
 	}
 	
 	public void unloadRoom() {
 		for (Entity entity : entities) {
 			entity.hide();
+		}
+		for (Heart heart : healthBar) {
+			heart.hide();
 		}
 	}
 	
@@ -119,6 +149,24 @@ public class Room implements Encodable {
 			}
 		}
 		return null;
+	}
+	
+	public void updateHearts() {
+		int health = player.getHeartCount();
+		for (int i = 0; i < healthBar.length; i++) {
+			if (health >= 2) {
+				healthBar[i].setImageAtIndex(2);
+				health -= 2;
+			}
+			else if (health == 1) {
+				healthBar[i].setImageAtIndex(1);
+				health--;
+			}
+			else {
+				healthBar[i].setImageAtIndex(0);
+			}
+		}
+		
 	}
 	
 	/**
@@ -172,6 +220,12 @@ public class Room implements Encodable {
 			}
 		}
 		player.cycle(level, info);
+		
+		// Cycle for Hearts 
+		updateHearts();
+		for (int i = 0; i < healthBar.length; i++) {
+			healthBar[i].cycle(level, info);
+		}
 		//debugger.print("Game Loop");
 	}
 }
