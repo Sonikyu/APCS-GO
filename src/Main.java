@@ -58,6 +58,7 @@ public class Main {
             StaticTile wall9 = new StaticTile(StaticTile.Material.WALL);
             StaticTile wall10 = new StaticTile(StaticTile.Material.WALL);
             StaticTile wall11 = new StaticTile(StaticTile.Material.WALL);
+			StaticTile wall12 = new StaticTile(StaticTile.Material.WALL);
 
             wall.setPosition(100, 100);
             wall1.setPosition(70, 100);
@@ -73,6 +74,8 @@ public class Main {
             wall9.setPosition(540, 350);
             wall10.setPosition(570, 350);
             wall11.setPosition(360, 350);
+			wall12.setPosition(0, 100);
+
 			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
 			enemy1.setPosition(100, 0);
 			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 2);
@@ -93,6 +96,7 @@ public class Main {
 			room1.addEntity(wall9);
 			room1.addEntity(wall10);
 			room1.addEntity(wall11);
+			room1.addEntity(wall12);
 			
 			room1.addEntity(enemy1);
 			room1.addEntity(enemy2);
@@ -139,7 +143,7 @@ public class Main {
 		
 		// Set frame properties and show it
 		frame.setVisible(true);
-		frame.setTitle("Escape from the Galactic Cruiser");
+		frame.setTitle("Jognny Droplet Touches Grass");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 	}
