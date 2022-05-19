@@ -60,6 +60,8 @@ public class Main {
             StaticTile wall11 = new StaticTile(StaticTile.Material.WALL);
 			StaticTile wall12 = new StaticTile(StaticTile.Material.WALL);
 
+			Item key = new Item();
+
             wall.setPosition(100, 100);
             wall1.setPosition(70, 100);
             wall2.setPosition(40,100);
@@ -75,6 +77,8 @@ public class Main {
             wall10.setPosition(570, 350);
             wall11.setPosition(360, 350);
 			wall12.setPosition(0, 100);
+
+			key.setPosition(200, 200);
 
 			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
 			enemy1.setPosition(100, 0);
@@ -98,6 +102,8 @@ public class Main {
 			room1.addEntity(wall11);
 			room1.addEntity(wall12);
 			
+			room1.addEntity(key);
+
 			room1.addEntity(enemy1);
 			room1.addEntity(enemy2);
 			Room[][] rooms = new Room[3][3];

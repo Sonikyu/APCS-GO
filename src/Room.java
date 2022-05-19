@@ -33,6 +33,7 @@ public class Room implements Encodable {
 			h.setPosition(10 + i * h.getWidth(), 10);
 			healthBar[i] = h;
 		}
+
 	}
 	
 	public Room(Coder coder) {
