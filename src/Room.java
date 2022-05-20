@@ -16,6 +16,7 @@ public class Room implements Encodable {
 	private StaticTile[][] tiles;
 	private Player player;
 	private Heart[] healthBar;
+	private InventorySlot[] inventoryBar;
 	
 	public Room(ArrayList<Entity> entities, StaticTile[][] tiles, Player player) {
 		this.tiles = new StaticTile[HEIGHT][WIDTH];
@@ -33,7 +34,13 @@ public class Room implements Encodable {
 			h.setPosition(10 + i * h.getWidth(), 10);
 			healthBar[i] = h;
 		}
-
+		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
+		Item[] inv = player.getInventory();
+		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
+			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.Empty)); // make item type empty when done testing
+			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
+		}
+	
 	}
 	
 	public Room(Coder coder) {
@@ -55,6 +62,7 @@ public class Room implements Encodable {
 			h.setPosition(0 + i * h.getWidth(), 10);
 			healthBar[i] = h;
 		}
+		//TODO: Inventory Bar decoder
 	}
 	
 	// TESTING CODE DELETE LATER
@@ -75,6 +83,12 @@ public class Room implements Encodable {
 			Heart h = new Heart();
 			h.setPosition(10 + i * h.getWidth(), 10);
 			healthBar[i] = h;
+		}
+		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
+		Item[] inv = player.getInventory();
+		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
+			inventoryBar[i] = new InventorySlot(inv[i]);
+			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
 	}
 	
@@ -115,7 +129,13 @@ public class Room implements Encodable {
 		for (int i = 0; i < healthBar.length; i++) {
 			Heart heart = healthBar[i];
 			if (heart.isVisible()) {
-				healthBar[i].paint(g);
+				heart.paint(g);
+			}
+		}
+		for (int i = 0; i < inventoryBar.length; i++) {
+			InventorySlot slot = inventoryBar[i];
+			if (slot.isVisible()) {
+				slot.paint(g);
 			}
 		}
 	}
@@ -127,6 +147,9 @@ public class Room implements Encodable {
 		for (Heart heart : healthBar) {
 			heart.show();
 		}
+		for (InventorySlot slot : inventoryBar) {
+			slot.show();
+		}
 	}
 	
 	public void unloadRoom() {
@@ -135,6 +158,9 @@ public class Room implements Encodable {
 		}
 		for (Heart heart : healthBar) {
 			heart.hide();
+		}
+		for (InventorySlot slot : inventoryBar) {
+			slot.hide();
 		}
 	}
 	
@@ -167,7 +193,21 @@ public class Room implements Encodable {
 				healthBar[i].setImageAtIndex(0);
 			}
 		}
-		
+	}
+	
+	public void updateInventoryBar() {
+		int slotNum = player.getCurrentSlot();
+		Item[] inv = player.getInventory();
+		//possible bad code warning
+		for (int i = 0; i < inventoryBar.length; i++) {
+			inventoryBar[i].setSlotItem(inv[i]);
+			if (slotNum == i) {
+				inventoryBar[i].setImageAtIndex(1);
+			}
+			else {
+				inventoryBar[i].setImageAtIndex(0);
+			}
+		}
 	}
 	
 	/**
@@ -226,6 +266,12 @@ public class Room implements Encodable {
 		updateHearts();
 		for (int i = 0; i < healthBar.length; i++) {
 			healthBar[i].cycle(level, info);
+		}
+		
+		// Get current item slot
+		updateInventoryBar();
+		for (int i = 0; i < inventoryBar.length; i++) {
+			inventoryBar[i].cycle(level, info);
 		}
 		//debugger.print("Game Loop");
 	}

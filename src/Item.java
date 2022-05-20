@@ -10,27 +10,34 @@
 /** @author Alex */
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import restore.Coder;
 
 public class Item extends Entity {
 
-	private static String TYPE = "Heart";
-	private static String[] IMAGE_FILES = {"Key.png", "Empty.png"};
+	public enum ItemType {
+        Empty, Key
+    }
 	
-	public Item() {
-		super(Item.TYPE, 0, Item.IMAGE_FILES);	
+	private static String[] itemTypes = {"Empty", "Key"};
+	private static String[] IMAGE_FILES = {"Empty.png", "Key.png"};
+
+	
+	public Item(ItemType type) {
+		super(itemTypes[type.ordinal()], 0, IMAGE_FILES[type.ordinal()]);	
         show();
 	}
 	
 	public Item(Coder coder) {
 		super(coder);
         show();
-    
 	}
 
 	public void encode(Coder coder) {
     	super.encode(coder);
     }
+	
 	
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {

@@ -19,6 +19,8 @@ public class Player extends Entity {
 	private static int MAX_HEALTH = 100;
 	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
 	private static int PLAYER_SPEED = 1;
+	
+	public static final int INVENTORY_SIZE = 9;
 
 	private int xDelta;
 	private int yDelta;
@@ -27,6 +29,9 @@ public class Player extends Entity {
 	
 	//time for player to cycle through animation
 	private static final int ANIMATION_TIME = 100;
+
+	private Item[] inventory;
+	private int currentSlot;
 	
 	private playerDirection pD;
 
@@ -40,6 +45,11 @@ public class Player extends Entity {
 		this.xDelta = 0;
 		this.yDelta = 0;
 		lastFrameAttacked = -ANIMATION_TIME;
+		inventory = new Item[INVENTORY_SIZE];
+		for (int i = 0; i < INVENTORY_SIZE; i++) {
+			inventory[i] = new Item(Item.ItemType.Key);
+		}
+		currentSlot = 0;
 	}
 	
 	public Player(Coder coder) {
@@ -70,6 +80,18 @@ public class Player extends Entity {
 	public playerDirection getPlayerDirection() {
 		return pD;
 	}
+	
+	public Item[] getInventory() {
+		return inventory;
+	}
+	
+	public int getCurrentSlot() {
+		return currentSlot;
+	}
+	
+//	public boolean pickUpItem(Item item) {
+//		//TODO: pickupItem
+//	}
 	
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
@@ -147,6 +169,33 @@ public class Player extends Entity {
 				this.setPosition(-getWidth(), getY());
 				level.moveRoomRight();
 			}
+		}
+		if (keysDown.contains(KeyEvent.VK_1)) {
+			currentSlot = 0;
+		}
+		if (keysDown.contains(KeyEvent.VK_2)) {
+			currentSlot = 1;
+		}
+		if (keysDown.contains(KeyEvent.VK_3)) {
+			currentSlot = 2;
+		}
+		if (keysDown.contains(KeyEvent.VK_4)) {
+			currentSlot = 3;
+		}
+		if (keysDown.contains(KeyEvent.VK_5)) {
+			currentSlot = 4;
+		}
+		if (keysDown.contains(KeyEvent.VK_6)) {
+			currentSlot = 5;
+		}
+		if (keysDown.contains(KeyEvent.VK_7)) {
+			currentSlot = 6;
+		}
+		if (keysDown.contains(KeyEvent.VK_8)) {
+			currentSlot = 7;
+		}
+		if (keysDown.contains(KeyEvent.VK_9)) {
+			currentSlot = 8;
 		}
 
 		
