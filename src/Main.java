@@ -119,34 +119,57 @@ public class Main {
 		
 
 			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
-			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 2);
+			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3);
 			
 			String[] room1Layout = {
 				"####################",
-				"#                  #",
-				"# S                #",
-				"#                  #",
-				"#                  #",
-				"#                  #",
+				"#                   ",
+				"# S                 ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
 				"#             ######",
-				"#                  #",
-				"#                  #",
-				"#                  #",
-				"#                  #",
-				"#                  #",
-				"#                  #",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
 				"#          #########",
-				"#                  #",
-				"#                  #",
-				"#                  #",
-				"#                  #",
-				"#                  #",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
 				"####################"
 			};
+			String[] room2Layout = {
+					"####################",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"              ######",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"           #########",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"####################"
+				};
 			Room room1 = new Room(room1Layout, p);
+			Room room2 = new Room(room2Layout, p);
 			room1.placeEntity(enemy1, 16, 1);
 			room1.placeEntity(enemy2, 15, 15);
-			Room[][] rooms = { { room1 } };
+			Room[][] rooms = { { room1, room2} };
 			
 			Level level = new Level(rooms, 0, 0, p);
 			game = new Game(size,level);	

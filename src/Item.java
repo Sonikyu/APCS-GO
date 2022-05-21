@@ -46,7 +46,6 @@ public class Item extends Entity {
 				for (int i = 0; i < visibleEntities.size(); i++) {
 					Entity entity = visibleEntities.get(i);
 					if (collidesWith(entity)) {
-						Debugger.main.print(this + " collided with " + entity);
 						if (entity.getType().equals("Player")) {
 							Player p = (Player) entity;
 							int temp = p.firstEmpty();							

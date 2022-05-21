@@ -25,6 +25,8 @@ public class MoveOnlyEnemy extends Entity {
 	private int totalXDelta;
 	private int totalYDelta;
 	private int attackStrength;
+	private int attackDelay = 150;
+	private long lastFrameAttacked;
 	
 	public MoveOnlyEnemy(int totalXDelta, int totalYDelta, int attackStrength) {
 		super(MoveOnlyEnemy.TYPE, MoveOnlyEnemy.MAX_HEALTH, MoveOnlyEnemy.IMAGE_FILE);
@@ -66,11 +68,12 @@ public class MoveOnlyEnemy extends Entity {
 						Debugger.main.print(getID() + " hit wall");
 					}
 					
-					else if (entity.getType() == Player.TYPE) {
-						if (info.getFrameCount() % 150 == 0) {
+					else if (entity.getType().equals(Player.TYPE)) {
+						if (info.getFrameCount() - lastFrameAttacked >= attackDelay) {
 							Debugger.main.print(getID() + " attacked " + entity.getID());
 							Player p = (Player) entity;
 							p.takeDamage(info, attackStrength);
+							lastFrameAttacked = info.getFrameCount();
 						}
 					} 
 				}			

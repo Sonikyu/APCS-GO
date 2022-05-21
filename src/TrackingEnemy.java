@@ -98,7 +98,7 @@ public class TrackingEnemy extends Entity{
 	}
 	
 	public void cycle(Level level, Game.GameInfo info) {
-		if (info.getFrameCount() % refreshSpeed == 0) {
+		if (info.getFrameCount() % refreshSpeed != 0) {
 			frameCount = info.getFrameCount();
 			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 			if (transitioning) {
@@ -120,7 +120,6 @@ public class TrackingEnemy extends Entity{
 							Debugger.main.print("Collided with WallTile");
 							if (stunned) {
 								if (frameCount - lastFrameStunned >= stunDuration) {
-									Debugger.main.print("Current frame is " + frameCount + " Collided frame was " + lastFrameStunned);
 									transitioning = true;
 								}
 							}
