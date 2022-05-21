@@ -171,6 +171,11 @@ public class Room implements Encodable {
 	}
 	
 	public void loadRoom() {
+		for (StaticTile[] tileRow : tiles) {
+			for (StaticTile tile : tileRow) {
+				tile.show();
+			}
+		}
 		for (Entity entity : entities) {
 			entity.show();
 		}
@@ -183,6 +188,11 @@ public class Room implements Encodable {
 	}
 	
 	public void unloadRoom() {
+		for (StaticTile[] tileRow : tiles) {
+			for (StaticTile tile : tileRow) {
+				tile.hide();
+			}
+		}
 		for (Entity entity : entities) {
 			entity.hide();
 		}
