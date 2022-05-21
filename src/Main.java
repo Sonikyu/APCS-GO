@@ -116,7 +116,8 @@ public class Main {
 			rooms[0][0] = room2;
 			Level level = new Level(rooms, 0, 0, p);
 			*/
-			
+		
+
 			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
 			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 2);
 			
@@ -148,7 +149,13 @@ public class Main {
 			Room[][] rooms = { { room1 } };
 			
 			Level level = new Level(rooms, 0, 0, p);
-			game = new Game(size,level);
+			game = new Game(size,level);	
+			Item key1 = new Item(Item.Object.KEY);
+			Item key2 = new Item(Item.Object.KEY);
+			key1.setPosition(200, 200);
+			key1.setPosition(260, 200);
+			room1.addEntity(key1);
+			room1.addEntity(key2);
 		}
 
 		// Sets up frame with GameView

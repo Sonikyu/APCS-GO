@@ -47,7 +47,7 @@ public class Player extends Entity {
 		lastFrameAttacked = -ANIMATION_TIME;
 		inventory = new Item[INVENTORY_SIZE];
 		for (int i = 0; i < INVENTORY_SIZE; i++) {
-			inventory[i] = new Item(Item.Object.KEY);
+			inventory[i] = new Item(Item.Object.EMPTY);
 		}
 		currentSlot = 0;
 	}
