@@ -18,8 +18,8 @@ public class Item extends Entity {
         KEY, EMPTY
     }
 
-	public static String[] TYPES = {"Key","NoItem" };
-	private static String[][] IMAGE_FILES = {{"Key.png", "Empty.png"}, {"Empty.png"}};
+	public static String[] TYPES = {"Key","NoItem", "HealPot" };
+	private static String[][] IMAGE_FILES = {{"Key.png", "Empty.png"}, {"Empty.png"}, {"HealPot.png", "Empty.png"}};
 	
 	public Item(Object Item) {
 		super(TYPES[Item.ordinal()], 0, IMAGE_FILES[Item.ordinal()]);	
