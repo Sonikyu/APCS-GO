@@ -13,7 +13,7 @@ import restore.Coder;
 // File: Player.java
 //
 // Add your name here if you work on this class:
-/** @author Johnny Ethan */ 
+/** @author Johnny Ethan Alex*/ 
 public class Player extends Entity {
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
@@ -47,7 +47,7 @@ public class Player extends Entity {
 		lastFrameAttacked = -ANIMATION_TIME;
 		inventory = new Item[INVENTORY_SIZE];
 		for (int i = 0; i < INVENTORY_SIZE; i++) {
-			inventory[i] = new Item(Item.ItemType.Key);
+			inventory[i] = new Item(Item.Object.KEY);
 		}
 		currentSlot = 0;
 	}
@@ -87,6 +87,27 @@ public class Player extends Entity {
 	
 	public int getCurrentSlot() {
 		return currentSlot;
+	}
+
+	public int firstEmpty(){
+		int firstEmpty = -1;
+		for(int i = inventory.length-1; i >=0; i--){
+			if(inventory[i].getType().equals("NoItem")){
+				firstEmpty = i;
+			}
+		}
+		System.out.println("First empty is:" + firstEmpty);
+		return firstEmpty;
+
+	}
+
+	public void addItem(Item item){
+		int temp = firstEmpty();
+		if(temp >= 0){
+			inventory[temp]=item;
+		}
+
+
 	}
 	
 //	public boolean pickUpItem(Item item) {

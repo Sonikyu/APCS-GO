@@ -20,12 +20,14 @@ public class Room implements Encodable {
 	
 	public Room(ArrayList<Entity> entities, StaticTile[][] tiles, Player player) {
 		this.tiles = new StaticTile[HEIGHT][WIDTH];
+		
 		for (int i = 0; i < HEIGHT; i++) {
 			for (int j = 0; j < WIDTH; j++) {
 				this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
 				this.tiles[i][j].setPosition(j * TILE_SIZE, i * TILE_SIZE);
 			}
 		}
+
 		this.entities = entities;
 		this.player = player;
 		healthBar = new Heart[10];
@@ -34,10 +36,11 @@ public class Room implements Encodable {
 			h.setPosition(10 + i * h.getWidth(), 10);
 			healthBar[i] = h;
 		}
+		
 		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
 		Item[] inv = player.getInventory();
 		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
-			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.Empty)); // make item type empty when done testing
+			inventoryBar[i] = new InventorySlot(new Item(Item.Object.EMPTY));
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
 	

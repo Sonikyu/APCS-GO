@@ -5,7 +5,7 @@
 // Fill out any necessary information:
 //
 // File: StaticTile.java
-//
+//src/StaticTile.java
 // Add your name here if you work on this class:
 /** @author Alex, Johnny */
 
@@ -15,9 +15,9 @@ public class StaticTile extends Entity {
     public enum Material {
         WALL, FLOOR, DOOR, START, GOAL
     }
-    
-    private static final String[] PNGS = {"WallTile.png", "FloorTile.png", "DoorTile.png", "StartTile.png", "GoalTile.png"};
     public static final String[] TYPES = {"WallTile", "FloorTile", "DoorTile", "StartTile", "GoalTile"};
+    private static final String[] PNGS = {"WallTile.png", "FloorTile.png", "DoorTile.png", "StartTile.png", "GoalTile.png"};
+    
 
     
     public StaticTile(Material material){

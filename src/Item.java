@@ -10,48 +10,57 @@
 /** @author Alex */
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import restore.Coder;
 
 public class Item extends Entity {
 
-	public enum ItemType {
-        Empty, Key
+	public enum Object {
+        KEY, EMPTY
     }
-	
-	private static String[] itemTypes = {"Empty", "Key"};
-	private static String[] IMAGE_FILES = {"Empty.png", "Key.png"};
 
+	public static String[] TYPES = {"Key","NoItem" };
+	private static String[][] IMAGE_FILES = {{"Key.png", "Empty.png"}, {"Empty.png"}};
 	
-	public Item(ItemType type) {
-		super(itemTypes[type.ordinal()], 0, IMAGE_FILES[type.ordinal()]);	
+	public Item(Object Item) {
+		super(TYPES[Item.ordinal()], 0, IMAGE_FILES[Item.ordinal()]);	
         show();
 	}
 	
 	public Item(Coder coder) {
 		super(coder);
         show();
+    
 	}
 
 	public void encode(Coder coder) {
     	super.encode(coder);
     }
 	
-	
+//TODO make constructor take in all types, make image files array of image files
+
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
-		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
-		for (int i = 0; i < visibleEntities.size(); i++) {
-			Entity entity = visibleEntities.get(i);
-			if (collidesWith(entity)) {
-				//Debugger.main.print(this + " collided with " + entity);
-				
-				// TODO: Replace with the static variables
-				if (entity.getType().equals("Player")) {
-                    hide();
-                    //inventory call to add object
-				}
+		
+		if(! this.getType().equals("NoItem")){
+			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
+				for (int i = 0; i < visibleEntities.size(); i++) {
+					Entity entity = visibleEntities.get(i);
+					if (collidesWith(entity)) {
+						Debugger.main.print(this + " collided with " + entity);
+						if (entity.getType().equals("Player")) {
+							Player p = (Player) entity;
+							int temp = p.firstEmpty();							
+							if(temp >= 0){
+								p.addItem(this); 
+								Debugger.main.print("Player obtained " + this);
+								hide();
+							}
+							else{
+								Debugger.main.print("Full inventory, didn't pick up " + this);
+							}
+						}
+
+					}
 			}
 		}
 	}
