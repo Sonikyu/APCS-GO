@@ -120,7 +120,6 @@ public class TrackingEnemy extends Entity{
 							Debugger.main.print("Collided with WallTile");
 							if (stunned) {
 								if (frameCount - lastFrameStunned >= stunDuration) {
-									Debugger.main.print("Current frame is " + frameCount + " Collided frame was " + lastFrameStunned);
 									transitioning = true;
 								}
 							}
