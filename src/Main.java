@@ -119,7 +119,7 @@ public class Main {
 		
 
 			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
-			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 2);
+			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3);
 			
 			String[] room1Layout = {
 				"####################",
