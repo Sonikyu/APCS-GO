@@ -1,4 +1,3 @@
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Dimension;
@@ -46,6 +45,7 @@ public class Main {
 
 			// Initialize game
 			Player p = new Player();
+			/*
 			StaticTile wall = new StaticTile(StaticTile.Material.WALL);
 			StaticTile wall1 = new StaticTile(StaticTile.Material.WALL);
 			StaticTile wall2 = new StaticTile(StaticTile.Material.WALL);
@@ -83,10 +83,7 @@ public class Main {
 			key1.setPosition(200, 200);
 			key1.setPosition(260, 200);
 
-			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
-			enemy1.setPosition(100, 0);
-			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 2);
-			enemy2.setPosition(450, 450);
+
 			
 
 			Room room1 = new Room(new ArrayList<Entity>(), new StaticTile[20][20], p);
@@ -110,13 +107,46 @@ public class Main {
 
 			room1.addEntity(enemy1);
 			room1.addEntity(enemy2);
-			Room[][] rooms = new Room[3][3];
+			Room[][] rooms = new Room[1][2];
 			for (int r = 0; r < rooms.length; r++) {
 				for (int c = 0; c < rooms[0].length; c++) {
 					rooms[r][c] = new Room(room1);
 				}
 			}
 			rooms[0][0] = room2;
+			Level level = new Level(rooms, 0, 0, p);
+			*/
+			
+			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
+			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 2);
+			
+			String[] room1Layout = {
+				"####################",
+				"#                  #",
+				"# S                #",
+				"#                  #",
+				"#                  #",
+				"#                  #",
+				"#             ######",
+				"#                  #",
+				"#                  #",
+				"#                  #",
+				"#                  #",
+				"#                  #",
+				"#                  #",
+				"#          #########",
+				"#                  #",
+				"#                  #",
+				"#                  #",
+				"#                  #",
+				"#                  #",
+				"####################"
+			};
+			Room room1 = new Room(room1Layout, p);
+			room1.placeEntity(enemy1, 16, 1);
+			room1.placeEntity(enemy2, 15, 15);
+			Room[][] rooms = { { room1 } };
+			
 			Level level = new Level(rooms, 0, 0, p);
 			game = new Game(size,level);
 		}

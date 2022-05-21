@@ -17,8 +17,8 @@ public class StaticTile extends Entity {
     }
     public static final String[] TYPES = {"WallTile", "FloorTile", "DoorTile", "StartTile", "GoalTile"};
     private static final String[] PNGS = {"WallTile.png", "FloorTile.png", "DoorTile.png", "StartTile.png", "GoalTile.png"};
-    
-
+    public static final int HEIGHT = 30;
+    public static final int WIDTH = 30;
     
     public StaticTile(Material material){
         super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);

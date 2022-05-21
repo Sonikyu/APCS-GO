@@ -1,4 +1,3 @@
-//Johnny made this
 
 import restore.Coder;
 import restore.Encodable;
@@ -10,7 +9,6 @@ public class Room implements Encodable {
 	
 	public static int HEIGHT = 20;
 	public static int WIDTH = 20;
-	public static int TILE_SIZE = 30;
 	
 	private ArrayList<Entity> entities;
 	private StaticTile[][] tiles;
@@ -18,13 +16,44 @@ public class Room implements Encodable {
 	private Heart[] healthBar;
 	private InventorySlot[] inventoryBar;
 	
+	public Room(String[] roomString, Player player) {
+		this.tiles = new StaticTile[HEIGHT][WIDTH];
+		this.entities = new ArrayList<Entity>();
+		this.player = player;
+		setUpHealthAndInventory();
+		
+		for (int i = 0; i < roomString.length; i++) {
+			String row = roomString[i];
+			for (int j = 0; j < row.length(); j++) {
+				switch (row.charAt(j)) {
+				case '#':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
+					break;
+				case ' ':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
+					break;
+				case 'D':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.DOOR);
+					break;
+				case 'S':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.START);
+					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
+					break;
+				default:
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
+				}
+				this.tiles[i][j].setPosition(j * tiles[i][j].getHeight(), i * tiles[i][j].getWidth());
+			}
+		}
+	}
+	
 	public Room(ArrayList<Entity> entities, StaticTile[][] tiles, Player player) {
 		this.tiles = new StaticTile[HEIGHT][WIDTH];
 		
 		for (int i = 0; i < HEIGHT; i++) {
 			for (int j = 0; j < WIDTH; j++) {
 				this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
-				this.tiles[i][j].setPosition(j * TILE_SIZE, i * TILE_SIZE);
+				this.tiles[i][j].setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
 			}
 		}
 
@@ -43,6 +72,7 @@ public class Room implements Encodable {
 			inventoryBar[i] = new InventorySlot(new Item(Item.Object.EMPTY));
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
+		setUpHealthAndInventory();
 	
 	}
 	
@@ -75,7 +105,7 @@ public class Room implements Encodable {
 		for (int i = 0; i < HEIGHT; i++) {
 			for (int j = 0; j < WIDTH; j++) {
 				this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
-				this.tiles[i][j].setPosition(j * TILE_SIZE, i * TILE_SIZE);
+				this.tiles[i][j].setPosition(j * StaticTile.HEIGHT, i * StaticTile.WIDTH);
 
 			}
 		}
@@ -95,8 +125,20 @@ public class Room implements Encodable {
 		}
 	}
 	
-	// END OF TESTING CODE
-
+	private void setUpHealthAndInventory() {
+		healthBar = new Heart[10];
+		for (int i = 0; i < healthBar.length; i++) {
+			Heart h = new Heart();
+			h.setPosition(10 + i * h.getWidth(), 10);
+			healthBar[i] = h;
+		}
+		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
+		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
+			inventoryBar[i] = new InventorySlot(new Item(Item.Object.EMPTY)); // make item type empty when done testing
+			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
+		}
+	}
+	
 	@Override
 	public void encode(Coder coder) {
 		coder.encode(player);
@@ -144,6 +186,11 @@ public class Room implements Encodable {
 	}
 	
 	public void loadRoom() {
+		for (StaticTile[] tileRow : tiles) {
+			for (StaticTile tile : tileRow) {
+				tile.show();
+			}
+		}
 		for (Entity entity : entities) {
 			entity.show();
 		}
@@ -156,6 +203,11 @@ public class Room implements Encodable {
 	}
 	
 	public void unloadRoom() {
+		for (StaticTile[] tileRow : tiles) {
+			for (StaticTile tile : tileRow) {
+				tile.hide();
+			}
+		}
 		for (Entity entity : entities) {
 			entity.hide();
 		}
@@ -234,6 +286,11 @@ public class Room implements Encodable {
 		entities.add(entity);
 	}
 	
+	public void placeEntity(Entity entity, int row, int col) {
+		entity.setPosition(row * StaticTile.HEIGHT, col * StaticTile.WIDTH);
+		addEntity(entity);
+	}
+	
 	public void removeEntityByID(String id) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i).getID().equals(id)) {
@@ -246,6 +303,14 @@ public class Room implements Encodable {
 	public ArrayList<Entity> getVisibleEntities() {
 		ArrayList<Entity> visibleEntities = new ArrayList<Entity>();
 		visibleEntities.add(player);
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[0].length; j++) {
+				StaticTile tile = tiles[i][j];
+				if (tile.isVisible()) {
+					visibleEntities.add(tile);
+				}
+			}
+		}
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
 			if (entity.isVisible()) {
@@ -282,4 +347,3 @@ public class Room implements Encodable {
 
 	
 	
-
