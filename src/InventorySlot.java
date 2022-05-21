@@ -28,10 +28,13 @@ public class InventorySlot extends Entity implements Encodable {
 	
 	public InventorySlot(Coder coder) {
 		super(coder);
+		this.item = new Item(coder);
 	}
 	
 	@Override
 	public void encode(Coder coder) {
+		super.encode(coder);
+		item.encode(coder);
 	}
 	
 	public void setSlotItem(Item item) {
