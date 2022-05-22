@@ -48,7 +48,7 @@ public class Item extends Entity {
 					if (collidesWith(entity)) {
 						if (entity.getType().equals("Player")) {
 							Player p = (Player) entity;
-							int temp = p.firstEmpty();							
+							int temp = p.firstOccur("NoItem");							
 							if(temp >= 0){
 								p.addItem(this); 
 								Debugger.main.print("Player obtained " + this);

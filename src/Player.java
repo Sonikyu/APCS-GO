@@ -89,20 +89,20 @@ public class Player extends Entity {
 		return currentSlot;
 	}
 
-	public int firstEmpty(){
-		int firstEmpty = -1;
+	public int firstOccur(String item){
+		int firstOccur = -1;
 		for(int i = inventory.length-1; i >=0; i--){
-			if(inventory[i].getType().equals("NoItem")){
-				firstEmpty = i;
+			if(inventory[i].getType().equals(item)){
+				firstOccur = i;
 			}
 		}
-		System.out.println("First empty is:" + firstEmpty);
-		return firstEmpty;
+		System.out.println("First empty is:" + firstOccur);
+		return firstOccur;
 
 	}
 
 	public void addItem(Item item){
-		int temp = firstEmpty();
+		int temp = firstOccur("NoItem");
 		if(temp >= 0){
 			inventory[temp]=item;
 		}
