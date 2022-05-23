@@ -13,26 +13,50 @@ import restore.Coder;
 // File: Player.java
 //
 // Add your name here if you work on this class:
-/** @author Ethan */ 
+/** @author Johnny Ethan Alex*/ 
 public class Player extends Entity {
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
-	private static String IMAGE_FILE = "Player.png";
+	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
 	private static int PLAYER_SPEED = 1;
+	
+	public static final int INVENTORY_SIZE = 9;
 
 	private int xDelta;
 	private int yDelta;
 	
+	private int lastFrameAttacked;
+	
+	//time for player to cycle through animation
+	private static final int ANIMATION_TIME = 100;
+
+	private Item[] inventory;
+	private int currentSlot;
+	
+	private playerDirection pD;
+
+	public enum playerDirection { 
+	NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST
+	}
+	
+	
 	public Player() {
-		super(Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILE);
+		super(Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILES);
 		this.xDelta = 0;
 		this.yDelta = 0;
+		lastFrameAttacked = -ANIMATION_TIME;
+		inventory = new Item[INVENTORY_SIZE];
+		for (int i = 0; i < INVENTORY_SIZE; i++) {
+			inventory[i] = new Item(Item.Object.EMPTY);
+		}
+		currentSlot = 0;
 	}
 	
 	public Player(Coder coder) {
 		super(coder);
 		this.xDelta = 0;
 		this.yDelta = 0;
+		this.lastFrameAttacked = -ANIMATION_TIME;
 	}
 	
 	public void encode(Coder coder) {
@@ -43,21 +67,72 @@ public class Player extends Entity {
 	 *  Gets player heart count for display
 	 */
 	public int getHeartCount() {
-		// A player has ten hearts
-		return getHealth() / 10;
+		int health = getHealth();
+		if (health > 0) {
+			if (health % 5 != 0) {
+				return health/5 + 1;
+			}
+			return health/5;
+		}
+		return 0;
 	}
 	
+	public playerDirection getPlayerDirection() {
+		return pD;
+	}
+	
+	public Item[] getInventory() {
+		return inventory;
+	}
+	
+	public int getCurrentSlot() {
+		return currentSlot;
+	}
+
+	public int firstOccur(String item){
+		int firstOccur = -1;
+		for(int i = inventory.length-1; i >=0; i--){
+			if(inventory[i].getType().equals(item)){
+				firstOccur = i;
+			}
+		}
+		System.out.println("First empty is:" + firstOccur);
+		return firstOccur;
+
+	}
+
+	public void addItem(Item item){
+		int temp = firstOccur("NoItem");
+		if(temp >= 0){
+			inventory[temp]=item;
+		}
+
+
+	}
+	
+//	public boolean pickUpItem(Item item) {
+//		//TODO: pickupItem
+//	}
+	
 	@Override
-	public void cycle(Game game) {
+	public void cycle(Level level, Game.GameInfo info) {
 		// Player does not move automatically
 		xDelta = 0;
 		yDelta = 0;
 		
+		// Determine player costume (damaged or not)
+		if ((int) info.getFrameCount() - lastFrameAttacked < ANIMATION_TIME) {
+			this.setImageAtIndex(1);
+		}
+		else {
+			this.setImageAtIndex(0);
+		}
+		
 		// Move with arrow keys
-		moveOnKeys(game.getKeysDown(), game.getSize());
+		moveOnKeys(level, info.getKeysDown(), info.getSize());
 				
 		// Check for collisions
-		ArrayList<Entity> visibleEntities = game.getVisibleEntities();
+		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
 			if (collidesWith(entity)) {
@@ -77,9 +152,9 @@ public class Player extends Entity {
 		Debugger.main.print(getID() + " healed " + change + ", now at " + getHealth());
 	}
 	
-	@Override
-	public void takeDamage(int change) {
-		super.takeDamage(change);
+	public void takeDamage(Game.GameInfo info, int change) {
+		super.takeDamage(info, change);
+		lastFrameAttacked = (int) info.getFrameCount();
 		if (isDead()) {
 			Debugger.main.print(getID() + " is dead and cannot be damaged further");
 		} else {
@@ -87,27 +162,63 @@ public class Player extends Entity {
 		}
 	}
 	
-	private void moveOnKeys(HashSet<Integer> keysDown, Dimension windowSize) {
+	private void moveOnKeys(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
-			if (getY() > 0) {
-				yDelta = -Player.PLAYER_SPEED;
+			yDelta -= Player.PLAYER_SPEED;
+			if (!this.isOnScreen(windowSize) && getY() < 0) {
+				this.setPosition(getX(), (int) windowSize.getHeight());
+				level.moveRoomUp();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
-			if (getY() + getHeight() < windowSize.getHeight()) {
-				yDelta = Player.PLAYER_SPEED;
+			yDelta += Player.PLAYER_SPEED;
+			if (!this.isOnScreen(windowSize) && getY() + getHeight() > windowSize.getHeight()) {
+				this.setPosition(getX(), -getHeight());
+				level.moveRoomDown();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
-			if (getX() > 0) {
-				xDelta -= Player.PLAYER_SPEED;
+			xDelta -= Player.PLAYER_SPEED;
+			if (!this.isOnScreen(windowSize) && getX() < 0) {
+				this.setPosition((int) windowSize.getWidth(), getY());
+				level.moveRoomLeft();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
-			if (getX() + getWidth() < windowSize.getWidth()) {
-				xDelta += Player.PLAYER_SPEED;
+			xDelta += Player.PLAYER_SPEED;
+			if (!this.isOnScreen(windowSize) && getX() + getWidth() > windowSize.getWidth()) {
+				this.setPosition(-getWidth(), getY());
+				level.moveRoomRight();
 			}
 		}
+		if (keysDown.contains(KeyEvent.VK_1)) {
+			currentSlot = 0;
+		}
+		if (keysDown.contains(KeyEvent.VK_2)) {
+			currentSlot = 1;
+		}
+		if (keysDown.contains(KeyEvent.VK_3)) {
+			currentSlot = 2;
+		}
+		if (keysDown.contains(KeyEvent.VK_4)) {
+			currentSlot = 3;
+		}
+		if (keysDown.contains(KeyEvent.VK_5)) {
+			currentSlot = 4;
+		}
+		if (keysDown.contains(KeyEvent.VK_6)) {
+			currentSlot = 5;
+		}
+		if (keysDown.contains(KeyEvent.VK_7)) {
+			currentSlot = 6;
+		}
+		if (keysDown.contains(KeyEvent.VK_8)) {
+			currentSlot = 7;
+		}
+		if (keysDown.contains(KeyEvent.VK_9)) {
+			currentSlot = 8;
+		}
+
 		
 		updateXBy(xDelta);
 		updateYBy(yDelta);

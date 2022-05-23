@@ -31,7 +31,7 @@ public class GameView extends JComponent implements Runnable {
         
 	public GameView(Game game) {
 		this.game = game;
-        this.size = game.getSize();
+        this.size = game.getGameInfo().getSize();
         
         setup();
 	}

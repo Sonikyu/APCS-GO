@@ -3,6 +3,8 @@ import java.awt.event.KeyEvent;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 import restore.Coder;
 
@@ -43,25 +45,140 @@ public class Main {
 
 			// Initialize game
 			Player p = new Player();
+			/*
 			StaticTile wall = new StaticTile(StaticTile.Material.WALL);
 			StaticTile wall1 = new StaticTile(StaticTile.Material.WALL);
 			StaticTile wall2 = new StaticTile(StaticTile.Material.WALL);
 			StaticTile wall3 = new StaticTile(StaticTile.Material.WALL);
-			wall.setPosition(100, 100);
-			wall1.setPosition(70, 100);
-			wall2.setPosition(40,100);
-			wall3.setPosition(10,100);
-			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
-			enemy1.setPosition(100, 0);
+			StaticTile wall4 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall5 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall6 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall7 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall8 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall9 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall10 = new StaticTile(StaticTile.Material.WALL);
+            StaticTile wall11 = new StaticTile(StaticTile.Material.WALL);
+			StaticTile wall12 = new StaticTile(StaticTile.Material.WALL);
+
+			Item key1 = new Item(Item.Object.KEY);
+			Item key2 = new Item(Item.Object.KEY);
+//			Item key = new Item();
+
+            wall.setPosition(100, 100);
+            wall1.setPosition(70, 100);
+            wall2.setPosition(40,100);
+            wall3.setPosition(10,100);
+
+
+            wall4.setPosition(450, 350);
+            wall5.setPosition(420, 350);
+            wall6.setPosition(390, 350);
+            wall7.setPosition(480, 350);
+            wall8.setPosition(510, 350);
+            wall9.setPosition(540, 350);
+            wall10.setPosition(570, 350);
+            wall11.setPosition(360, 350);
+			wall12.setPosition(0, 100);
+
+			key1.setPosition(200, 200);
+			key1.setPosition(260, 200);
+
+
 			
-			// Setup game
-			game = new Game(size);
-			game.addEntity(p);
-			game.addEntity(wall);
-			game.addEntity(wall1);
-			game.addEntity(wall2);
-			game.addEntity(wall3);
-			game.addEntity(enemy1);
+
+			Room room1 = new Room(new ArrayList<Entity>(), new StaticTile[20][20], p);
+			Room room2 = new Room(new ArrayList<Entity>(), new StaticTile[20][20], p);
+			room1.addEntity(wall);
+			room1.addEntity(wall1);
+			room1.addEntity(wall2);
+			room1.addEntity(wall3);
+			room1.addEntity(wall4);
+			room1.addEntity(wall5);
+			room1.addEntity(wall6);
+			room1.addEntity(wall7);
+			room1.addEntity(wall8);
+			room1.addEntity(wall9);
+			room1.addEntity(wall10);
+			room1.addEntity(wall11);
+			room1.addEntity(wall12);
+			
+			room1.addEntity(key1);
+			room1.addEntity(key2);
+
+			room1.addEntity(enemy1);
+			room1.addEntity(enemy2);
+			Room[][] rooms = new Room[1][2];
+			for (int r = 0; r < rooms.length; r++) {
+				for (int c = 0; c < rooms[0].length; c++) {
+					rooms[r][c] = new Room(room1);
+				}
+			}
+			rooms[0][0] = room2;
+			Level level = new Level(rooms, 0, 0, p);
+			*/
+		
+
+			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
+			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3);
+			
+			String[] room1Layout = {
+				"####################",
+				"#                   ",
+				"# S                 ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#             ######",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#          #########",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"#                   ",
+				"####################"
+			};
+			String[] room2Layout = {
+					"####################",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"              ######",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"           #########",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"                   #",
+					"####################"
+				};
+			Room room1 = new Room(room1Layout, p);
+			Room room2 = new Room(room2Layout, p);
+			room1.placeEntity(enemy1, 16, 1);
+			room1.placeEntity(enemy2, 15, 15);
+			Room[][] rooms = { { room1, room2} };
+			
+			Level level = new Level(rooms, 0, 0, p);
+			game = new Game(size,level);	
+			Item key1 = new Item(Item.Object.KEY);
+			Item key2 = new Item(Item.Object.KEY);
+			key1.setPosition(200, 200);
+			key1.setPosition(260, 200);
+			room1.addEntity(key1);
+			room1.addEntity(key2);
 		}
 
 		// Sets up frame with GameView
@@ -96,7 +213,7 @@ public class Main {
 		
 		// Set frame properties and show it
 		frame.setVisible(true);
-		frame.setTitle("Escape from the Galactic Cruiser");
+		frame.setTitle("Jognny Droplet Touches Grass");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 	}

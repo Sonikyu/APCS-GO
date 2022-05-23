@@ -25,6 +25,8 @@ public class MoveOnlyEnemy extends Entity {
 	private int totalXDelta;
 	private int totalYDelta;
 	private int attackStrength;
+	private int attackDelay = 150;
+	private long lastFrameAttacked;
 	
 	public MoveOnlyEnemy(int totalXDelta, int totalYDelta, int attackStrength) {
 		super(MoveOnlyEnemy.TYPE, MoveOnlyEnemy.MAX_HEALTH, MoveOnlyEnemy.IMAGE_FILE);
@@ -52,10 +54,10 @@ public class MoveOnlyEnemy extends Entity {
 	}
 	
 	@Override
-	public void cycle(Game game) {
-		if (game.getFrameCount() % 3 == 0) {
+	public void cycle(Level level, Game.GameInfo info) {
+		if (info.getFrameCount() % 3 == 0) {
 			boolean collidedWithWall = false;
-			ArrayList<Entity> visibleEntities = game.getVisibleEntities();
+			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 			for (int i = 0; i < visibleEntities.size(); i++) {
 				Entity entity = visibleEntities.get(i);
 				if (collidesWith(entity)) {
@@ -66,10 +68,12 @@ public class MoveOnlyEnemy extends Entity {
 						Debugger.main.print(getID() + " hit wall");
 					}
 					
-					else if (entity.getType() == Player.TYPE) {
-						if (game.getFrameCount() % 150 == 0) {
+					else if (entity.getType().equals(Player.TYPE)) {
+						if (info.getFrameCount() - lastFrameAttacked >= attackDelay) {
 							Debugger.main.print(getID() + " attacked " + entity.getID());
-							entity.takeDamage(attackStrength);
+							Player p = (Player) entity;
+							p.takeDamage(info, attackStrength);
+							lastFrameAttacked = info.getFrameCount();
 						}
 					} 
 				}			
