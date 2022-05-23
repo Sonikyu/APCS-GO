@@ -45,18 +45,20 @@ public class InventorySlot extends Entity implements Encodable {
 		return item.getType();
 	}
 	
-	@Override
-	public void setPosition(int x, int y) {
-		super.setPosition(x, y);
-		item.setPosition(this.getX() + (this.getWidth() - item.getWidth())/2, this.getY() + (this.getHeight() - item.getHeight())/2);
-	}
+//	@Override
+//	public void setPosition(int x, int y) {
+//		super.setPosition(x, y);
+//		item.setPosition(this.getX() + (this.getWidth() - item.getWidth())/2, this.getY() + (this.getHeight() - item.getHeight())/2);
+//	}
 
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
+		
 	}
 	@Override
 	public void paint(Graphics2D g) {
 		super.paint(g);
+		item.setPosition(this.getX() + (this.getWidth() - item.getWidth())/2, this.getY() + (this.getHeight() - item.getHeight())/2);
 		item.paint(g);
 	}
 }
