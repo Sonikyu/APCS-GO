@@ -33,9 +33,17 @@ public class Player extends Entity {
 	private Item[] inventory;
 	private int currentSlot;
 	
-	private playerDirection pD;
+	private static final int ATTACK_COOLDOWN = 100;
+	public static final int ATTACK_DURATION = 80;
+	private int ATTACK_DAMAGE = 30;
+	
+	public boolean isAttacking;
+	private int lastFrameAttacking;
+	
+	
+	private PlayerDirection pD;
 
-	public enum playerDirection { 
+	public enum PlayerDirection { 
 	NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST
 	}
 	
@@ -50,6 +58,7 @@ public class Player extends Entity {
 			inventory[i] = new Item(Item.Object.EMPTY);
 		}
 		currentSlot = 0;
+		pD = PlayerDirection.NORTH;
 	}
 	
 	public Player(Coder coder) {
@@ -57,10 +66,20 @@ public class Player extends Entity {
 		this.xDelta = 0;
 		this.yDelta = 0;
 		this.lastFrameAttacked = -ANIMATION_TIME;
+		inventory = new Item[INVENTORY_SIZE];
+		for (int i = 0; i < INVENTORY_SIZE; i++) {
+			inventory[i] = new Item(coder);
+		}
+		currentSlot = coder.decodeInt();
+		pD = PlayerDirection.NORTH;
 	}
 	
 	public void encode(Coder coder) {
 		super.encode(coder);
+		for (int i = 0; i < INVENTORY_SIZE; i++) {
+			coder.encode(inventory[i]);
+		}
+		coder.encode(currentSlot);
 	}
 	
 	/**
@@ -77,7 +96,15 @@ public class Player extends Entity {
 		return 0;
 	}
 	
-	public playerDirection getPlayerDirection() {
+	public int getAttackDamage() {
+		return ATTACK_DAMAGE;
+	}
+	
+	public void setAttackDamage(int damageValue) {
+		ATTACK_DAMAGE = damageValue;
+	}
+	
+	public PlayerDirection getPlayerDirection() {
 		return pD;
 	}
 	
@@ -88,7 +115,22 @@ public class Player extends Entity {
 	public int getCurrentSlot() {
 		return currentSlot;
 	}
+	
+	public void useItem() {
+		switch (inventory[currentSlot].getObject()) {
+		case EMPTY:
+			break;
+		case HEALPOT:
+			this.heal(30);
+			Debugger.main.print("The player healed 30 HP");
+			inventory[currentSlot] = new Item(Item.Object.EMPTY);
+			break;
+		default:
+			break;
+		}
+	}
 
+<<<<<<< Updated upstream
 	public int firstOccur(String item){
 		int firstOccur = -1;
 		for(int i = inventory.length-1; i >=0; i--){
@@ -103,16 +145,25 @@ public class Player extends Entity {
 
 	public void addItem(Item item){
 		int temp = firstOccur("NoItem");
+=======
+	public int firstOccur(Item.Object item){
+		for(int i = 0; i < inventory.length; i++){
+			if(inventory[i].getObject() == item){
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public void addItem(Item item){
+		int temp = firstOccur(Item.Object.EMPTY);
+>>>>>>> Stashed changes
 		if(temp >= 0){
 			inventory[temp]=item;
 		}
 
 
 	}
-	
-//	public boolean pickUpItem(Item item) {
-//		//TODO: pickupItem
-//	}
 	
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
@@ -130,7 +181,13 @@ public class Player extends Entity {
 		
 		// Move with arrow keys
 		moveOnKeys(level, info.getKeysDown(), info.getSize());
-				
+		
+		// Update current inventory slot
+		inventoryUpdate(level, info.getKeysDown());
+		
+		// Player Attack
+		playerAttack(level, info.getKeysDown(), (int) info.getFrameCount());
+		
 		// Check for collisions
 		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 		for (int i = 0; i < visibleEntities.size(); i++) {
@@ -139,7 +196,14 @@ public class Player extends Entity {
 				//Debugger.main.print(this + " collided with " + entity);
 				
 				// TODO: Replace with the static variables
-				if (entity.getType().equals("WallTile") || entity.getType().equals("DoorTile")) {
+				if (entity.getType().equals("WallTile")) {
+					revertLastMovement();
+				}
+				else if (entity.getType().equals("DoorTile")) {
+					if (inventory[currentSlot].getType().equals("Key")) {
+						useItem();
+						entity.setImageAtIndex(1);
+					}
 					revertLastMovement();
 				}
 			}
@@ -153,7 +217,7 @@ public class Player extends Entity {
 	}
 	
 	public void takeDamage(Game.GameInfo info, int change) {
-		super.takeDamage(info, change);
+		super.takeDamage(change);
 		lastFrameAttacked = (int) info.getFrameCount();
 		if (isDead()) {
 			Debugger.main.print(getID() + " is dead and cannot be damaged further");
@@ -165,13 +229,16 @@ public class Player extends Entity {
 	private void moveOnKeys(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
 			yDelta -= Player.PLAYER_SPEED;
+			this.pD = PlayerDirection.NORTH;
 			if (!this.isOnScreen(windowSize) && getY() < 0) {
 				this.setPosition(getX(), (int) windowSize.getHeight());
 				level.moveRoomUp();
+				
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
 			yDelta += Player.PLAYER_SPEED;
+			this.pD = PlayerDirection.SOUTH;
 			if (!this.isOnScreen(windowSize) && getY() + getHeight() > windowSize.getHeight()) {
 				this.setPosition(getX(), -getHeight());
 				level.moveRoomDown();
@@ -179,6 +246,7 @@ public class Player extends Entity {
 		}
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
 			xDelta -= Player.PLAYER_SPEED;
+			this.pD = PlayerDirection.WEST;
 			if (!this.isOnScreen(windowSize) && getX() < 0) {
 				this.setPosition((int) windowSize.getWidth(), getY());
 				level.moveRoomLeft();
@@ -186,11 +254,22 @@ public class Player extends Entity {
 		}
 		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
 			xDelta += Player.PLAYER_SPEED;
+			this.pD = PlayerDirection.EAST;
 			if (!this.isOnScreen(windowSize) && getX() + getWidth() > windowSize.getWidth()) {
 				this.setPosition(-getWidth(), getY());
 				level.moveRoomRight();
 			}
 		}
+		if (keysDown.contains(KeyEvent.VK_SPACE)) {
+			useItem();
+		}
+		
+		updateXBy(xDelta);
+		updateYBy(yDelta);
+	}
+	
+	public void inventoryUpdate(Level level, HashSet<Integer> keysDown) {
+		
 		if (keysDown.contains(KeyEvent.VK_1)) {
 			currentSlot = 0;
 		}
@@ -218,10 +297,22 @@ public class Player extends Entity {
 		if (keysDown.contains(KeyEvent.VK_9)) {
 			currentSlot = 8;
 		}
-
-		
-		updateXBy(xDelta);
-		updateYBy(yDelta);
+	}
+	
+	public void playerAttack(Level level, HashSet<Integer> keysDown, int frameCount) {
+		if (frameCount - lastFrameAttacking > ATTACK_DURATION) {
+			isAttacking = false;
+		}
+		if (keysDown.contains(KeyEvent.VK_X)) {
+			if (frameCount - lastFrameAttacking > ATTACK_COOLDOWN) {
+				isAttacking = true;
+				lastFrameAttacking = frameCount;
+			}
+		}
+	}
+	
+	public int getLastFrameAttacking() {
+		return lastFrameAttacking;
 	}
 	
 	/**

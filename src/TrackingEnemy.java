@@ -117,7 +117,6 @@ public class TrackingEnemy extends Entity{
 					Entity entity = visibleEntities.get(i);
 					if (collidesWith(entity)) {
 						if (entity.getType().equals("WallTile")) {
-							Debugger.main.print("Collided with WallTile");
 							if (stunned) {
 								if (frameCount - lastFrameStunned >= stunDuration) {
 									transitioning = true;

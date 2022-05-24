@@ -16,7 +16,7 @@ public class StaticTile extends Entity {
         WALL, FLOOR, DOOR, START, GOAL
     }
     public static final String[] TYPES = {"WallTile", "FloorTile", "DoorTile", "StartTile", "GoalTile"};
-    private static final String[] PNGS = {"WallTile.png", "FloorTile.png", "DoorTile.png", "FloorTile.png", "GoalTile.png"};
+    private static final String[][] PNGS = {{"WallTile.png"}, {"FloorTile.png"}, {"DoorTile.png", "FloorTile.png"}, {"FloorTile.png"}, {"GoalTile.png"}};
     public static final int HEIGHT = 30;
     public static final int WIDTH = 30;
     

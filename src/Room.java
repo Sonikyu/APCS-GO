@@ -5,6 +5,7 @@ import restore.Encodable;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+
 public class Room implements Encodable {
 	
 	public static int HEIGHT = 20;
@@ -15,36 +16,16 @@ public class Room implements Encodable {
 	private Player player;
 	private Heart[] healthBar;
 	private InventorySlot[] inventoryBar;
+	private PlayerWeapon weapon;
 	
 	public Room(String[] roomString, Player player) {
 		this.tiles = new StaticTile[HEIGHT][WIDTH];
 		this.entities = new ArrayList<Entity>();
 		this.player = player;
 		setUpHealthAndInventory();
+		tileInit(roomString);
 		
-		for (int i = 0; i < roomString.length; i++) {
-			String row = roomString[i];
-			for (int j = 0; j < row.length(); j++) {
-				switch (row.charAt(j)) {
-				case '#':
-					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
-					break;
-				case ' ':
-					this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
-					break;
-				case 'D':
-					this.tiles[i][j] = new StaticTile(StaticTile.Material.DOOR);
-					break;
-				case 'S':
-					this.tiles[i][j] = new StaticTile(StaticTile.Material.START);
-					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
-					break;
-				default:
-					this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
-				}
-				this.tiles[i][j].setPosition(j * tiles[i][j].getHeight(), i * tiles[i][j].getWidth());
-			}
-		}
+		this.weapon = new PlayerWeapon(player.getPlayerDirection(), player.getAttackDamage());
 	}
 	
 	public Room(ArrayList<Entity> entities, StaticTile[][] tiles, Player player) {
@@ -67,13 +48,12 @@ public class Room implements Encodable {
 		}
 		
 		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
-		Item[] inv = player.getInventory();
 		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
 			inventoryBar[i] = new InventorySlot(new Item(Item.Object.EMPTY));
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
 		setUpHealthAndInventory();
-	
+		this.weapon = new PlayerWeapon(Player.PlayerDirection.NORTH, 30);
 	}
 	
 	public Room(Coder coder) {
@@ -123,6 +103,34 @@ public class Room implements Encodable {
 			inventoryBar[i] = new InventorySlot(inv[i]);
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
+		weapon = new PlayerWeapon(player.getPlayerDirection(), player.getAttackDamage());
+	}
+	
+	
+	private void tileInit(String[] roomString) {
+		for (int i = 0; i < roomString.length; i++) {
+			String row = roomString[i];
+			for (int j = 0; j < row.length(); j++) {
+				switch (row.charAt(j)) {
+				case '#':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
+					break;
+				case ' ':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
+					break;
+				case 'D':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.DOOR);
+					break;
+				case 'S':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.START);
+					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
+					break;
+				default:
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
+				}
+				this.tiles[i][j].setPosition(j * tiles[i][j].getHeight(), i * tiles[i][j].getWidth());
+			}
+		}
 	}
 	
 	private void setUpHealthAndInventory() {
@@ -169,6 +177,9 @@ public class Room implements Encodable {
 			if (entity.isVisible()) {
 				entity.paint(g);
 			}	
+		}
+		if (weapon.isVisible()) {
+			weapon.paint(g);
 		}
 		player.paint(g);
 		for (int i = 0; i < healthBar.length; i++) {
@@ -265,6 +276,19 @@ public class Room implements Encodable {
 		}
 	}
 	
+	public void updateWeapon(int frameCount) {
+		if (frameCount - player.getLastFrameAttacking() > Player.ATTACK_DURATION) {
+			weapon.setDirection(player.getPlayerDirection());
+		}
+		weapon.setPosition(player);
+		if (player.isAttacking) {
+			weapon.show();
+		}
+		else {
+			weapon.hide();
+		}
+	}
+	
 	/**
 	 * For example, to get the player, use: game.getEntitiesByType(Player.TYPE).get(0)
 	 * @param type
@@ -329,6 +353,9 @@ public class Room implements Encodable {
 			}
 		}
 		player.cycle(level, info);
+		
+		updateWeapon((int) info.getFrameCount());
+		weapon.cycle(level, info);
 		
 		// Cycle for Hearts 
 		updateHearts();

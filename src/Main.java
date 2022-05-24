@@ -128,7 +128,7 @@ public class Main {
 				"#                   ",
 				"#                   ",
 				"#                   ",
-				"#             ######",
+				"#              #####",
 				"#                   ",
 				"#                   ",
 				"#                   ",
@@ -140,7 +140,7 @@ public class Main {
 				"#                   ",
 				"#                   ",
 				"#                   ",
-				"#                   ",
+				"#D                  ",
 				"####################"
 			};
 			String[] room2Layout = {
@@ -174,11 +174,11 @@ public class Main {
 			Level level = new Level(rooms, 0, 0, p);
 			game = new Game(size,level);	
 			Item key1 = new Item(Item.Object.KEY);
-			Item key2 = new Item(Item.Object.KEY);
+			Item healPot1 = new Item(Item.Object.HEALPOT);
 			key1.setPosition(200, 200);
-			key1.setPosition(260, 200);
+			healPot1.setPosition(260, 200);
 			room1.addEntity(key1);
-			room1.addEntity(key2);
+			room1.addEntity(healPot1);
 		}
 
 		// Sets up frame with GameView
