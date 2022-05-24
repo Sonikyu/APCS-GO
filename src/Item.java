@@ -45,18 +45,14 @@ public class Item extends Entity {
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		
-		if(this.object != Object.EMPTY){
+		if (this.object != Object.EMPTY){
 			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 				for (int i = 0; i < visibleEntities.size(); i++) {
 					Entity entity = visibleEntities.get(i);
 					if (collidesWith(entity)) {
 						if (entity.getType().equals("Player")) {
-							Player p = (Player) entity;
-<<<<<<< Updated upstream
-							int temp = p.firstOccur("NoItem");							
-=======
+							Player p = (Player) entity;						
 							int temp = p.firstOccur(Object.EMPTY);							
->>>>>>> Stashed changes
 							if(temp >= 0){
 								p.addItem(this); 
 								Debugger.main.print("Player obtained " + this);

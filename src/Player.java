@@ -130,22 +130,6 @@ public class Player extends Entity {
 		}
 	}
 
-<<<<<<< Updated upstream
-	public int firstOccur(String item){
-		int firstOccur = -1;
-		for(int i = inventory.length-1; i >=0; i--){
-			if(inventory[i].getType().equals(item)){
-				firstOccur = i;
-			}
-		}
-		System.out.println("First empty is:" + firstOccur);
-		return firstOccur;
-
-	}
-
-	public void addItem(Item item){
-		int temp = firstOccur("NoItem");
-=======
 	public int firstOccur(Item.Object item){
 		for(int i = 0; i < inventory.length; i++){
 			if(inventory[i].getObject() == item){
@@ -157,13 +141,13 @@ public class Player extends Entity {
 
 	public void addItem(Item item){
 		int temp = firstOccur(Item.Object.EMPTY);
->>>>>>> Stashed changes
 		if(temp >= 0){
 			inventory[temp]=item;
 		}
 
 
 	}
+
 	
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
