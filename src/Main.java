@@ -216,5 +216,8 @@ public class Main {
 		frame.setTitle("Jognny Droplet Touches Grass");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
+
+		// MOOSIC
+		Audio.main.run();
 	}
 }
