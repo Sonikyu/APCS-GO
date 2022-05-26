@@ -54,6 +54,16 @@ public class MoveOnlyEnemy extends Entity {
 	}
 	
 	@Override
+	public boolean shouldShow() {
+		return !isDead();
+	}
+	
+	@Override
+	public void whenDead() {
+		hide();
+	}
+	
+	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		if (info.getFrameCount() % 3 == 0) {
 			boolean collidedWithWall = false;

@@ -33,8 +33,6 @@ public class TrackingEnemy extends Entity{
 	private boolean stunned = false;
 	private boolean transitioning = false;
 	
-	
-	
 	public TrackingEnemy(int range, int xTether, int yTether, int attackStrength, int stunDuration, int attackDelay, int refreshSpeed) {
 		super(TrackingEnemy.TYPE, TrackingEnemy.MAX_HEALTH, TrackingEnemy.IMAGE_FILE);
 		this.range = range;
@@ -78,6 +76,16 @@ public class TrackingEnemy extends Entity{
 		coder.encode(this.lastFrameStunned);
 		coder.encode(this.stunned);
 		coder.encode(this.transitioning);
+	}
+	
+	@Override
+	public boolean shouldShow() {
+		return !isDead();
+	}
+	
+	@Override
+	public void whenDead() {
+		hide();
 	}
 	
 	public void move(int xOffset, int yOffset) {

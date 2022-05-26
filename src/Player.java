@@ -144,8 +144,6 @@ public class Player extends Entity {
 		if(temp >= 0){
 			inventory[temp]=item;
 		}
-
-
 	}
 
 	

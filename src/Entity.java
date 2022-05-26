@@ -162,6 +162,10 @@ public abstract class Entity implements ImageObserver, Encodable {
 		return getHealth() == 0;
 	}
 	
+	public void whenDead() {
+		
+	}
+	
 	/**
 	 * Gets the maximum health of entity
 	 * @return
@@ -194,11 +198,17 @@ public abstract class Entity implements ImageObserver, Encodable {
 		return visible;
 	}
 	
+	public boolean shouldShow() {
+		return true;
+	}
+	
 	/**
 	 * Makes the entity visible
 	 */
 	public void show() {
-		visible = true;
+		if (shouldShow()) {
+			visible = true;
+		}
 	}
 	
 	/**
@@ -326,6 +336,7 @@ public abstract class Entity implements ImageObserver, Encodable {
 	public void takeDamage(int change) {
 		if (health - change < 0) {
 			health = 0;
+			whenDead();
 		} else {
 			health -= change;
 		}
