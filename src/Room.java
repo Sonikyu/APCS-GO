@@ -16,7 +16,7 @@ public class Room implements Encodable {
 	private Player player;
 	private Heart[] healthBar;
 	private InventorySlot[] inventoryBar;
-	private PlayerWeapon weapon;
+
 	
 	public Room(String[] roomString, Player player) {
 		this.tiles = new StaticTile[HEIGHT][WIDTH];
@@ -24,8 +24,6 @@ public class Room implements Encodable {
 		this.player = player;
 		setUpHealthAndInventory();
 		tileInit(roomString);
-		
-		this.weapon = new PlayerWeapon(player.getPlayerDirection(), player.getAttackDamage());
 	}
 	
 	public Room(ArrayList<Entity> entities, StaticTile[][] tiles, Player player) {
@@ -53,7 +51,6 @@ public class Room implements Encodable {
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
 		setUpHealthAndInventory();
-		this.weapon = new PlayerWeapon(Player.PlayerDirection.NORTH, 30);
 	}
 	
 	public Room(Coder coder) {
@@ -103,7 +100,6 @@ public class Room implements Encodable {
 			inventoryBar[i] = new InventorySlot(inv[i]);
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
-		weapon = new PlayerWeapon(player.getPlayerDirection(), player.getAttackDamage());
 	}
 	
 	
@@ -206,9 +202,6 @@ public class Room implements Encodable {
 				entity.paint(g);
 			}	
 		}
-		if (weapon.isVisible()) {
-			weapon.paint(g);
-		}
 		player.paint(g);
 		for (int i = 0; i < healthBar.length; i++) {
 			Heart heart = healthBar[i];
@@ -304,18 +297,7 @@ public class Room implements Encodable {
 		}
 	}
 	
-	public void updateWeapon(int frameCount) {
-		if (frameCount - player.getLastFrameAttacking() > Player.ATTACK_DURATION) {
-			weapon.setDirection(player.getPlayerDirection());
-		}
-		weapon.setPosition(player);
-		if (player.isAttacking) {
-			weapon.show();
-		}
-		else {
-			weapon.hide();
-		}
-	}
+	
 	
 	/**
 	 * For example, to get the player, use: game.getEntitiesByType(Player.TYPE).get(0)
@@ -382,8 +364,6 @@ public class Room implements Encodable {
 		}
 		player.cycle(level, info);
 		
-		updateWeapon((int) info.getFrameCount());
-		weapon.cycle(level, info);
 		
 		// Cycle for Hearts 
 		updateHearts();

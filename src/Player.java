@@ -2,6 +2,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+
 import restore.Coder;
 
 // AP CS Project
@@ -33,8 +35,9 @@ public class Player extends Entity {
 	private Item[] inventory;
 	private int currentSlot;
 	
+	private PlayerWeapon weapon;
 	private static final int ATTACK_COOLDOWN = 100;
-	public static final int ATTACK_DURATION = 80;
+	public static final int ATTACK_DURATION = 20;
 	private int ATTACK_DAMAGE = 30;
 	
 	public boolean isAttacking;
@@ -59,6 +62,7 @@ public class Player extends Entity {
 		}
 		currentSlot = 0;
 		pD = PlayerDirection.NORTH;
+		this.weapon = new PlayerWeapon(pD, this.ATTACK_DAMAGE);
 	}
 	
 	public Player(Coder coder) {
@@ -129,6 +133,7 @@ public class Player extends Entity {
 			break;
 		}
 	}
+	
 
 	public int firstOccur(Item.Object item){
 		for(int i = 0; i < inventory.length; i++){
@@ -145,7 +150,27 @@ public class Player extends Entity {
 			inventory[temp]=item;
 		}
 	}
-
+	
+	public void updateWeapon(int frameCount) {
+		if (frameCount - getLastFrameAttacking() > Player.ATTACK_DURATION) {
+			weapon.setDirection(pD);
+		}
+		weapon.setPosition(this);
+		
+	}
+	
+	@Override
+	public void paint(Graphics2D g) {
+		if (isAttacking) {
+			weapon.show();
+			weapon.paint(g);
+		}
+		else {
+			weapon.hide();
+		}
+		super.paint(g);
+	}
+	
 	
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
@@ -166,6 +191,10 @@ public class Player extends Entity {
 		
 		// Update current inventory slot
 		inventoryUpdate(level, info.getKeysDown());
+		
+		// Update player attack
+		updateWeapon((int) info.getFrameCount());
+		weapon.cycle(level, info);
 		
 		// Player Attack
 		playerAttack(level, info.getKeysDown(), (int) info.getFrameCount());
