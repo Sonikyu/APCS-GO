@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Room implements Encodable {
 	
-	public static int HEIGHT = 20;
+	public static int HEIGHT = 15;
 	public static int WIDTH = 20;
 	
 	private ArrayList<Entity> entities;
@@ -112,9 +112,7 @@ public class Room implements Encodable {
 			String row = roomString[i];
 			for (int j = 0; j < row.length(); j++) {
 				switch (row.charAt(j)) {
-				case '#':
-					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
-					break;
+		
 				case ' ':
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
 					break;
@@ -125,6 +123,36 @@ public class Room implements Encodable {
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.START);
 					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
 					break;
+				case '#':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
+					tiles[i][j].setImageAtIndex(0);
+					break;
+				case '|':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
+					tiles[i][j].setImageAtIndex(1);
+					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
+					break;
+				case 'P':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
+					tiles[i][j].setImageAtIndex(3);
+					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
+					break;
+				case 'L':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
+					tiles[i][j].setImageAtIndex(5);
+					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
+					break;
+				case '7':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
+					tiles[i][j].setImageAtIndex(2);
+					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
+					break;
+				case 'J':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
+					tiles[i][j].setImageAtIndex(4);
+					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
+					break;
+					
 				default:
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
 				}
