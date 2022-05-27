@@ -21,6 +21,7 @@ public class Room implements Encodable {
 	public Room(String[] roomString, Player player) {
 		this.tiles = new StaticTile[HEIGHT][WIDTH];
 		this.entities = new ArrayList<Entity>();
+		// TODO: need rooms to take an arraylist of entities
 		this.player = player;
 		setUpHealthAndInventory();
 		tileInit(roomString);
@@ -118,6 +119,7 @@ public class Room implements Encodable {
 				case 'S':
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.START);
 					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
+					Debugger.main.print("Player placed at " + (j * StaticTile.WIDTH) + "," + (i * StaticTile.HEIGHT));
 					break;
 				case '#':
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
@@ -126,27 +128,22 @@ public class Room implements Encodable {
 				case '|':
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
 					tiles[i][j].setImageAtIndex(1);
-					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
 					break;
 				case 'P':
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
 					tiles[i][j].setImageAtIndex(3);
-					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
 					break;
 				case 'L':
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
 					tiles[i][j].setImageAtIndex(5);
-					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
 					break;
 				case '7':
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
 					tiles[i][j].setImageAtIndex(2);
-					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
 					break;
 				case 'J':
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
 					tiles[i][j].setImageAtIndex(4);
-					player.setPosition(j * StaticTile.WIDTH, i * StaticTile.HEIGHT);
 					break;
 					
 				default:
@@ -358,7 +355,7 @@ public class Room implements Encodable {
 		// Testing code
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
-			if (entity.isVisible()) {
+			if (entity.isVisible() || entity.getType().equals("ElectricDoor")) { 
 				entity.cycle(level, info);
 			}
 		}

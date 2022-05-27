@@ -17,8 +17,8 @@ public class StaticTile extends Entity {
     }
     public static final String[] TYPES = {"WallTile","FloorTile", "DoorTile", "StartTile", "GoalTile"};
     private static final String[][] PNGS = {{"WallTileH.png","WallTileV.png","WallTileDL.png","WallTIleDR.png", "WallTileUL.png","WallTileUR.png"}, {"FloorTile.png"}, {"DoorTile.png", "FloorTile.png"}, {"FloorTile.png"}, {"GoalTile.png"}};
-    public static final int HEIGHT = 30;
-    public static final int WIDTH = 30;
+    public static final int HEIGHT = 40;
+    public static final int WIDTH = 40;
     
     public StaticTile(Material material){
         super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);
@@ -38,5 +38,5 @@ public class StaticTile extends Entity {
     }
 }
 
-// Tile images are 30 x 30, total frame is 600 x 600
+// Tile images are 40 x 40, total frame is 800 x 600
 // Types of tiles: Floor, Wall, Door, 

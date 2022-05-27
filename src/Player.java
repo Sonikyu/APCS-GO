@@ -152,21 +152,24 @@ public class Player extends Entity {
 	}
 	
 	public void updateWeapon(int frameCount) {
-		if (frameCount - getLastFrameAttacking() > Player.ATTACK_DURATION) {
+		if (isAttacking) {
+			weapon.setPosition(this);
+			weapon.show();
+		}
+		else {
+			weapon.hide();
+		}
+		if (frameCount - lastFrameAttacking > Player.ATTACK_DURATION) {
 			weapon.setDirection(pD);
 		}
-		weapon.setPosition(this);
+		
 		
 	}
 	
 	@Override
 	public void paint(Graphics2D g) {
-		if (isAttacking) {
-			weapon.show();
+		if (weapon.isVisible()) {
 			weapon.paint(g);
-		}
-		else {
-			weapon.hide();
 		}
 		super.paint(g);
 	}
@@ -207,7 +210,7 @@ public class Player extends Entity {
 				//Debugger.main.print(this + " collided with " + entity);
 				
 				// TODO: Replace with the static variables
-				if (entity.getType().equals("WallTile")) {
+				if (entity.getType().equals("WallTile") || entity.getType().equals("ElectricDoor")) {
 					revertLastMovement();
 				}
 				else if (entity.getType().equals("DoorTile")) {

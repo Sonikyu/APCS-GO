@@ -121,6 +121,16 @@ public class Main {
 			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
 			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3);
 			
+			DoorSwitch switch1 = new DoorSwitch();
+			DoorSwitch switch2 = new DoorSwitch();
+			DoorSwitch switch3 = new DoorSwitch();
+			DoorSwitch[] switches = {switch1, switch2, switch3};
+			
+			int[] combination = {1,1,1};
+			
+			ElectricDoor eDoor1= new ElectricDoor(combination, switches);
+			
+			
 			String[] room1Layout = {
 				"P###################",
 				"|                   ",
@@ -158,7 +168,13 @@ public class Main {
 			Room room1 = new Room(room1Layout, p);
 			Room room2 = new Room(room2Layout, p);
 			room1.placeEntity(enemy1, 16, 1);
-			room1.placeEntity(enemy2, 15, 15);
+			room1.placeEntity(enemy2, 10, 13);
+			room2.placeEntity(switch1, 18, 1);
+			room2.placeEntity(switch2, 18, 13);
+			room2.placeEntity(switch3, 5, 5);
+			room2.placeEntity(eDoor1, 2, 2);
+			
+			
 			Room[][] rooms = { { room1, room2} };
 			
 			Level level = new Level(rooms, 0, 0, p);

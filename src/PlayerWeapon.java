@@ -65,6 +65,12 @@ public class PlayerWeapon extends Entity implements Encodable {
 						entity.takeDamage(attackDamage);
 						Debugger.main.print(entity + " took " + attackDamage + " damage.");
 					}
+					else if (entity.getType().equals("DoorSwitch")) {
+						DoorSwitch s = (DoorSwitch) entity;
+						frameAttacking = (int) info.getFrameCount();
+						s.setNextImage();
+						s.nextCombNumber();
+					}
 				}
 			}
 		}

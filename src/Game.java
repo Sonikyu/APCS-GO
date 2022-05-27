@@ -26,6 +26,7 @@ public class Game implements Encodable {
 	private int verBreak = VER_BREAK;
 	private GameInfo info;
 	private Level level;
+	private int currLevel;
 	
 	public Game(Dimension size, Level level) {
 		this.info = new GameInfo(size);	
