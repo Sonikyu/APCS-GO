@@ -25,7 +25,6 @@ public class DoorSwitch extends Entity implements Encodable {
 	public DoorSwitch(Coder coder) {
 		super(coder);
 		this.combNumber = coder.decodeInt();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void encode(Coder coder) {

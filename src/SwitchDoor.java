@@ -4,8 +4,8 @@ import restore.Coder;
 import restore.Encodable;
 
 public class SwitchDoor extends Entity implements Encodable {
-	private static String TYPE = "ElectricDoor";
-	private static String IMAGE_FILE = "ElectricDoor.png";
+	private static String TYPE = "SwitchDoor";
+	private static String IMAGE_FILE = "SwitchDoor.png";
 	
 	private int[] combination;
 	private DoorSwitch[] switches;

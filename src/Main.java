@@ -133,7 +133,7 @@ public class Main {
 					DoorSwitch[] switches = {switch1, switch2, switch3};
 					
 					int[] combination = {1,1,1};
-					SwitchDoor eDoor1= new SwitchDoor(combination, switches);
+					SwitchDoor eDoor1 = new SwitchDoor(combination, switches);
 					
 					
 					String[] room1Layout = {

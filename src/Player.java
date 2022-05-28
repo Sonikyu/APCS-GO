@@ -231,6 +231,9 @@ public class Player extends Entity {
 					revertLastMovement();
 				}
 				else if (entity.getType().equals("LevelUpTile")) {
+					for (int j = 0; j < inventory.length; j++) {
+						inventory[j].setEmpty();
+					}
 					info.nextLevel();
 				}
 			}
