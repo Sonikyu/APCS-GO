@@ -61,6 +61,41 @@ public class Main {
 					int[] combination = {1,1,1};
 					SwitchDoor eDoor1= new SwitchDoor(combination, switches);
 					
+					String[] startingRoom = { //House png will be put left of the Spawn tile,
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+						"GGG  |      L#######",
+						"GGG  |             |",
+						"GGG  |             |",
+						"GGG  |   S         D",
+						"GGG  |             |",
+						"GGG  |             |",
+						"GGG  |      P#######",
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+					};
+					
+					String[] xD = { //House png will be put left of the Spawn tile,
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+						"GGG  |      |GGGGGGG",
+						"GG###J      L###GGGG",
+						"GG|            |GGGG",
+						"GG|            |GGGG",
+						"GG|            |GGGG",
+						"GG|            |GGGG",
+						"GGL############JGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+					};
 					
 					String[] room1Layout = {
 						"P###################",
@@ -104,10 +139,13 @@ public class Main {
 					room2.placeEntity(switch2, 18, 13);
 					room2.placeEntity(switch3, 5, 5);
 					room2.placeEntity(eDoor1, 2, 2);
-					room2.placeEntity(sta, 4, 4);
+					room2.placeEntity(sta, 7, 9);
 					
+					Room roomStart = new Room(startingRoom, p);
+					Room intro = new Room(xD, p);
+					Room[][] rooms = {{ roomStart, room2} ,
+									  { intro, null}};
 					
-					Room[][] rooms = { { room1, room2} };
 					
 					
 						
@@ -137,7 +175,8 @@ public class Main {
 					int[] combination = {1,1,1};
 					SwitchDoor eDoor1 = new SwitchDoor(combination, switches);
 					
-					
+
+
 					String[] room1Layout = {
 						"P###################",
 						"|                   ",
@@ -181,8 +220,9 @@ public class Main {
 					room1.placeEntity(switch3, 5, 5);
 					room2.placeEntity(eDoor1, 2, 2);
 					
+
 					
-					Room[][] rooms = { { room1, room2} };
+					Room[][] rooms = {{ room1, room2}};
 					
 					
 						
