@@ -89,6 +89,7 @@ public class Game implements Encodable {
 	
 	public void nextLevel() {
 		currLevel++;
+		levels[currLevel].getCurrentRoom().setPlayerPosition(); // HACKY
 	}
 	
 	public void paint(Graphics2D g) {	

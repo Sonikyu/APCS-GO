@@ -11,7 +11,7 @@
 
 import restore.Coder;
 
-public class StaticTile extends Entity {
+public class Tile extends Entity {
     public enum Material {
         WALL, FLOOR, DOOR, START, GOAL, LEVEL_UP
     }
@@ -20,11 +20,18 @@ public class StaticTile extends Entity {
     public static final int HEIGHT = 40;
     public static final int WIDTH = 40;
     
-    public StaticTile(Material material){
-        super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);
+    private Material material;
+    
+    public Material getMaterial() {
+    	return material;
     }
     
-    public StaticTile(Coder coder) {
+    public Tile(Material material){
+        super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);
+        this.material = material;
+    }
+    
+    public Tile(Coder coder) {
     	super(coder);
     }
     
