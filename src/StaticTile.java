@@ -13,10 +13,10 @@ import restore.Coder;
 
 public class StaticTile extends Entity {
     public enum Material {
-        WALL, FLOOR, DOOR, START, GOAL
+        WALL, FLOOR, DOOR, START, GOAL, LEVEL_UP
     }
-    public static final String[] TYPES = {"WallTile","FloorTile", "DoorTile", "StartTile", "GoalTile"};
-    private static final String[][] PNGS = {{"WallTileH.png","WallTileV.png","WallTileDL.png","WallTIleDR.png", "WallTileUL.png","WallTileUR.png"}, {"FloorTile.png"}, {"DoorTile.png", "FloorTile.png"}, {"FloorTile.png"}, {"GoalTile.png"}};
+    public static final String[] TYPES = {"WallTile","FloorTile", "DoorTile", "StartTile", "GoalTile", "LevelUpTile"};
+    private static final String[][] PNGS = {{"WallTileH.png","WallTileV.png","WallTileDL.png","WallTIleDR.png", "WallTileUL.png","WallTileUR.png"}, {"FloorTile.png"}, {"DoorTile.png", "FloorTile.png"}, {"FloorTile.png"}, {"GoalTile.png"}, {"LevelUpTile.png"}};
     public static final int HEIGHT = 40;
     public static final int WIDTH = 40;
     

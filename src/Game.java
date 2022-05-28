@@ -21,18 +21,23 @@ public class Game implements Encodable {
 	public static final int VER_MAJ = 0;
 	public static final int VER_BREAK = 1;
 	
-	
-	
+	private LevelCreator[] levelCreators;
 	private int verBreak = VER_BREAK;
 	private GameInfo info;
-	private Level level;
+	private Level[] levels;
 	private int currLevel;
 	
-	public Game(Dimension size, Level level) {
-		this.info = new GameInfo(size);	
-		this.level = level;
+	public Game(Dimension size, LevelCreator[] levels) {
+		this.levelCreators = levels;
+		this.info = new GameInfo(size, this);
+		this.levels = new Level[levels.length];
+		for (int i = 0; i < levels.length; i++) {
+			this.levels[i] = levels[i].createLevel();
+		}
+		currLevel = 0;
 		initialDebug();
 	}
+	
 	
 	public Game(Coder coder) {	
 		Integer verMaj = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Unknown major version"); return; }
@@ -46,13 +51,13 @@ public class Game implements Encodable {
 		Integer height = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Failed to decode height"); return; }
 		
 		
-		this.info = new GameInfo(new Dimension(width, height));
+		this.info = new GameInfo(new Dimension(width, height), this);
 		this.verBreak = verBreak;
 		
 		Long frameCount = coder.decodeLong(); if (coder.hasError()) { coder.setErrorMsg("Failed to decode frame count"); return; }
 		this.info.frameCount = frameCount;
-		
-		this.level = new Level(coder); if (coder.hasError()) { coder.setErrorMsg("Failed to decode level"); return; }
+//		TODO: Fix encoder
+//		this.levels = new Level(coder); if (coder.hasError()) { coder.setErrorMsg("Failed to decode level"); return; }
 		
 		initialDebug();
 	}
@@ -65,8 +70,8 @@ public class Game implements Encodable {
 		coder.encode((int) info.size.getHeight());
 		
 		coder.encode(info.frameCount);
-		
-		coder.encode(level);
+//		TODO: complete coder
+//		coder.encode(level);
 		System.out.println("Encoded game");
 	}
 	
@@ -74,13 +79,25 @@ public class Game implements Encodable {
 		return info;
 	}
 	
+	public void resetLevel(int levIndex) {
+		levels[levIndex] = levelCreators[levIndex].createLevel();
+	}
+	
+	public void restartLevel() {
+		resetLevel(currLevel);
+	}
+	
+	public void nextLevel() {
+		currLevel++;
+	}
+	
 	public void paint(Graphics2D g) {	
-		level.paint(g);
+		levels[currLevel].paint(g);
 	}
 	
 	public void cycle() {
 
-		level.cycle(info);
+		levels[currLevel].cycle(info);
 		info.frameCount++;
 		//debugger.print("Game Loop");
 	}
@@ -119,18 +136,27 @@ public class Game implements Encodable {
 		private Dimension size;
 		private HashSet<Integer> keysDown;
 		private Long frameCount;
+		private Game game;
 		
-		public GameInfo(Dimension size) {
+		public GameInfo(Dimension size, Game game) {
 			this.size = size;
 			this.keysDown = new HashSet<Integer>();
 			this.frameCount = (long) 0;
+			this.game = game;
 		}
 		
 		public Dimension getSize() {
 			return size;
 		}
 		
+		public void restartLevel() {
+			game.restartLevel();
+		}
 
+		public void nextLevel() {
+			game.nextLevel();
+		}
+		
 		public HashSet<Integer> getKeysDown() {
 			return keysDown;
 		}
@@ -138,5 +164,7 @@ public class Game implements Encodable {
 		public long getFrameCount() {
 			return frameCount;
 		}
+		
+		
 	}
 }

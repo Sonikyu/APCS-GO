@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import restore.Coder;
 import restore.Encodable;
 
-public class ElectricDoor extends Entity implements Encodable {
+public class SwitchDoor extends Entity implements Encodable {
 	private static String TYPE = "ElectricDoor";
 	private static String IMAGE_FILE = "ElectricDoor.png";
 	
@@ -13,14 +13,14 @@ public class ElectricDoor extends Entity implements Encodable {
 	private boolean hasCorrectCombination;
 	
 	
-	public ElectricDoor(int[] combination, DoorSwitch[] switches) {
+	public SwitchDoor(int[] combination, DoorSwitch[] switches) {
 		super(TYPE, 0, IMAGE_FILE);
 		this.combination = combination;
 		this.switches = switches;
 		hasCorrectCombination = false;
 	}
 	
-	public ElectricDoor(Coder coder) {
+	public SwitchDoor(Coder coder) {
 		super(coder);
 		int combinationSize = coder.decodeInt();
 		this.combination = new int[combinationSize];
@@ -75,7 +75,6 @@ public class ElectricDoor extends Entity implements Encodable {
 	public void cycle(Level level, Game.GameInfo info) {
 		checkCombination();
 		updateVisibility();
-		
 	}
 
 }

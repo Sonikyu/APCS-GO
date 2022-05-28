@@ -25,6 +25,7 @@ public class Room implements Encodable {
 		this.player = player;
 		setUpHealthAndInventory();
 		tileInit(roomString);
+		Debugger.main.print("Banana");
 	}
 	
 	public Room(ArrayList<Entity> entities, StaticTile[][] tiles, Player player) {
@@ -48,7 +49,7 @@ public class Room implements Encodable {
 		
 		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
 		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
-			inventoryBar[i] = new InventorySlot(new Item(Item.Object.EMPTY));
+			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.EMPTY));
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
 		setUpHealthAndInventory();
@@ -75,34 +76,6 @@ public class Room implements Encodable {
 		}
 		//TODO: Inventory Bar decoder
 	}
-	
-	// TESTING CODE DELETE LATER
-	
-	public Room(Room otherRoom) {
-		this.tiles = otherRoom.tiles;
-		for (int i = 0; i < HEIGHT; i++) {
-			for (int j = 0; j < WIDTH; j++) {
-				this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
-				this.tiles[i][j].setPosition(j * StaticTile.HEIGHT, i * StaticTile.WIDTH);
-
-			}
-		}
-		this.entities = otherRoom.entities;
-		this.player = otherRoom.player;
-		healthBar = new Heart[10];
-		for (int i = 0; i < healthBar.length; i++) {
-			Heart h = new Heart();
-			h.setPosition(10 + i * h.getWidth(), 10);
-			healthBar[i] = h;
-		}
-		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
-		Item[] inv = player.getInventory();
-		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
-			inventoryBar[i] = new InventorySlot(inv[i]);
-			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
-		}
-	}
-	
 	
 	private void tileInit(String[] roomString) {
 		for (int i = 0; i < roomString.length; i++) {
@@ -145,7 +118,9 @@ public class Room implements Encodable {
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.WALL);
 					tiles[i][j].setImageAtIndex(4);
 					break;
-					
+				case '+':
+					this.tiles[i][j] = new StaticTile(StaticTile.Material.LEVEL_UP);
+					break;
 				default:
 					this.tiles[i][j] = new StaticTile(StaticTile.Material.FLOOR);
 				}
@@ -163,7 +138,7 @@ public class Room implements Encodable {
 		}
 		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
 		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
-			inventoryBar[i] = new InventorySlot(new Item(Item.Object.EMPTY)); // make item type empty when done testing
+			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.EMPTY)); // make item type empty when done testing
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
 	}

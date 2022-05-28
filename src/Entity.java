@@ -329,6 +329,10 @@ public abstract class Entity implements ImageObserver, Encodable {
 		}
 	}
 	
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	
 	/**
 	 * Hurts the entity
 	 * @param change How much to hurt the entity by
