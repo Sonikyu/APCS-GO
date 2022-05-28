@@ -38,7 +38,7 @@ public class Player extends Entity {
 	private PlayerWeapon weapon;
 	private static final int ATTACK_COOLDOWN = 100;
 	public static final int ATTACK_DURATION = 20;
-	private int ATTACK_DAMAGE = 30;
+	private int attackDamage = 30;
 	
 	public boolean isAttacking;
 	private int lastFrameAttacking;
@@ -58,11 +58,11 @@ public class Player extends Entity {
 		lastFrameAttacked = -ANIMATION_TIME;
 		inventory = new Item[INVENTORY_SIZE];
 		for (int i = 0; i < INVENTORY_SIZE; i++) {
-			inventory[i] = new Item(Item.Object.EMPTY);
+			inventory[i] = new Item(Item.ItemType.EMPTY);
 		}
 		currentSlot = 0;
 		pD = PlayerDirection.NORTH;
-		this.weapon = new PlayerWeapon(pD, this.ATTACK_DAMAGE);
+		this.weapon = new PlayerWeapon(pD, this.attackDamage);
 	}
 	
 	public Player(Coder coder) {
@@ -100,12 +100,19 @@ public class Player extends Entity {
 		return 0;
 	}
 	
+	public void respawn() {
+		setHealth(MAX_HEALTH);
+		for (int i = 0; i < inventory.length; i++) {
+			inventory[i].setEmpty();
+		}
+	}
+	
 	public int getAttackDamage() {
-		return ATTACK_DAMAGE;
+		return attackDamage;
 	}
 	
 	public void setAttackDamage(int damageValue) {
-		ATTACK_DAMAGE = damageValue;
+		attackDamage = damageValue;
 	}
 	
 	public PlayerDirection getPlayerDirection() {
@@ -121,13 +128,14 @@ public class Player extends Entity {
 	}
 	
 	public void useItem() {
-		switch (inventory[currentSlot].getObject()) {
+		switch (inventory[currentSlot].getItemType()) {
 		case EMPTY:
 			break;
 		case HEALPOT:
 			this.heal(30);
 			Debugger.main.print("The player healed 30 HP");
-			inventory[currentSlot] = new Item(Item.Object.EMPTY);
+			inventory[currentSlot].setEmpty();
+			Debugger.main.print("The item slot is now empty");
 			break;
 		default:
 			break;
@@ -135,9 +143,9 @@ public class Player extends Entity {
 	}
 	
 
-	public int firstOccur(Item.Object item){
+	public int firstOccur(Item.ItemType item){
 		for(int i = 0; i < inventory.length; i++){
-			if(inventory[i].getObject() == item){
+			if(inventory[i].getItemType() == item){
 				return i;
 			}
 		}
@@ -145,7 +153,7 @@ public class Player extends Entity {
 	}
 
 	public void addItem(Item item){
-		int temp = firstOccur(Item.Object.EMPTY);
+		int temp = firstOccur(Item.ItemType.EMPTY);
 		if(temp >= 0){
 			inventory[temp]=item;
 		}
@@ -182,6 +190,9 @@ public class Player extends Entity {
 		yDelta = 0;
 		
 		// Determine player costume (damaged or not)
+		
+		
+		
 		if ((int) info.getFrameCount() - lastFrameAttacked < ANIMATION_TIME) {
 			this.setImageAtIndex(1);
 		}
@@ -199,10 +210,9 @@ public class Player extends Entity {
 		updateWeapon((int) info.getFrameCount());
 		weapon.cycle(level, info);
 		
-		// Player Attack
+		// Player Attack & Check for collisions
 		playerAttack(level, info.getKeysDown(), (int) info.getFrameCount());
-		
-		// Check for collisions
+		if (isDead()) info.restartLevel(); 
 		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
@@ -210,15 +220,23 @@ public class Player extends Entity {
 				//Debugger.main.print(this + " collided with " + entity);
 				
 				// TODO: Replace with the static variables
-				if (entity.getType().equals("WallTile") || entity.getType().equals("ElectricDoor")) {
+				if (entity.isOfType("WallTile")) {
+					revertLastMovement();
+				} else if (entity.isOfType(SwitchDoor.TYPE) && !((SwitchDoor)entity).isOpen()) {
 					revertLastMovement();
 				}
-				else if (entity.getType().equals("DoorTile")) {
-					if (inventory[currentSlot].getType().equals("Key")) {
+				else if (entity.isOfType("DoorTile")) {
+					if (inventory[currentSlot].isOfType("Key")) {
 						useItem();
 						entity.setImageAtIndex(1);
 					}
 					revertLastMovement();
+				}
+				else if (entity.isOfType("LevelUpTile")) {
+					for (int j = 0; j < inventory.length; j++) {
+						inventory[j].setEmpty();
+					}
+					info.nextLevel();
 				}
 			}
 		}
@@ -274,16 +292,16 @@ public class Player extends Entity {
 				level.moveRoomRight();
 			}
 		}
-		if (keysDown.contains(KeyEvent.VK_SPACE)) {
-			useItem();
-		}
+		
 		
 		updateXBy(xDelta);
 		updateYBy(yDelta);
 	}
 	
 	public void inventoryUpdate(Level level, HashSet<Integer> keysDown) {
-		
+		if (keysDown.contains(KeyEvent.VK_SPACE)) {
+			useItem();
+		}
 		if (keysDown.contains(KeyEvent.VK_1)) {
 			currentSlot = 0;
 		}

@@ -1,26 +1,20 @@
-import java.util.ArrayList;
-
 import restore.Coder;
 import restore.Encodable;
 
-public class ElectricDoor extends Entity implements Encodable {
-	private static String TYPE = "ElectricDoor";
-	private static String IMAGE_FILE = "ElectricDoor.png";
+public class SwitchDoor extends Entity implements Encodable {
+	public static String TYPE = "SwitchDoor";
+	private static String[] IMAGE_FILES = { "SwitchDoor.png", "FloorTile.png" };
 	
 	private int[] combination;
 	private DoorSwitch[] switches;
 	
-	private boolean hasCorrectCombination;
-	
-	
-	public ElectricDoor(int[] combination, DoorSwitch[] switches) {
-		super(TYPE, 0, IMAGE_FILE);
+	public SwitchDoor(int[] combination, DoorSwitch[] switches) {
+		super(TYPE, 0, IMAGE_FILES);
 		this.combination = combination;
 		this.switches = switches;
-		hasCorrectCombination = false;
 	}
 	
-	public ElectricDoor(Coder coder) {
+	public SwitchDoor(Coder coder) {
 		super(coder);
 		int combinationSize = coder.decodeInt();
 		this.combination = new int[combinationSize];
@@ -32,7 +26,6 @@ public class ElectricDoor extends Entity implements Encodable {
 		for (int i = 0; i < numSwitches; i ++) {
 			switches[i] = new DoorSwitch(coder);
 		}
-		hasCorrectCombination = false;
 	}
 	
 	public void encode(Coder coder) {
@@ -47,35 +40,30 @@ public class ElectricDoor extends Entity implements Encodable {
 		}
 	}
 	
-	public void checkCombination() {
+	public boolean isOpen() {
 		boolean combo = true;
 		for (int i = 0; i < combination.length; i++) {
 			if (combination[i] != switches[i].getCombNumber()) {
 				combo = false;
 			}
 		}
-		hasCorrectCombination = combo;
+		return combo;
 	}
 	
-	public void updateVisibility() {
-		if (hasCorrectCombination) {
-			hide();
-		}
-		else {
-			show();
-		}
-	}
 	
-	@Override
-	public boolean shouldShow() {
-		return !hasCorrectCombination;
-	}
+//	@Override
+//	public boolean shouldShow() {
+//		return !hasCorrectCombination;
+//	}
 	
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
-		checkCombination();
-		updateVisibility();
-		
+		if (isOpen()) {
+			setImageAtIndex(1);
+		}
+		else {
+			setImageAtIndex(0);
+		}
 	}
 
 }

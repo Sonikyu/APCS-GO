@@ -73,12 +73,12 @@ public class MoveOnlyEnemy extends Entity {
 				if (collidesWith(entity)) {
 					
 					// TODO: Replace with the static variables
-					if (entity.getType().equals("WallTile") || entity.getType().equals("DoorTile")) {
+					if (entity.isOfType("WallTile") || entity.isOfType("DoorTile")) {
 						collidedWithWall = true;
 						Debugger.main.print(getID() + " hit wall");
 					}
 					
-					else if (entity.getType().equals(Player.TYPE)) {
+					else if (entity.isOfType(Player.TYPE)) {
 						if (info.getFrameCount() - lastFrameAttacked >= attackDelay) {
 							Debugger.main.print(getID() + " attacked " + entity.getID());
 							Player p = (Player) entity;

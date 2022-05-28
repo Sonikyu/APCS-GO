@@ -14,17 +14,18 @@ import restore.Coder;
 
 public class Item extends Entity {
 
-	public enum Object {
-        KEY, EMPTY, HEALPOT
+	public enum ItemType {
+		EMPTY, KEY, HEALPOT
     }
 
-	private static String[][] IMAGE_FILES = {{"Key.png", "Empty.png"}, {"Empty.png"}, {"HealPot.png", "Empty.png"}};
+	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png"};
 	
-	private Object object;
+	private ItemType object;
 	
-	public Item(Object object) {
-		super("Item", 0, IMAGE_FILES[object.ordinal()]);	
+	public Item(ItemType object) {
+		super("Item", 0, IMAGE_FILES);	
 		this.object = object;
+		this.setImageAtIndex(object.ordinal());
 	}
 	
 	public Item(Coder coder) {
@@ -36,7 +37,12 @@ public class Item extends Entity {
     	super.encode(coder);
     }
 	
-	public Object getObject() {
+	public void setEmpty() {
+		this.object = ItemType.EMPTY;
+		this.setImageAtIndex(ItemType.EMPTY.ordinal());
+	}
+	
+	public ItemType getItemType() {
 		return object;
 	}
 		
@@ -45,14 +51,14 @@ public class Item extends Entity {
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		
-		if (this.object != Object.EMPTY){
+		if (this.object != ItemType.EMPTY){
 			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 				for (int i = 0; i < visibleEntities.size(); i++) {
 					Entity entity = visibleEntities.get(i);
 					if (collidesWith(entity)) {
-						if (entity.getType().equals("Player")) {
+						if (entity.isOfType(Player.TYPE)) {
 							Player p = (Player) entity;						
-							int temp = p.firstOccur(Object.EMPTY);							
+							int temp = p.firstOccur(ItemType.EMPTY);							
 							if(temp >= 0){
 								p.addItem(this); 
 								Debugger.main.print("Player obtained " + this);

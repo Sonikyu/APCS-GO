@@ -18,6 +18,7 @@ public class Level implements Encodable {
 		currentRow = curRow;
 		currentCol = curCol;
 		this.player = player;
+		this.player.respawn();
 	}
 	
 	public Level(Coder coder) {

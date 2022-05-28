@@ -22,9 +22,9 @@ public class EntityDecoder {
 			return new MoveOnlyEnemy(coder);
 		}
 		else {
-			for (String tileType : StaticTile.TYPES) {
+			for (String tileType : Tile.TYPES) {
 				if (type.equals(tileType)) {
-					return new StaticTile(coder);
+					return new Tile(coder);
 				}
 			}
 			coder.setErrorMsg("Unknown entity type");

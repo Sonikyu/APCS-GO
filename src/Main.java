@@ -45,6 +45,158 @@ public class Main {
 
 			// Initialize game
 			Player p = new Player();
+			
+			class LevelOneCreator implements LevelCreator {
+				public Level createLevel() {
+					
+					MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
+					TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3);
+					
+					DoorSwitch switch1 = new DoorSwitch();
+					DoorSwitch switch2 = new DoorSwitch();
+					StaticEntity sta = new StaticEntity(); // testing code for wall don't remove yet
+					DoorSwitch switch3 = new DoorSwitch();
+					DoorSwitch[] switches = {switch1, switch2, switch3};
+					
+					int[] combination = {1,1,1};
+					SwitchDoor eDoor1= new SwitchDoor(combination, switches);
+					
+					
+					String[] room1Layout = {
+						"P###################",
+						"|                   ",
+						"| S                 ",
+						"|                   ",
+						"|                   ",
+						"|                   ",
+						"|              #####",
+						"|                   ",
+						"|  +                ",
+						"|                   ",
+						"|                   ",
+						"|                   ",
+						"|                   ",
+						"|                   ",
+						"L###################"
+					};
+					String[] room2Layout = {
+							"###################7",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"              #####|",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"###################J"
+						};
+					Room room1 = new Room(room1Layout, p);
+					Room room2 = new Room(room2Layout, p);
+					room1.placeEntity(enemy1, 16, 1);
+					room1.placeEntity(enemy2, 10, 13);
+					room2.placeEntity(switch1, 18, 1);
+					room2.placeEntity(switch2, 18, 13);
+					room2.placeEntity(switch3, 5, 5);
+					room2.placeEntity(eDoor1, 2, 2);
+					room2.placeEntity(sta, 4, 4);
+					
+					
+					Room[][] rooms = { { room1, room2} };
+					
+					
+						
+					Item key1 = new Item(Item.ItemType.KEY);
+					Item healPot1 = new Item(Item.ItemType.HEALPOT);
+					key1.setPosition(200, 200);
+					healPot1.setPosition(260, 200);
+					room1.addEntity(key1);
+					room1.addEntity(healPot1);
+					
+					Level level = new Level(rooms, 0, 0, p);
+					return level;
+				}		
+			}
+			class LevelTwoCreator implements LevelCreator {
+				public Level createLevel() {
+					Debugger.main.print("Apple");
+					
+					MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
+					TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3);
+					
+					DoorSwitch switch1 = new DoorSwitch();
+					DoorSwitch switch2 = new DoorSwitch();
+					DoorSwitch switch3 = new DoorSwitch();
+					DoorSwitch[] switches = {switch1, switch2, switch3};
+					
+					int[] combination = {1,1,1};
+					SwitchDoor eDoor1 = new SwitchDoor(combination, switches);
+					
+					
+					String[] room1Layout = {
+						"P###################",
+						"|                   ",
+						"| S                 ",
+						"|                   ",
+						"|                   ",
+						"|                   ",
+						"|              #####",
+						"|                   ",
+						"|  +                ",
+						"|                   ",
+						"|                   ",
+						"|                   ",
+						"|                   ",
+						"|##                 ",
+						"L###################"
+					};
+					String[] room2Layout = {
+							"###################7",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"              #####|",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                   |",
+							"                 ##|",
+							"###################J"
+						};
+					Room room1 = new Room(room1Layout, p);
+					Room room2 = new Room(room2Layout, p);
+					room1.placeEntity(enemy1, 16, 1);
+					room1.placeEntity(enemy2, 10, 13);
+					room2.placeEntity(switch1, 18, 1);
+					room2.placeEntity(switch2, 18, 13);
+					room1.placeEntity(switch3, 5, 5);
+					room2.placeEntity(eDoor1, 2, 2);
+					
+					
+					Room[][] rooms = { { room1, room2} };
+					
+					
+						
+					Item key1 = new Item(Item.ItemType.KEY);
+					Item healPot1 = new Item(Item.ItemType.HEALPOT);
+					key1.setPosition(200, 200);
+					healPot1.setPosition(260, 200);
+					room1.addEntity(key1);
+					room1.addEntity(healPot1);
+					
+					Level level = new Level(rooms, 0, 0, p);
+					return level;
+				}		
+			}
 			/*
 			StaticTile wall = new StaticTile(StaticTile.Material.WALL);
 			StaticTile wall1 = new StaticTile(StaticTile.Material.WALL);
@@ -117,75 +269,8 @@ public class Main {
 			Level level = new Level(rooms, 0, 0, p);
 			*/
 		
-
-			MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
-			TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3);
-			
-			DoorSwitch switch1 = new DoorSwitch();
-			DoorSwitch switch2 = new DoorSwitch();
-			DoorSwitch switch3 = new DoorSwitch();
-			DoorSwitch[] switches = {switch1, switch2, switch3};
-			
-			int[] combination = {1,1,1};
-			
-			ElectricDoor eDoor1= new ElectricDoor(combination, switches);
-			
-			
-			String[] room1Layout = {
-				"P###################",
-				"|                   ",
-				"| S                 ",
-				"|                   ",
-				"|                   ",
-				"|                   ",
-				"|              #####",
-				"|                   ",
-				"|                   ",
-				"|                   ",
-				"|                   ",
-				"|                   ",
-				"|                   ",
-				"|                   ",
-				"L###################"
-			};
-			String[] room2Layout = {
-					"###################7",
-					"                   |",
-					"                   |",
-					"                   |",
-					"                   |",
-					"                   |",
-					"              #####|",
-					"                   |",
-					"                   |",
-					"                   |",
-					"                   |",
-					"                   |",
-					"                   |",
-					"                   |",
-					"###################J"
-				};
-			Room room1 = new Room(room1Layout, p);
-			Room room2 = new Room(room2Layout, p);
-			room1.placeEntity(enemy1, 16, 1);
-			room1.placeEntity(enemy2, 10, 13);
-			room2.placeEntity(switch1, 18, 1);
-			room2.placeEntity(switch2, 18, 13);
-			room2.placeEntity(switch3, 5, 5);
-			room2.placeEntity(eDoor1, 2, 2);
-			
-			
-			Room[][] rooms = { { room1, room2} };
-			
-			Level level = new Level(rooms, 0, 0, p);
-			game = new Game(size,level);	
-			Item key1 = new Item(Item.Object.KEY);
-			Item healPot1 = new Item(Item.Object.HEALPOT);
-			key1.setPosition(200, 200);
-			healPot1.setPosition(260, 200);
-			room1.addEntity(key1);
-			room1.addEntity(healPot1);
-		}
+		LevelCreator[] levels = {new LevelOneCreator(), new LevelTwoCreator()};
+		game = new Game(size, levels);
 
 		// Sets up frame with GameView
 		GameView gameView = new GameView(game);
@@ -225,5 +310,7 @@ public class Main {
 
 		// MOOSIC
 		Audio.main.run();
+		
 	}
+}
 }
