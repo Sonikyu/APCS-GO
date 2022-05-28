@@ -2,7 +2,7 @@ import restore.Coder;
 import restore.Encodable;
 
 public class DoorSwitch extends Entity implements Encodable {
-	private static String TYPE = "DoorSwitch";
+	public static String TYPE = "DoorSwitch";
 	private static String[] IMAGE_FILES = {"DoorSwitch.png", "DoorSwitch_Stage1.png"};
 	
 	private int combNumber;

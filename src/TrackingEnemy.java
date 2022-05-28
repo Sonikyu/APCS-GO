@@ -124,7 +124,7 @@ public class TrackingEnemy extends Entity{
 				for (int i = 0; i < visibleEntities.size(); i++) {
 					Entity entity = visibleEntities.get(i);
 					if (collidesWith(entity)) {
-						if (entity.getType().equals("WallTile")) {
+						if (entity.isOfType("WallTile")) {
 							if (stunned) {
 								if (frameCount - lastFrameStunned >= stunDuration) {
 									transitioning = true;
@@ -136,7 +136,7 @@ public class TrackingEnemy extends Entity{
 								lastFrameStunned = frameCount;
 							}
 						}
-						else if (entity.getType().equals(Player.TYPE)){
+						else if (entity.isOfType(Player.TYPE)){
 							if (frameCount - lastFrameAttacked >= attackDelay) {
 								Debugger.main.print(getID() + " attacked " + entity.getID());
 								Player p = (Player) entity;

@@ -292,7 +292,7 @@ public class Room implements Encodable {
 		ArrayList<Entity> entitiesByType = new ArrayList<Entity>();
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
-			if (entity.isVisible() && entity.getType().equals(type)) {
+			if (entity.isVisible() && entity.isOfType(type)) {
 				entitiesByType.add(entity);
 			}
 		}
@@ -342,7 +342,7 @@ public class Room implements Encodable {
 		// Testing code
 		for (int i = 0; i < entities.size(); i++) {
 			Entity entity = entities.get(i);
-			if (entity.isVisible() || entity.getType().equals("ElectricDoor")) { 
+			if (entity.isVisible()) { 
 				entity.cycle(level, info);
 			}
 		}

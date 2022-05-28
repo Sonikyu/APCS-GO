@@ -220,17 +220,19 @@ public class Player extends Entity {
 				//Debugger.main.print(this + " collided with " + entity);
 				
 				// TODO: Replace with the static variables
-				if (entity.getType().equals("WallTile") || entity.getType().equals("ElectricDoor")) {
+				if (entity.isOfType("WallTile")) {
+					revertLastMovement();
+				} else if (entity.isOfType(SwitchDoor.TYPE) && !((SwitchDoor)entity).isOpen()) {
 					revertLastMovement();
 				}
-				else if (entity.getType().equals("DoorTile")) {
-					if (inventory[currentSlot].getType().equals("Key")) {
+				else if (entity.isOfType("DoorTile")) {
+					if (inventory[currentSlot].isOfType("Key")) {
 						useItem();
 						entity.setImageAtIndex(1);
 					}
 					revertLastMovement();
 				}
-				else if (entity.getType().equals("LevelUpTile")) {
+				else if (entity.isOfType("LevelUpTile")) {
 					for (int j = 0; j < inventory.length; j++) {
 						inventory[j].setEmpty();
 					}

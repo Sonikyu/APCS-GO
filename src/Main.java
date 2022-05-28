@@ -54,6 +54,7 @@ public class Main {
 					
 					DoorSwitch switch1 = new DoorSwitch();
 					DoorSwitch switch2 = new DoorSwitch();
+					StaticEntity sta = new StaticEntity(); // testing code for wall don't remove yet
 					DoorSwitch switch3 = new DoorSwitch();
 					DoorSwitch[] switches = {switch1, switch2, switch3};
 					
@@ -103,6 +104,7 @@ public class Main {
 					room2.placeEntity(switch2, 18, 13);
 					room2.placeEntity(switch3, 5, 5);
 					room2.placeEntity(eDoor1, 2, 2);
+					room2.placeEntity(sta, 4, 4);
 					
 					
 					Room[][] rooms = { { room1, room2} };
@@ -176,7 +178,7 @@ public class Main {
 					room1.placeEntity(enemy2, 10, 13);
 					room2.placeEntity(switch1, 18, 1);
 					room2.placeEntity(switch2, 18, 13);
-					room2.placeEntity(switch3, 5, 5);
+					room1.placeEntity(switch3, 5, 5);
 					room2.placeEntity(eDoor1, 2, 2);
 					
 					

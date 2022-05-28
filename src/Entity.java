@@ -147,6 +147,15 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public boolean isOfType(String type) {
+		return getType().equals(type);
+	}
+	
+	/**
 	 * Gets the entity's health
 	 * @return
 	 */

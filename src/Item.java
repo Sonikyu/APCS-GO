@@ -56,7 +56,7 @@ public class Item extends Entity {
 				for (int i = 0; i < visibleEntities.size(); i++) {
 					Entity entity = visibleEntities.get(i);
 					if (collidesWith(entity)) {
-						if (entity.getType().equals("Player")) {
+						if (entity.isOfType(Player.TYPE)) {
 							Player p = (Player) entity;						
 							int temp = p.firstOccur(ItemType.EMPTY);							
 							if(temp >= 0){
