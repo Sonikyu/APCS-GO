@@ -192,7 +192,7 @@ public class LevelOneCreator implements LevelCreator {
 		};
 		Room room = new Room(layout, p);
 
-		TrackingEnemy enemy = new TrackingEnemy(20, 9, 9, 0, 0);
+		TrackingEnemy enemy = new TrackingEnemy(7, 9, 9, 0, 20, 100);
 		room.placeEntity(enemy, 9, 9);
 
 //		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
