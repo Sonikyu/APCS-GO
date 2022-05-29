@@ -62,9 +62,9 @@ public class Main {
 					SwitchDoor eDoor1= new SwitchDoor(combination, switches);
 					
 					String[] startingRoom = { //House png will be put left of the Spawn tile,
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
+						"     |      |GGGGGGG",
+						"     |      |GGGGGGG",
+						"     |      |GGGGGGG",
 						"GGG  |      |GGGGGGG",
 						"GGG  |      L#######",
 						"GGG  |             |",

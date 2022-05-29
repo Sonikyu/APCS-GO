@@ -123,6 +123,9 @@ public class Room implements Encodable {
 				case '+':
 					this.tiles[i][j] = new Tile(Tile.Material.LEVEL_UP);
 					break;
+				case 'G':
+					this.tiles[i][j] = new Tile(Tile.Material.GRASS);
+					break;
 				default:
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
 				}

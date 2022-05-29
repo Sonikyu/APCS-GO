@@ -238,6 +238,9 @@ public class Player extends Entity {
 					}
 					info.nextLevel();
 				}
+				else if (entity.isOfType("GrassTile")) {
+					info.endGame();
+				}
 			}
 		}
 	}
