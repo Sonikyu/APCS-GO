@@ -61,7 +61,7 @@ public class Main {
 					int[] combination = {1,1,1};
 					SwitchDoor eDoor1= new SwitchDoor(combination, switches);
 					
-					String[] startingRoom = { //House png will be put left of the Spawn tile,
+					String[] startingRoomLayout = { //House png will be put left of the Spawn tile,
 						"GGGGG|      |GGGGGGG",
 						"GGGGG|      |GGGGGGG",
 						"GGGGG|      |GGGGGGG",
@@ -79,7 +79,7 @@ public class Main {
 						"GGGGG|      |GGGGGGG",
 					};
 					
-					String[] weaponRoom = { //House png will be put left of the Spawn tile,
+					String[] weaponRoomLayout = { //House png will be put left of the Spawn tile,
 						"GGGGG|      |GGGGGGG",
 						"GGGGG|      |GGGGGGG",
 						"GGGGG|      |GGGGGGG",
@@ -97,20 +97,43 @@ public class Main {
 						"GGGGGGGGGGGGGGGGGGGG",
 					};
 					
+					String[] potionRoomLayout = { //House png will be put left of the Spawn tile,
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"####################",
+						"                    ",
+						"                    ",
+						"                    ",
+						"                    ",
+						"                    ",
+						"####################",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+					};
+					
+					
 
 
 					//Init Rooms
 
-					Room roomStart = new Room(startingRoom, p);
-					Room intro = new Room(weaponRoom, p);
+					Room startingRoom = new Room(startingRoomLayout, p);
+					Room weaponRoom = new Room(weaponRoomLayout, p);
+					Room potionRoom = new Room(potionRoomLayout, p);
 
 					//Make and Place Entities
 
 					
 					//Make Level
 					
-					Room[][] rooms = {{ roomStart, null} ,
-									  { intro, null}};
+					Room[][] rooms = {{ null, null, null, null},
+								//	  { startingRoom, potionRoom, trackingEnemyRoom, goal} ,
+									  { startingRoom, potionRoom, null, null} ,
+									  { weaponRoom, null, null, null},
+									  { }};
 					
 					
 					
@@ -120,7 +143,7 @@ public class Main {
 					key1.setPosition(200, 200);
 					healPot1.setPosition(260, 200);
 
-					roomStart.setPlayerPosition();
+					startingRoom.setPlayerPosition();
 					Level level = new Level(rooms, 0, 0, p);
 					return level;
 				}		

@@ -33,10 +33,9 @@ public class Game implements Encodable {
 		this.levelCreators = levels;
 		this.info = new GameInfo(size, this);
 		this.levels = new Level[levels.length];
-		for (int i = 0; i < levels.length; i++) {
-			this.levels[i] = levels[i].createLevel();
-		}
 		currLevel = 0;
+		this.levels[currLevel] = levels[currLevel].createLevel();
+		
 		hasStarted = false;
 		screen = new StartScreen();
 		screen.setPosition(0, 0);
@@ -94,6 +93,8 @@ public class Game implements Encodable {
 	
 	public void nextLevel() {
 		currLevel++;
+
+		levels[currLevel] = levelCreators[currLevel].createLevel();
 		levels[currLevel].getCurrentRoom().setPlayerPosition(); // HACKY
 	}
 	

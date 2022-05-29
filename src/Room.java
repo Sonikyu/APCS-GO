@@ -25,7 +25,7 @@ public class Room implements Encodable {
 		this.player = player;
 		setUpHealthAndInventory();
 		tileInit(roomString);
-		setPlayerPosition();
+
 		Debugger.main.print("Banana");
 	}
 	
@@ -54,7 +54,7 @@ public class Room implements Encodable {
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
 		setUpHealthAndInventory();
-		setPlayerPosition();
+
 	}
 	
 	public Room(Coder coder) {
@@ -132,10 +132,13 @@ public class Room implements Encodable {
 	}
 	
 	public void setPlayerPosition() {
+		System.out.println("PlayerPostion called");
 		for (Tile[] row: tiles) {
 			for (Tile tile: row) {
 				if (tile.getMaterial() == Tile.Material.START) {
+					Debugger.main.print("Start tile found");
 					player.setPosition(tile.getX(), tile.getY());
+					System.out.println("Tile Found: X: " + tile.getX() + "| Y: " + tile.getY());
 				}
 			}
 		}
