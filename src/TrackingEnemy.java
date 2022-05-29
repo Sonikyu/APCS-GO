@@ -22,7 +22,8 @@ public class TrackingEnemy extends Entity{
 	private int xTether;
 	private int yTether;
 	private int attackStrength;
-	private int stunDuration;
+	private int stunTransitionDuration;
+	private int stunStationaryDuration;
 	private int attackDelay;
 	private int refreshSpeed;
 	private long frameCount;
@@ -30,22 +31,27 @@ public class TrackingEnemy extends Entity{
 	private long lastFrameInRadius = 0;
 	private long lastFrameAttacked = 0;
 	private long lastFrameStunned = 0;
+	
+	private long stationaryFrame = 0;
+	private boolean stationary = false;
+	
 	private boolean stunned = false;
 	private boolean transitioning = false;
 	
-	public TrackingEnemy(int range, int xTether, int yTether, int attackStrength, int stunDuration, int attackDelay, int refreshSpeed) {
+	public TrackingEnemy(int range, int xTether, int yTether, int attackStrength, int stunTransitionDuration, int stunStationaryDuration, int attackDelay, int refreshSpeed) {
 		super(TrackingEnemy.TYPE, TrackingEnemy.MAX_HEALTH, TrackingEnemy.IMAGE_FILE);
 		this.range = range;
 		this.xTether = xTether;
 		this.yTether = yTether;
 		this.attackStrength = attackStrength;
-		this.stunDuration = stunDuration;
+		this.stunTransitionDuration = stunTransitionDuration;
+		this.stunStationaryDuration = stunStationaryDuration;
 		this.attackDelay = attackDelay;
 		this.refreshSpeed = refreshSpeed;
 	}
 	
-	public TrackingEnemy(int rangeInTiles, int colTether, int rowTether, int attackStrength, int stunDuration) {
-		this(rangeInTiles * Tile.WIDTH, colTether * Tile.WIDTH, rowTether * Tile.HEIGHT, attackStrength, stunDuration, 150, 3);
+	public TrackingEnemy(int rangeInTiles, int colTether, int rowTether, int attackStrength, int stunTransitionDuration, int stunStationaryDuration) {
+		this(rangeInTiles * Tile.WIDTH, colTether * Tile.WIDTH, rowTether * Tile.HEIGHT, attackStrength, stunTransitionDuration, stunStationaryDuration, 150, 3);
 	}
 	
 	public TrackingEnemy(Coder coder) {
@@ -54,7 +60,8 @@ public class TrackingEnemy extends Entity{
 		this.xTether = coder.decodeInt();
 		this.yTether = coder.decodeInt();
 		this.attackStrength = coder.decodeInt();
-		this.stunDuration = coder.decodeInt();
+		this.stunTransitionDuration = coder.decodeInt();
+		this.stunStationaryDuration = coder.decodeInt();
 		this.attackDelay = coder.decodeInt();
 		this.refreshSpeed = coder.decodeInt();
 		this.frameCount = coder.decodeLong();
@@ -71,7 +78,8 @@ public class TrackingEnemy extends Entity{
 		coder.encode(this.xTether);
 		coder.encode(this.yTether);
 		coder.encode(this.attackStrength);
-		coder.encode(this.stunDuration);
+		coder.encode(this.stunTransitionDuration);
+		coder.encode(this.stunStationaryDuration);
 		coder.encode(this.attackDelay);
 		coder.encode(this.refreshSpeed);
 		coder.encode(this.frameCount);
@@ -117,11 +125,18 @@ public class TrackingEnemy extends Entity{
 				int xOffset = getX() - xTether;
 				int yOffset = getY() - yTether;
 				if (xOffset == 0 && yOffset == 0) {
-					stunned = false;
+					stationary = true;
+					stationaryFrame = frameCount;
 					transitioning = false;
 				}
 				else {
 					move(xOffset, yOffset);
+				}
+			}
+			else if (stationary) {
+				if (frameCount - stationaryFrame >= stunStationaryDuration) {
+					stationary = false;
+					stunned = false;
 				}
 			}
 			else {
@@ -130,7 +145,7 @@ public class TrackingEnemy extends Entity{
 					if (collidesWith(entity)) {
 						if (entity.isOfType("WallTile")) {
 							if (stunned) {
-								if (frameCount - lastFrameStunned >= stunDuration) {
+								if (frameCount - lastFrameStunned >= stunTransitionDuration) {
 									transitioning = true;
 								}
 							}
