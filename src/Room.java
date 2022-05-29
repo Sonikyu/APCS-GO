@@ -310,7 +310,7 @@ public class Room implements Encodable {
 		entities.add(entity);
 	}
 	
-	public void placeEntity(Entity entity, int row, int col) {
+	public void placeEntity(Entity entity, int col, int row) {
 		entity.setPosition(col * Tile.WIDTH, row * Tile.HEIGHT);
 		addEntity(entity);
 	}

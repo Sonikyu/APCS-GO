@@ -44,6 +44,10 @@ public class TrackingEnemy extends Entity{
 		this.refreshSpeed = refreshSpeed;
 	}
 	
+	public TrackingEnemy(int rangeInTiles, int colTether, int rowTether, int attackStrength, int stunDuration) {
+		this(rangeInTiles * Tile.WIDTH, colTether * Tile.WIDTH, rowTether * Tile.HEIGHT, attackStrength, stunDuration, 150, 3);
+	}
+	
 	public TrackingEnemy(Coder coder) {
 		super(coder);
 		this.range = coder.decodeInt();

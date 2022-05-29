@@ -94,7 +94,7 @@ public class LevelOneCreator implements LevelCreator {
 				"GGGGG|      |GGGGGGG",
 		};
 		Room room = new Room(layout, p);
-		room.placeEntity(new Item(Item.ItemType.KEY), 7, 9);
+		room.placeEntity(new Item(Item.ItemType.KEY), 9, 7);
 		return room;
 	}
 	
@@ -155,17 +155,17 @@ public class LevelOneCreator implements LevelCreator {
 				"                    ",
 				"                    ",
 				"     P--------7     ",
-				"     |GGGGGGGG|     ",
-				"     |GGGGGGGG|     ",
-				"#7   |GGGGGGGG|   P#",
+				"     |        |     ",
+				"     |        |     ",
+				"#7   |        |   P#",
 				"G|   L--------J   |G",
 				"G|                |G",
 				"G|                |G",
 				"G|________________JG",
 		};
 		Room room = new Room(layout, p);
-		//TrackingEnemy enemy = new TrackingEnemy();
-		//room.addEntity(enemy);
+		TrackingEnemy enemy = new TrackingEnemy(20, 9, 9, 0, 0);
+		room.placeEntity(enemy, 9, 9);
 		return room;
 	}
 	
