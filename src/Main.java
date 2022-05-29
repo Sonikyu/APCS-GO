@@ -85,6 +85,6 @@ public class Main {
 		frame.pack();
 
 		// MOOSIC
-		Audio.main.run();
+		//Audio.main.run();
 	}
 }

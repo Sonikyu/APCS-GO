@@ -147,9 +147,9 @@ public class LevelOneCreator implements LevelCreator {
 
 		//Make Level
 
-		Room[][] rooms = {{ keyRoom, null, null, null},
+		Room[][] rooms = {{ null, keyRoom, null, null, null},
 				{ createTestingRoom(p), startingRoom, potionRoom, trackingEnemyRoom/*, goal*/} ,
-				{ weaponRoom, null, null, null},
+				{ null, weaponRoom, null, null, null},
 				{ }};
 
 
