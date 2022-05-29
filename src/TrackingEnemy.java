@@ -128,7 +128,7 @@ public class TrackingEnemy extends Entity{
 				for (int i = 0; i < visibleEntities.size(); i++) {
 					Entity entity = visibleEntities.get(i);
 					if (collidesWith(entity)) {
-						if (entity.isOfType("WallTile")) {
+						if (entity.isOfType(Tile.WALL_TYPES)) {
 							if (stunned) {
 								if (frameCount - lastFrameStunned >= stunDuration) {
 									transitioning = true;

@@ -18,8 +18,8 @@ public class MoveOnlyEnemy extends Entity {
 	private static int MAX_HEALTH = 100;
 	private static String IMAGE_FILE = "Enemy.png";
 	
-	private int xDelta = 1;
-	private int yDelta = 1;
+	private int xDelta;
+	private int yDelta;
 	private int offsetX;
 	private int offsetY;
 	private int totalXDelta;
@@ -30,13 +30,31 @@ public class MoveOnlyEnemy extends Entity {
 	
 	public MoveOnlyEnemy(int totalXDelta, int totalYDelta, int attackStrength) {
 		super(MoveOnlyEnemy.TYPE, MoveOnlyEnemy.MAX_HEALTH, MoveOnlyEnemy.IMAGE_FILE);
+		this.xDelta = 1;
+		this.yDelta = 1;
 		this.totalXDelta = totalXDelta;
 		this.totalYDelta = totalYDelta;
 		this.attackStrength = attackStrength;
+
+		if (totalXDelta < 0) {
+			this.offsetX = totalXDelta;
+			this.updateXBy(totalXDelta);
+		} else {
+			this.offsetX = 0;
+		}
+		
+		if (totalYDelta < 0) {
+			this.offsetY = totalYDelta;
+			this.updateYBy(totalYDelta);
+		} else {
+			this.offsetY = 0;
+		}
 	}
 	
 	public MoveOnlyEnemy(Coder coder) {
 		super(coder);
+		this.xDelta = 1;
+		this.yDelta = 1;
 		this.offsetX = coder.decodeInt();
 		this.offsetY = coder.decodeInt();
 		this.totalXDelta = coder.decodeInt();
