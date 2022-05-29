@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+
 public class LevelOneCreator implements LevelCreator {	
 	public Level createLevel(Player p) {
 		Room testingRoom = this.createTestingRoom(p);
@@ -142,6 +144,7 @@ public class LevelOneCreator implements LevelCreator {
 		};
 		Room room = new Room(layout, p);
 		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 8, 6);
 		return room;
 	}
 	
@@ -164,8 +167,14 @@ public class LevelOneCreator implements LevelCreator {
 				"G|________________JG",
 		};
 		Room room = new Room(layout, p);
+
 		TrackingEnemy enemy = new TrackingEnemy(20, 9, 9, 0, 0);
 		room.placeEntity(enemy, 9, 9);
+
+//		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
+		ImageIcon icon = new ImageIcon("images/NPCDialogue1.png");
+		room.placeEntity(new NPCGuard(icon), 6, 6);
+
 		return room;
 	}
 	

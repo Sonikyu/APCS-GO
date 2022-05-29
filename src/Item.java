@@ -15,10 +15,10 @@ import restore.Coder;
 public class Item extends Entity {
 
 	public enum ItemType {
-		EMPTY, KEY, HEALPOT
+		EMPTY, KEY, HEALPOT, SPEEDPOT
     }
 
-	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png"};
+	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png"};
 	
 	private ItemType object;
 	

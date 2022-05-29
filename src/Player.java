@@ -43,6 +43,9 @@ public class Player extends Entity {
 	public boolean isAttacking;
 	private int lastFrameAttacking;
 	
+	private boolean speedUp = false;
+	private long spedUpFrame;
+	
 	
 	private PlayerDirection pD;
 
@@ -127,7 +130,7 @@ public class Player extends Entity {
 		return currentSlot;
 	}
 	
-	public void useItem() {
+	public void useItem(long frameCount) {
 		switch (inventory[currentSlot].getItemType()) {
 		case EMPTY:
 			break;
@@ -137,6 +140,10 @@ public class Player extends Entity {
 			inventory[currentSlot].setEmpty();
 			Debugger.main.print("The item slot is now empty");
 			break;
+		case SPEEDPOT:
+			speedUp = true;
+			spedUpFrame = frameCount;
+			inventory[currentSlot].setEmpty();
 		default:
 			break;
 		}
@@ -159,7 +166,7 @@ public class Player extends Entity {
 		}
 	}
 	
-	public void updateWeapon(int frameCount) {
+	public void updateWeapon(long frameCount) {
 		if (isAttacking) {
 			weapon.setPosition(this);
 			weapon.show();
@@ -189,8 +196,20 @@ public class Player extends Entity {
 		xDelta = 0;
 		yDelta = 0;
 		
+		
+		long frameCount = info.getFrameCount();
+		
+		if (speedUp) {
+			if (frameCount - spedUpFrame <= 200) {
+				PLAYER_SPEED = 2;
+			}
+			else {
+				speedUp = false;
+				PLAYER_SPEED = 1;
+			}
+		}
 		// Determine player costume (damaged or not)
-		if ((int) info.getFrameCount() - lastFrameAttacked < ANIMATION_TIME) {
+		if (frameCount - lastFrameAttacked < ANIMATION_TIME) {
 			this.setImageAtIndex(1);
 		}
 		else {
@@ -200,10 +219,10 @@ public class Player extends Entity {
 		final ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 		
 		// Update current inventory slot
-		inventoryUpdate(level, info.getKeysDown());
+		inventoryUpdate(level, info.getKeysDown(), frameCount);
 		
 		// Update player attack
-		updateWeapon((int) info.getFrameCount());
+		updateWeapon(frameCount);
 		weapon.cycle(level, info);
 		
 		// Player Attack & Check for collisions
@@ -214,7 +233,7 @@ public class Player extends Entity {
 			if (collidesWith(entity)) {				
 				if (entity.isOfType("DoorTile")) {
 					if (inventory[currentSlot].isOfType("Key")) {
-						useItem();
+						useItem(info.getFrameCount());
 						entity.setImageAtIndex(1);
 					}
 				}
@@ -316,9 +335,9 @@ public class Player extends Entity {
 		updateYBy(yDelta);
 	}
 	
-	public void inventoryUpdate(Level level, HashSet<Integer> keysDown) {
-		if (keysDown.contains(KeyEvent.VK_SPACE)) {
-			useItem();
+	public void inventoryUpdate(Level level, HashSet<Integer> keysDown, long frameCount) {
+		if (keysDown.contains(KeyEvent.VK_ENTER)) {
+			useItem(frameCount);
 		}
 		if (keysDown.contains(KeyEvent.VK_1)) {
 			currentSlot = 0;
@@ -353,7 +372,7 @@ public class Player extends Entity {
 		if (frameCount - lastFrameAttacking > ATTACK_DURATION) {
 			isAttacking = false;
 		}
-		if (keysDown.contains(KeyEvent.VK_X)) {
+		if (keysDown.contains(KeyEvent.VK_SPACE)) {
 			if (frameCount - lastFrameAttacking > ATTACK_COOLDOWN) {
 				isAttacking = true;
 				lastFrameAttacking = frameCount;

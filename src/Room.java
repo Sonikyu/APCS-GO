@@ -157,7 +157,7 @@ public class Room implements Encodable {
 		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
 		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
 			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.EMPTY)); // make item type empty when done testing
-			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
+			inventoryBar[i].setPosition(242 + i * inventoryBar[i].getWidth(), 565);
 		}
 	}
 	
