@@ -1,7 +1,40 @@
-public class LevelOneCreator implements LevelCreator {
-	public Room createTestingRoom(Player p) {
-		String[] layout = { //House png will be put left of the Spawn tile,
-				"P##################7",
+public class LevelOneCreator implements LevelCreator {	
+	public Level createLevel(Player p) {
+		Room testingRoom = this.createTestingRoom(p);
+		Room startingRoom = this.createStartingRoom(p);
+		Room keyRoom = this.createKeyRoom(p);
+		Room weaponRoom = this.createWeaponRoom(p);
+		Room potionRoom = this.createPotionRoom(p);
+		Room trackingEnemyRoom = this.createTrackingEnemyRoom(p);
+		Room goalRoom = this.createGoalRoom(p);
+
+		Room[][] rooms = {
+				{ null, 		keyRoom, 		null, 		null, 				null 		},
+				{ testingRoom, 	startingRoom, 	potionRoom,	trackingEnemyRoom,	goalRoom	},
+				{ null, 		weaponRoom, 	null,		null, 				null 		},
+		};
+		
+		// Auto find starting room
+		int row = 0;
+		int col = 0;
+		for (int i = 0; i < rooms.length; i++) {
+			for (int j = 0; j < rooms[0].length; j++) {
+				// Double equal works because we aren't checking for equality just the same class
+				if (rooms[i][j] == startingRoom) {
+					row = i;
+					col = j;
+					break;
+				}
+			}
+		}
+
+		Level level = new Level(rooms, row, col, p);
+		return level;
+	}		
+	
+	private Room createTestingRoom(Player p) {
+		String[] layout = { // for uday
+				"P------------------7",
 				"|                  |",
 				"|                  |",
 				"|                  |",
@@ -15,24 +48,24 @@ public class LevelOneCreator implements LevelCreator {
 				"|                  |",
 				"|                  |",
 				"|                  |",
-				"L##################J",
+				"L__________________J",
 		};
 		return new Room(layout, p);
 	}
 	
-	public Room createStartingRoom(Player p) {
+	private Room createStartingRoom(Player p) {
 		String[] layout = { //House png will be put left of the Spawn tile,
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
-				"#####J      L#######",
+				"-----J      L------7",
 				"                   |",
-				"#####7             |",
-				"GGGGG|   S         D",
+				"-----7             L",
+				"GGGGG|   S          ",
+				"GGGGG|             P",
 				"GGGGG|             |",
-				"GGGGG|             |",
-				"GGGGG|      P#######",
+				"GGGGG|      P------J",
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
@@ -40,23 +73,34 @@ public class LevelOneCreator implements LevelCreator {
 		};
 		return new Room(layout, p);
 	}
+	
+	
+	private Room createKeyRoom(Player p) {
+		String[] layout = { 
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGP------------7GGGG",
+				"GG|            |GGGG",
+				"GG|            |GGGG",
+				"GG|            |GGGG",
+				"GGL--7      P--JGGGG",
+				"GGGGG|      |GGGGGGG",
+				"GGGGG|      |GGGGGGG",
+				"GGGGG|      |GGGGGGG",
+				"GGGGG|      |GGGGGGG",
+				"GGGGG|      |GGGGGGG",
+		};
+		Room room = new Room(layout, p);
+		room.placeEntity(new Item(Item.ItemType.KEY), 7, 9);
+		return room;
+	}
+	
 
-	public Level createLevel(Player p) {
-		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
-		TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3);
-
-		DoorSwitch switch1 = new DoorSwitch();
-		DoorSwitch switch2 = new DoorSwitch();
-		StaticEntity sta = new StaticEntity(); // testing code for wall don't remove yet
-		DoorSwitch switch3 = new DoorSwitch();
-		DoorSwitch[] switches = {switch1, switch2, switch3};
-
-		int[] combination = {1,1,1};
-		SwitchDoor eDoor1= new SwitchDoor(combination, switches);
-
-
-
-		String[] weaponRoomLayout = { //House png will be put left of the Spawn tile,
+	private Room createWeaponRoom(Player p) {
+		String[] layout = {
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
@@ -67,100 +111,82 @@ public class LevelOneCreator implements LevelCreator {
 				"GG|            |GGGG",
 				"GG|            |GGGG",
 				"GG|            |GGGG",
-				"GGL############JGGGG",
+				"GGL____________JGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 		};
-
-		String[] keyRoomLayout = { //House png will be put left of the Spawn tile,
+		Room room = new Room(layout, p);
+		// add faux weapon "item"
+		return room;
+	}
+	
+	private Room createPotionRoom(Player p) {
+		String[] layout = { 
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
-				"GGGGGGGGGGGGGGGGGGGG",
-				"GGP############7GGGG",
-				"GG|            |GGGG",
-				"GG|            |GGGG",
-				"GG|            |GGGG",
-				"GGL##7      P##JGGGG",
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-		};
-
-		String[] potionRoomLayout = { 
-				"GGGGGGGGGGGGGGGGGGGG",
-				"GGGGGGGGGGGGGGGGGGGG",
-				"GGGGGGGGGGGGGGGGGGGG",
-				"GGGGGGGGGGGGGGGGGGGG",
-				"####################",
+				"P-------------------",
+				"|                   ",
+				"J                   ",
 				"                    ",
-				"                    ",
-				"                    ",
-				"                    ",
-				"                    ",
-				"####################",
+				"7                   ",
+				"|                   ",
+				"L-------------------",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 		};
-
-		String[] trackingEnemyRoomLayout = { 
+		Room room = new Room(layout, p);
+		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
+		return room;
+	}
+	
+	private Room createTrackingEnemyRoom(Player p) {
+		String[] layout = { 
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
-				"####################",
+				"--------------------",
 				"                    ",
 				"                    ",
-				"     P########7     ",
-				"     #        #     ",
-				"     #        #     ",
-				"#7   #        #   P#",
-				"G#   L########J   #G",
-				"G#                #G",
-				"G#                #G",
-				"G##################G",
+				"     P--------7     ",
+				"     |GGGGGGGG|     ",
+				"     |GGGGGGGG|     ",
+				"#7   |GGGGGGGG|   P#",
+				"G|   L--------J   |G",
+				"G|                |G",
+				"G|                |G",
+				"G|________________JG",
 		};
-
-
-
-
-
-		//Init Rooms
-		Room startingRoom = this.createStartingRoom(p);
-		Room weaponRoom = new Room(weaponRoomLayout, p);
-		Room potionRoom = new Room(potionRoomLayout, p);
-		Room trackingEnemyRoom = new Room(trackingEnemyRoomLayout, p);
-		Room keyRoom = new Room(keyRoomLayout, p);
-
-		//Make and Place Entities
-
-		//Potion Room, Wall of Enemies, Wall of Potions
-		//Tracking Enemy Room, Tracking Enemy in box
-		//potionRoom.placeEntity(potion1, row, col);
-
-		//Make Level
-
-		Room[][] rooms = {{ null, keyRoom, null, null, null},
-				{ createTestingRoom(p), startingRoom, potionRoom, trackingEnemyRoom/*, goal*/} ,
-				{ null, weaponRoom, null, null, null},
-				{ }};
-
-
-
-
-		Item healPot1 = new Item(Item.ItemType.HEALPOT);
-		healPot1.setPosition(260, 200);
-		potionRoom.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
-		keyRoom.placeEntity(new Item(Item.ItemType.KEY), 7, 9);
-
-		Level level = new Level(rooms, 1, 1, p);
-		return level;
-	}		
+		Room room = new Room(layout, p);
+		//TrackingEnemy enemy = new TrackingEnemy();
+		//room.addEntity(enemy);
+		return room;
+	}
+	
+	private Room createGoalRoom(Player p) {
+		String[] layout = { 
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"----------7GGGGGGGGG",
+				"  |       |GGGGGGGGG",
+				"  |   |   |GGGGGGGGG",
+				"  |   |   |GGGGGGGGG",
+				"  |   | + |GGGGGGGGG",
+				"      |   |GGGGGGGGG",
+				"----------JGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+		};
+		return new Room(layout, p);
+	}
 }

@@ -198,16 +198,6 @@ public class Player extends Entity {
 		}
 		
 		final ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
-
-		// Move with arrow keys
-		moveOnKeysHorizontal(level, info.getKeysDown(), info.getSize());
-		if (shouldRevertMovement(visibleEntities)) {
-			revertLastMovement();
-		}
-		moveOnKeysVertical(level, info.getKeysDown(), info.getSize());
-		if (shouldRevertMovement(visibleEntities)) {
-			revertLastMovement();
-		}
 		
 		// Update current inventory slot
 		inventoryUpdate(level, info.getKeysDown());
@@ -238,6 +228,16 @@ public class Player extends Entity {
 					info.endGame();
 				}
 			}
+		}
+		
+		// Move with arrow keys
+		moveOnKeysHorizontal(level, info.getKeysDown(), info.getSize());
+		if (shouldRevertMovement(visibleEntities)) {
+			revertLastHorizontalMovement();
+		}
+		moveOnKeysVertical(level, info.getKeysDown(), info.getSize());
+		if (shouldRevertMovement(visibleEntities)) {
+			revertLastVerticalMovement();
 		}
 	}
 	
@@ -368,10 +368,13 @@ public class Player extends Entity {
 	/**
 	 * Reverts the last movement made by the player
 	 */
-	private void revertLastMovement() {
+	private void revertLastHorizontalMovement() {
 		xDelta *= -1;
-		yDelta *= -1;
 		updateXBy(xDelta);
+	}
+	
+	private void revertLastVerticalMovement() {
+		yDelta *= -1;
 		updateYBy(yDelta);
 	}
 }

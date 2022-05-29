@@ -93,9 +93,10 @@ public class Room implements Encodable {
 					break;
 				case 'S':
 					this.tiles[i][j] = new Tile(Tile.Material.START);
-//					Debugger.main.print("Player placed at " + (j * Tile.WIDTH) + "," + (i * Tile.HEIGHT));
 					break;
 				case '#':
+				case '-':
+				case '_':
 					this.tiles[i][j] = new Tile(Tile.Material.WALL);
 					tiles[i][j].setImageAtIndex(0);
 					break;
