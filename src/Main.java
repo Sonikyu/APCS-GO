@@ -62,32 +62,32 @@ public class Main {
 					SwitchDoor eDoor1= new SwitchDoor(combination, switches);
 					
 					String[] startingRoom = { //House png will be put left of the Spawn tile,
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      L#######",
-						"GGG  |             |",
-						"GGG  |             |",
-						"GGG  |   S         D",
-						"GGG  |             |",
-						"GGG  |             |",
-						"GGG  |      P#######",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      L#######",
+						"GGGGG|             |",
+						"GGGGG|             |",
+						"GGGGG|   S         D",
+						"GGGGG|             |",
+						"GGGGG|             |",
+						"GGGGG|      P#######",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
 					};
 					
-					String[] xD = { //House png will be put left of the Spawn tile,
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GGG  |      |GGGGGGG",
-						"GG###J      L###GGGG",
+					String[] weaponRoom = { //House png will be put left of the Spawn tile,
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGP##J      L##7GGGG",
 						"GG|            |GGGG",
-						"GG|            |GGGG",
+						"GG|      +     |GGGG",
 						"GG|            |GGGG",
 						"GG|            |GGGG",
 						"GGL############JGGGG",
@@ -97,53 +97,19 @@ public class Main {
 						"GGGGGGGGGGGGGGGGGGGG",
 					};
 					
-					String[] room1Layout = {
-						"P###################",
-						"|                   ",
-						"| S                 ",
-						"|                   ",
-						"|                   ",
-						"|                   ",
-						"|              #####",
-						"|                   ",
-						"|  +                ",
-						"|                   ",
-						"|                   ",
-						"|                   ",
-						"|                   ",
-						"|                   ",
-						"L###################"
-					};
-					String[] room2Layout = {
-							"###################7",
-							"                   |",
-							"                   |",
-							"                   |",
-							"                   |",
-							"                   |",
-							"              #####|",
-							"                   |",
-							"                   |",
-							"                   |",
-							"                   |",
-							"                   |",
-							"                   |",
-							"                   |",
-							"###################J"
-						};
-					Room room1 = new Room(room1Layout, p);
-					Room room2 = new Room(room2Layout, p);
-					room1.placeEntity(enemy1, 16, 1);
-					room1.placeEntity(enemy2, 10, 13);
-					room2.placeEntity(switch1, 18, 1);
-					room2.placeEntity(switch2, 18, 13);
-					room2.placeEntity(switch3, 5, 5);
-					room2.placeEntity(eDoor1, 2, 2);
-					room2.placeEntity(sta, 7, 9);
-					
+
+
+					//Init Rooms
+
 					Room roomStart = new Room(startingRoom, p);
-					Room intro = new Room(xD, p);
-					Room[][] rooms = {{ roomStart, room2} ,
+					Room intro = new Room(weaponRoom, p);
+
+					//Make and Place Entities
+
+					
+					//Make Level
+					
+					Room[][] rooms = {{ roomStart, null} ,
 									  { intro, null}};
 					
 					
@@ -153,9 +119,8 @@ public class Main {
 					Item healPot1 = new Item(Item.ItemType.HEALPOT);
 					key1.setPosition(200, 200);
 					healPot1.setPosition(260, 200);
-					room1.addEntity(key1);
-					room1.addEntity(healPot1);
-					
+
+					roomStart.setPlayerPosition();
 					Level level = new Level(rooms, 0, 0, p);
 					return level;
 				}		
@@ -178,21 +143,21 @@ public class Main {
 
 
 					String[] room1Layout = {
-						"P###################",
-						"|                   ",
-						"| S                 ",
-						"|                   ",
-						"|                   ",
-						"|                   ",
-						"|              #####",
-						"|                   ",
-						"|  +                ",
-						"|                   ",
-						"|                   ",
-						"|                   ",
-						"|                   ",
-						"|##                 ",
-						"L###################"
+							"P###################",
+							"|                   ",
+							"|  S                ",
+							"|                   ",
+							"|                   ",
+							"|                   ",
+							"|              #####",
+							"|                   ",
+							"|  +                ",
+							"|                   ",
+							"|                   ",
+							"|                   ",
+							"|                   ",
+							"|##                 ",
+							"L###################"
 					};
 					String[] room2Layout = {
 							"###################7",
@@ -232,8 +197,10 @@ public class Main {
 					healPot1.setPosition(260, 200);
 					room1.addEntity(key1);
 					room1.addEntity(healPot1);
-					
+
+					room1.setPlayerPosition();
 					Level level = new Level(rooms, 0, 0, p);
+					
 					return level;
 				}		
 			}
