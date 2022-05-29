@@ -26,6 +26,8 @@ public class Game implements Encodable {
 	private GameInfo info;
 	private Level[] levels;
 	private int currLevel;
+	private StartScreen screen;
+	private boolean hasStarted;
 	
 	public Game(Dimension size, LevelCreator[] levels) {
 		this.levelCreators = levels;
@@ -35,6 +37,9 @@ public class Game implements Encodable {
 			this.levels[i] = levels[i].createLevel();
 		}
 		currLevel = 0;
+		hasStarted = false;
+		screen = new StartScreen();
+		screen.setPosition(0, 0);
 		initialDebug();
 	}
 	
@@ -93,13 +98,23 @@ public class Game implements Encodable {
 	}
 	
 	public void paint(Graphics2D g) {	
-		levels[currLevel].paint(g);
+		if (hasStarted) {
+			levels[currLevel].paint(g);
+		}
+		else {
+			screen.paint(g);
+		}
+		
 	}
 	
 	public void cycle() {
-
-		levels[currLevel].cycle(info);
-		info.frameCount++;
+		if (hasStarted) {
+			levels[currLevel].cycle(info);
+			info.frameCount++;
+		}
+		else {
+			screen.cycle(null, info);
+		}
 		//debugger.print("Game Loop");
 	}
 	
@@ -166,6 +181,9 @@ public class Game implements Encodable {
 			return frameCount;
 		}
 		
+		public void startGame() {
+			hasStarted = true;
+		}
 		
 	}
 }
