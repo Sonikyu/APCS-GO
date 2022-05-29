@@ -96,8 +96,26 @@ public class Main {
 						"GGGGGGGGGGGGGGGGGGGG",
 						"GGGGGGGGGGGGGGGGGGGG",
 					};
+
+					String[] KeyRoomLayout = { //House png will be put left of the Spawn tile,
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGP############7GGGG",
+						"GG|            |GGGG",
+						"GG|            |GGGG",
+						"GG|            |GGGG",
+						"GGL##7      P##JGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+						"GGGGG|      |GGGGGGG",
+					};
 					
-					String[] potionRoomLayout = { //House png will be put left of the Spawn tile,
+					String[] potionRoomLayout = { 
 						"GGGGGGGGGGGGGGGGGGGG",
 						"GGGGGGGGGGGGGGGGGGGG",
 						"GGGGGGGGGGGGGGGGGGGG",
@@ -114,6 +132,25 @@ public class Main {
 						"GGGGGGGGGGGGGGGGGGGG",
 						"GGGGGGGGGGGGGGGGGGGG",
 					};
+
+					String[] trackingEnemyRoomLayout = { 
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"GGGGGGGGGGGGGGGGGGGG",
+						"####################",
+						"                    ",
+						"                    ",
+						"     P########7     ",
+						"     #        #     ",
+						"     #        #     ",
+						"#7   #        #   P#",
+						"G#   L########J   #G",
+						"G#                #G",
+						"G#                #G",
+						"G##################G",
+					};
+					
 					
 					
 
@@ -123,15 +160,19 @@ public class Main {
 					Room startingRoom = new Room(startingRoomLayout, p);
 					Room weaponRoom = new Room(weaponRoomLayout, p);
 					Room potionRoom = new Room(potionRoomLayout, p);
+					Room trackingEnemyRoom = new Room(trackingEnemyRoomLayout, p);
 
 					//Make and Place Entities
 
-					
+					//Potion Room, Wall of Enemies, Wall of Potions
+					//Tracking Enemy Room, Tracking Enemy in box
+					Item potion1 = new Item(Item.ItemType.HEALPOT);
+					//potionRoom.placeEntity(potion1, row, col);
+
 					//Make Level
 					
 					Room[][] rooms = {{ null, null, null, null},
-								//	  { startingRoom, potionRoom, trackingEnemyRoom, goal} ,
-									  { startingRoom, potionRoom, null, null} ,
+									  { startingRoom, potionRoom, trackingEnemyRoom, goal} ,
 									  { weaponRoom, null, null, null},
 									  { }};
 					

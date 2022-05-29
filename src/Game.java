@@ -26,19 +26,23 @@ public class Game implements Encodable {
 	private GameInfo info;
 	private Level[] levels;
 	private int currLevel;
-	private StartScreen screen;
-	private boolean hasStarted;
+	private StartScreen startScreen;
+	private EndScreen endScreen;
+	
+	private GameState state;
+
+	private enum GameState {
+		START_GAME, IN_GAME, END_GAME;
+	}
 	
 	public Game(Dimension size, LevelCreator[] levels) {
 		this.levelCreators = levels;
 		this.info = new GameInfo(size, this);
 		this.levels = new Level[levels.length];
 		currLevel = 0;
-		this.levels[currLevel] = levels[currLevel].createLevel();
-		
-		hasStarted = false;
-		screen = new StartScreen();
-		screen.setPosition(0, 0);
+		state = GameState.START_GAME;
+		startScreen = new StartScreen();
+		endScreen = new EndScreen();
 		initialDebug();
 	}
 	
@@ -99,22 +103,27 @@ public class Game implements Encodable {
 	}
 	
 	public void paint(Graphics2D g) {	
-		if (hasStarted) {
+		if (state == GameState.IN_GAME) {
 			levels[currLevel].paint(g);
 		}
-		else {
-			screen.paint(g);
+		else if (state ==  GameState.START_GAME) {
+			startScreen.paint(g);
 		}
-		
+		else {
+			endScreen.paint(g);
+		}
 	}
 	
 	public void cycle() {
-		if (hasStarted) {
+		if (state == GameState.IN_GAME) {
 			levels[currLevel].cycle(info);
 			info.frameCount++;
 		}
+		else if (state ==  GameState.START_GAME) {
+			startScreen.cycle(null,info);
+		}
 		else {
-			screen.cycle(null, info);
+			endScreen.cycle(null,info);
 		}
 		//debugger.print("Game Loop");
 	}
@@ -183,7 +192,11 @@ public class Game implements Encodable {
 		}
 		
 		public void startGame() {
-			hasStarted = true;
+			state = GameState.IN_GAME;
+		}
+		
+		public void endGame() {
+			state = GameState.END_GAME;
 		}
 		
 	}
