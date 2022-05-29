@@ -21,21 +21,25 @@ public class Game implements Encodable {
 	public static final int VER_MAJ = 0;
 	public static final int VER_BREAK = 1;
 	
-	private LevelCreator[] levelCreators;
 	private int verBreak = VER_BREAK;
 	private GameInfo info;
+	private GameState state;
+
+	private Player player;
+	private LevelCreator[] levelCreators;
 	private Level[] levels;
 	private int currLevel;
+	
 	private StartScreen startScreen;
 	private EndScreen endScreen;
 	
-	private GameState state;
 
 	private enum GameState {
 		START_GAME, IN_GAME, END_GAME;
 	}
 	
-	public Game(Dimension size, LevelCreator[] levels) {
+	public Game(Dimension size, Player p, LevelCreator[] levels) {
+		this.player = p;
 		this.levelCreators = levels;
 		this.info = new GameInfo(size, this);
 		this.levels = new Level[levels.length];
@@ -43,6 +47,8 @@ public class Game implements Encodable {
 		state = GameState.START_GAME;
 		startScreen = new StartScreen();
 		endScreen = new EndScreen();
+		
+		this.levels[currLevel] = levelCreators[currLevel].createLevel(p);
 		initialDebug();
 	}
 	
@@ -88,7 +94,7 @@ public class Game implements Encodable {
 	}
 	
 	public void resetLevel(int levIndex) {
-		levels[levIndex] = levelCreators[levIndex].createLevel();
+		levels[levIndex] = levelCreators[levIndex].createLevel(player);
 	}
 	
 	public void restartLevel() {
@@ -98,7 +104,7 @@ public class Game implements Encodable {
 	public void nextLevel() {
 		currLevel++;
 
-		levels[currLevel] = levelCreators[currLevel].createLevel();
+		levels[currLevel] = levelCreators[currLevel].createLevel(player);
 		levels[currLevel].getCurrentRoom().setPlayerPosition(); // HACKY
 	}
 	
@@ -196,6 +202,7 @@ public class Game implements Encodable {
 		}
 		
 		public void endGame() {
+			System.err.println("endGame");
 			state = GameState.END_GAME;
 		}
 		

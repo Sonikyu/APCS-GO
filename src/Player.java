@@ -190,9 +190,6 @@ public class Player extends Entity {
 		yDelta = 0;
 		
 		// Determine player costume (damaged or not)
-		
-		
-		
 		if ((int) info.getFrameCount() - lastFrameAttacked < ANIMATION_TIME) {
 			this.setImageAtIndex(1);
 		}
@@ -200,8 +197,17 @@ public class Player extends Entity {
 			this.setImageAtIndex(0);
 		}
 		
+		final ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
+
 		// Move with arrow keys
-		moveOnKeys(level, info.getKeysDown(), info.getSize());
+		moveOnKeysHorizontal(level, info.getKeysDown(), info.getSize());
+		if (shouldRevertMovement(visibleEntities)) {
+			revertLastMovement();
+		}
+		moveOnKeysVertical(level, info.getKeysDown(), info.getSize());
+		if (shouldRevertMovement(visibleEntities)) {
+			revertLastMovement();
+		}
 		
 		// Update current inventory slot
 		inventoryUpdate(level, info.getKeysDown());
@@ -213,24 +219,14 @@ public class Player extends Entity {
 		// Player Attack & Check for collisions
 		playerAttack(level, info.getKeysDown(), (int) info.getFrameCount());
 		if (isDead()) info.restartLevel(); 
-		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
-			if (collidesWith(entity)) {
-				//Debugger.main.print(this + " collided with " + entity);
-				
-				// TODO: Replace with the static variables
-				if (entity.isOfType("WallTile")) {
-					revertLastMovement();
-				} else if (entity.isOfType(SwitchDoor.TYPE) && !((SwitchDoor)entity).isOpen()) {
-					revertLastMovement();
-				}
-				else if (entity.isOfType("DoorTile")) {
+			if (collidesWith(entity)) {				
+				if (entity.isOfType("DoorTile")) {
 					if (inventory[currentSlot].isOfType("Key")) {
 						useItem();
 						entity.setImageAtIndex(1);
 					}
-					revertLastMovement();
 				}
 				else if (entity.isOfType("LevelUpTile")) {
 					for (int j = 0; j < inventory.length; j++) {
@@ -243,6 +239,24 @@ public class Player extends Entity {
 				}
 			}
 		}
+	}
+	
+	boolean shouldRevertMovement(ArrayList<Entity> visibleEntities) {
+		for (int i = 0; i < visibleEntities.size(); i++) {
+			Entity entity = visibleEntities.get(i);
+			if (collidesWith(entity)) {				
+				// TODO: Replace with the static variables
+				if (entity.isOfType("WallTile")) {
+					return true;
+				} else if (entity.isOfType(SwitchDoor.TYPE) && !((SwitchDoor)entity).isOpen()) {
+					return true;
+				}
+				else if (entity.isOfType("DoorTile")) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	@Override
@@ -260,8 +274,28 @@ public class Player extends Entity {
 			Debugger.main.print(getID() + " took " + change + " damage points" + ", now at " + getHealth());
 		}
 	}
+		
+	private void moveOnKeysHorizontal(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
+		if (keysDown.contains(KeyEvent.VK_LEFT)) {
+			xDelta -= Player.PLAYER_SPEED;
+			this.pD = PlayerDirection.WEST;
+			if (!this.isOnScreen(windowSize) && getX() < 0) {
+				this.setPosition((int) windowSize.getWidth(), getY());
+				level.moveRoomLeft();
+			}
+		}
+		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
+			xDelta += Player.PLAYER_SPEED;
+			this.pD = PlayerDirection.EAST;
+			if (!this.isOnScreen(windowSize) && getX() + getWidth() > windowSize.getWidth()) {
+				this.setPosition(-getWidth(), getY());
+				level.moveRoomRight();
+			}
+		}
+		updateXBy(xDelta);
+	}
 	
-	private void moveOnKeys(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
+	private void moveOnKeysVertical(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
 			yDelta -= Player.PLAYER_SPEED;
 			this.pD = PlayerDirection.NORTH;
@@ -279,25 +313,6 @@ public class Player extends Entity {
 				level.moveRoomDown();
 			}
 		}
-		if (keysDown.contains(KeyEvent.VK_LEFT)) {
-			xDelta -= Player.PLAYER_SPEED;
-			this.pD = PlayerDirection.WEST;
-			if (!this.isOnScreen(windowSize) && getX() < 0) {
-				this.setPosition((int) windowSize.getWidth(), getY());
-				level.moveRoomLeft();
-			}
-		}
-		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
-			xDelta += Player.PLAYER_SPEED;
-			this.pD = PlayerDirection.EAST;
-			if (!this.isOnScreen(windowSize) && getX() + getWidth() > windowSize.getWidth()) {
-				this.setPosition(-getWidth(), getY());
-				level.moveRoomRight();
-			}
-		}
-		
-		
-		updateXBy(xDelta);
 		updateYBy(yDelta);
 	}
 	

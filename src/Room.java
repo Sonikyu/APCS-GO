@@ -25,8 +25,7 @@ public class Room implements Encodable {
 		this.player = player;
 		setUpHealthAndInventory();
 		tileInit(roomString);
-
-		Debugger.main.print("Banana");
+		setPlayerPosition();
 	}
 	
 	public Room(ArrayList<Entity> entities, Tile[][] tiles, Player player) {
@@ -54,7 +53,7 @@ public class Room implements Encodable {
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
 		setUpHealthAndInventory();
-
+		setPlayerPosition();
 	}
 	
 	public Room(Coder coder) {
@@ -311,7 +310,7 @@ public class Room implements Encodable {
 	}
 	
 	public void placeEntity(Entity entity, int row, int col) {
-		entity.setPosition(row * Tile.HEIGHT, col * Tile.WIDTH);
+		entity.setPosition(col * Tile.WIDTH, row * Tile.HEIGHT);
 		addEntity(entity);
 	}
 	

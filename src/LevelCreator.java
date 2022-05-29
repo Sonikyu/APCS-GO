@@ -1,5 +1,3 @@
-
 public interface LevelCreator {
-	Level createLevel();
-	
+	Level createLevel(Player p);
 }

@@ -13,11 +13,12 @@ public class Audio extends Thread{
    public static final Audio main = new Audio();
    private String root ;
    public Audio(){
-      File file = new File("Audio.java");
-      String path = file.getAbsolutePath();
+//      File file = new File("Audio.java");
+//      String path = file.getAbsolutePath();
       SoundList = new ArrayList<String>();         
-      //Use root as the base string for all the sounds
-      root = path.substring(0, path.length()-10) + "\\sounds\\";
+//      //Use root as the base string for all the sounds
+//      root = path.substring(0, path.length()-10) + "\\sounds\\";
+	  root = "sounds/";
       SoundList.add("Angry Birds Theme Song.wav");
    }
    
