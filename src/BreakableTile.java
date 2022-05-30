@@ -8,7 +8,6 @@ public class BreakableTile extends Entity implements Encodable{
 	
 	public BreakableTile(int health) {
 		super(TYPE, health, IMAGE_FILES);
-		Debugger.main.print("BreakableTile Created");
 	}
 	
 	public BreakableTile(Coder coder) {
