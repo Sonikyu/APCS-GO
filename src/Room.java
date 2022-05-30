@@ -16,6 +16,9 @@ import java.util.ArrayList;
 //Add your name here if you work on this class:
 /** @author Johnny, Ethan */ 
 
+/**
+ * Represents a single room in a level. Contains a 2D-array of tiles.
+ */
 public class Room implements Encodable {
 	
 	public static int HEIGHT = 15;

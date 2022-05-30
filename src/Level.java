@@ -14,6 +14,9 @@ import java.awt.Graphics2D;
 import restore.Coder;
 import restore.Encodable;
 
+/**
+ * Represents a single level in the game. Contains a 2D-array of rooms, some of which may be null.
+ */
 public class Level implements Encodable {
 
 	private Room[][] map;
