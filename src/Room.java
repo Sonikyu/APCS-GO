@@ -89,7 +89,7 @@ public class Room implements Encodable {
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
 					break;
 				case 'D':
-					this.tiles[i][j] = new Tile(Tile.Material.DOOR);
+					this.tiles[i][j] = new DoorTile();
 					break;
 				case 'S':
 					this.tiles[i][j] = new Tile(Tile.Material.START);

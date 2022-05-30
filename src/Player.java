@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
-
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
@@ -248,15 +247,12 @@ public class Player extends Entity {
 					hasKey = true;
 				}
 				if(hasKey && distance < 50){
-					System.out.print("Collided with Door with Key");
-					Tile t = (Tile) entity;
-					if(!t.getOpen()){
-						System.out.print("trying to open");
+					DoorTile t = (DoorTile) entity;
+					if(!t.isOpen()){
 						useItem(info.getFrameCount());
 						entity.setImageAtIndex(1);
 						t.setOpen(true);
-						t.changeMaterial(Tile.Material.FLOOR);
-						t.setImageAtIndex(1);	
+						t.setImageAtIndex(1);
 					}
 				}
 			}
@@ -290,6 +286,12 @@ public class Player extends Entity {
 			Entity entity = visibleEntities.get(i);
 			if (collidesWith(entity)) {				
 				// TODO: Replace with the static variables
+				if (entity.isOfType("DoorTile")){
+					DoorTile t = (DoorTile) entity;
+					if(t.isOpen()){
+					return false;
+					}
+				}
 				if (entity.isOfType(Tile.WALL_TYPES)) {
 					return true;
 				}

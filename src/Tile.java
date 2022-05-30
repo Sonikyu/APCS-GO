@@ -13,7 +13,6 @@ import restore.Coder;
 import java.util.ArrayList;
 
 public class Tile extends Entity {
-    private boolean open;
     public enum Material {
         WALL, FLOOR, DOOR, START, GOAL, LEVEL_UP, GRASS
     }
@@ -26,7 +25,7 @@ public class Tile extends Entity {
     public static final int HEIGHT = 40;
     public static final int WIDTH = 40;
     
-    private Material material;
+    private final Material material;
     
     public Material getMaterial() {
     	return material;
@@ -35,29 +34,15 @@ public class Tile extends Entity {
     public Tile(Material material){
         super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);
         this.material = material;
-        if(material == Material.DOOR){
-            open = false;
-        }
     }
     
     public Tile(Coder coder) {
     	super(coder);
+        material = Material.FLOOR;
     }
     
     public void encode(Coder coder) {
     	super.encode(coder);
-    }
-
-    public boolean getOpen(){
-        return open;
-    }
-
-    public void setOpen(boolean bool){
-        open = bool;
-    }
-
-    public void changeMaterial(Material material){
-        this.material = material;
     }
 
     @Override
