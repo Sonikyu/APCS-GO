@@ -210,7 +210,6 @@ public class Game implements Encodable {
 	 * The game information.
 	 */
 	public class GameInfo {
-		
 		private Dimension size;
 		private HashSet<Integer> keysDown;
 		private Long frameCount;
