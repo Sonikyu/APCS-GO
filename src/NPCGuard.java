@@ -17,10 +17,10 @@ import java.awt.event.KeyEvent;
 //Add your name here if you work on this class:
 /** @author Uday */ 
 
-public class NPCGuard extends Entity{
+public class NPCGuard extends Entity {
 	public static String TYPE = "NPCGuard";
 	private static int MAX_HEALTH = 100000;
-	private static String IMAGE_FILE = "ParthInThePark.png";
+	private static String IMAGE_FILE = "HelpfulNPC.png";
 	
 	private int range = 75;
 	ImageIcon image;
