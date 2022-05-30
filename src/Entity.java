@@ -16,18 +16,47 @@ import java.awt.Graphics2D;
 //
 // Add your name here if you work on this class:
 /** @author Ethan Johnny */ 
+/**
+ * A class that represents a drawable object with behavior.
+ */
 public abstract class Entity implements ImageObserver, Encodable {
+	/**
+	 * A unique ID associated with the entity.
+	 */
 	private final String id;
+	/**
+	 * The type of entity it is.
+	 */
 	private String type;
+	/**
+	 * The health of the entity.
+	 */
 	private int health;
+	/**
+	 * The maximum health possible that the entity can have.
+	 */
 	private final int maxHealth;
+	/**
+	 * The position of the entity.
+	 */
 	private int x, y;
+	/**
+	 * The names of the entity costumes.
+	 */
 	private String[] imageNames;
+	/**
+	 * The entity costumes.
+	 */
 	private Image[] images;
 	private int currentImage;
 	private Dimension size;
 	private boolean visible;
 	
+	/**
+	 * A hack to make the constructor work.
+	 * @param str
+	 * @return
+	 */
 	private static String[] singleArray(String str) {
 		String[] strs = {str};
 		return strs;
@@ -61,6 +90,7 @@ public abstract class Entity implements ImageObserver, Encodable {
 		this.images = new Image[imageNames.length];
 		this.currentImage = 0;
 		for (int i = 0; i < imageNames.length; i++) {
+			imageNames[i] = "Wall2.png";
 			this.images[i] = new ImageIcon("images/" + imageNames[i]).getImage();
 		}
 		
@@ -188,6 +218,9 @@ public abstract class Entity implements ImageObserver, Encodable {
 		return getHealth() == 0;
 	}
 	
+	/**
+	 * Called when the entity dies. Subclasses can override.
+	 */
 	public void whenDead() {
 		
 	}
@@ -384,7 +417,7 @@ public abstract class Entity implements ImageObserver, Encodable {
 		
 			
 	/**
-	 * Whether the entity collides with another.
+	 * Whether the entity collides with another. This uses rectangle-rectangle collisions, assuming that all entities are rectangles.
 	 * @param otherEntity The entity to check collision with.
 	 * @return Whether the entity is colliding with the other entity.
 	 */
