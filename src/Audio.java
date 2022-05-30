@@ -20,27 +20,44 @@ public class Audio extends Thread{
    private ArrayList<String> SoundList ;
    public static final Audio main = new Audio();
    private String root ;
+   public Clip c;
    public Audio(){
-//      File file = new File("Audio.java");
-//      String path = file.getAbsolutePath();
+
       SoundList = new ArrayList<String>();         
+<<<<<<< Updated upstream
 //      //Use root as the base string for all the sounds
 //      root = path.substring(0, path.length()-10) + "\\sounds\\";
 	  root = "sounds/";
       SoundList.add("Angry Birds Theme Song.wav");
+=======
+
+	   root = "sounds/";
+      
+      //Add Sounds
+      SoundList.add("Null.wav");
+      SoundList.add("LevelTheme.wav");
+      SoundList.add("BossTheme.wav");
+      SoundList.add("TitleTheme.wav");
+
+      SoundList.add("DoorOpen.wav");
+      SoundList.add("ItemObtained.wav");
+      SoundList.add("ItemUsed.wav");
+      SoundList.add("PlayerAttack.wav"); 
+      SoundList.add("PlayerDamaged.wav");
+
+      curr = 0;
+>>>>>>> Stashed changes
    }
    
-   public void playSound(int x){
+   public void setAudio(int x){
       if(x < SoundList.size()){
          File sound = new File(root + SoundList.get(x));
+         curr = x;
          try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(sound);
-            Clip c = AudioSystem.getClip();
-            c.open(ais); //Clip opens AudioInputStream
-            c.start(); //Start playing audio
-			System.out.println("Playing : " + SoundList.get(x));
-            //sleep thread for length of the song
-            Thread.sleep((int)(c.getMicrosecondLength() * 0.001));
+            c = AudioSystem.getClip();
+            c.open(ais);
+            
          } 
          catch (Exception e) {
             System.out.println(e.getMessage());
@@ -48,12 +65,36 @@ public class Audio extends Thread{
       }
 
    }
+<<<<<<< Updated upstream
      
 
    public void run(){
       //TODO fill with 
 	   main.playSound(0);
 	   
+=======
+
+   public void playAudio(){
+      c.start(); //Start playing audio
+		System.out.println("Audio Playing : " + SoundList.get(curr));
+      //sleep thread for length of the song
+      //Thread.sleep((int)(c.getMicrosecondLength() * 0.001));
+   }
+
+   public void loopAudio(){
+      c.loop(Clip.LOOP_CONTINUOUSLY);
+   }
+
+   public void stopAudio(){
+      System.out.println("Audio stopped :" + SoundList.get(curr));
+      c.stop();
+   }
+     
+
+   public void run(int i){
+	      main.setAudio(i);
+         main.playAudio();	   
+>>>>>>> Stashed changes
 
    }
 
