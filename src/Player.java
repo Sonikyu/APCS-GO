@@ -27,7 +27,7 @@ public class Player extends Entity {
 	private int xDelta;
 	private int yDelta;
 	
-	private int lastFrameAttacked;
+	private long lastFrameAttacked;
 	
 	//time for player to cycle through animation
 	private static final int ANIMATION_TIME = 100;
@@ -41,7 +41,7 @@ public class Player extends Entity {
 	private int attackDamage = 30;
 	
 	public boolean isAttacking;
-	private int lastFrameAttacking;
+	private long lastFrameAttacking;
 	
 	private boolean speedUp = false;
 	private long spedUpFrame;
@@ -226,7 +226,7 @@ public class Player extends Entity {
 		weapon.cycle(level, info);
 		
 		// Player Attack & Check for collisions
-		playerAttack(level, info.getKeysDown(), (int) info.getFrameCount());
+		playerAttack(level, info.getKeysDown(), info.getFrameCount());
 		if (isDead()) info.restartLevel(); 
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
@@ -318,8 +318,7 @@ public class Player extends Entity {
 			this.pD = PlayerDirection.NORTH;
 			if (!this.isOnScreen(windowSize) && getY() < 0) {
 				this.setPosition(getX(), (int) windowSize.getHeight());
-				level.moveRoomUp();
-				
+				level.moveRoomUp();				
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
@@ -366,22 +365,19 @@ public class Player extends Entity {
 		}
 	}
 	
-	public void playerAttack(Level level, HashSet<Integer> keysDown, int frameCount) {
-		if (frameCount - lastFrameAttacking > ATTACK_DURATION) {
+	public void playerAttack(Level level, HashSet<Integer> keysDown, long l) {
+		if (l - lastFrameAttacking > ATTACK_DURATION) {
 			isAttacking = false;
 		}
 		if (keysDown.contains(KeyEvent.VK_SPACE)) {
-			if (frameCount - lastFrameAttacking > ATTACK_COOLDOWN) {
+			if (l - lastFrameAttacking > ATTACK_COOLDOWN) {
 				isAttacking = true;
-				lastFrameAttacking = frameCount;
+				lastFrameAttacking = l;
 			}
 		}
 	}
 	
-	public int getLastFrameAttacking() {
-		return lastFrameAttacking;
-	}
-	
+
 	/**
 	 * Reverts the last movement made by the player
 	 */
