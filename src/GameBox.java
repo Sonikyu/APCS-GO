@@ -24,6 +24,11 @@
 /** @author Ethan */ 
 public class GameBox {
 	public Game game;
+	
+	/**
+	 * Creates a GameBox object to hold game.
+	 * @param game The current game.
+	 */
 	public GameBox(Game game) {
 		this.game = game;
 	}

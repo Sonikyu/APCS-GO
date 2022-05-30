@@ -1,17 +1,28 @@
 import restore.Coder;
 import restore.Encodable;
 
+
+
 public class DoorSwitch extends Entity implements Encodable {
 	public static String TYPE = "DoorSwitch";
 	private static String[] IMAGE_FILES = {"DoorSwitch.png", "DoorSwitch_Stage1.png"};
 	
 	private int combNumber;
 	
+	
+	/**
+	 * Initializes a DoorSwitch entity.
+	 */
+	
 	public DoorSwitch() {
 		super(TYPE, 0 , IMAGE_FILES);
 		this.combNumber = 0;
 	}
 	
+	/**
+	 * 
+	 * @param combNumber The starting combination number of the switch.
+	 */
 	public DoorSwitch(int combNumber) {
 		super(TYPE, 0 , IMAGE_FILES);
 		if (combNumber < IMAGE_FILES.length) {

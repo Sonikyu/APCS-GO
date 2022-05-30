@@ -29,34 +29,54 @@ public class GameView extends JComponent implements Runnable {
     private Game game;
     private Thread animator;
         
-	public GameView(Game game) {
+    /**
+	 * Iniitalizes the game view object.
+	 * @param game The current game.
+	 */
+    public GameView(Game game) {
 		this.game = game;
         this.size = game.getGameInfo().getSize();
         
         setup();
 	}
 
+    /**
+	 * Sets up the GameView.
+	 */
 	private void setup() {
         setBackground(Color.BLACK);
         setPreferredSize(size);
 	}
 	
+	/**
+	 * Gets the dimensions of the game.
+	 * @return The dimensions of the game.
+	 */
 	public Dimension getSize() {
 		return size;
 	}
 	
+	/**
+	 * Paints the game.
+	 * @param g The graphics object the game is painted to.
+	 */
     public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D)g;
         game.paint(g2d);
         //Toolkit.getDefaultToolkit().sync();
     }
     
+    /**
+	 * Cycles the game.
+	 */
     private void cycle() {
     	game.cycle();
     }
     
     // These two functions are taken from the website ZetCode:
-    
+    /**
+	 * Runs the game cycle.
+	 */
     public void run() {
         long beforeTime, timeDiff, sleep;
 

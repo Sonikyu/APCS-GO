@@ -1,4 +1,13 @@
-//made by johnny
+// AP CS Project
+// Alex, Johnny, Ethan, and Uday
+//
+// This is a template comment that you should paste verbatim above every class.
+// Fill out any necessary information:
+//
+// File: Level.java
+//
+// Add your name here if you work on this class:
+/** @author Johnny */ 
 
 import java.awt.Graphics2D;
 
@@ -13,6 +22,12 @@ public class Level implements Encodable {
 	private int currentCol;
 	private Player player;
 	
+	/**
+     * 
+     * @param type
+     * @return
+     */
+
 	public Level(Room[][] rooms, int curRow, int curCol, Player player) {
 		map = rooms;
 		currentRow = curRow;

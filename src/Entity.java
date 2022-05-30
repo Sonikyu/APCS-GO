@@ -35,9 +35,9 @@ public abstract class Entity implements ImageObserver, Encodable {
 	
 	/**
 	 * Creates a new entity
-	 * @param type The class of entity
-	 * @param maxHealth Maximum health allowed to have
-	 * @param imageName Image name of costume
+	 * @param type The class of entity.
+	 * @param maxHealth Maximum health allowed to have.
+	 * @param imageName Image name of costume.
 	 */
 	public Entity(String type, int maxHealth, String imageName) {
 		this(type, maxHealth, singleArray(imageName));
@@ -45,9 +45,9 @@ public abstract class Entity implements ImageObserver, Encodable {
 
 	/**
 	 * Creates a new entity
-	 * @param type The class of entity
-	 * @param maxHealth Maximum health allowed to have
-	 * @param imageNames Image names of costumes
+	 * @param type The class of entity.
+	 * @param maxHealth Maximum health allowed to have.
+	 * @param imageNames Image names of costumes.
 	 */
 	public Entity(String type, int maxHealth, String[] imageNames) {
 		this.id = IDGen.make(type);
@@ -72,8 +72,8 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
-	 * Loads an entity from the given coder
-	 * @param coder
+	 * Loads an entity from the given coder.
+	 * @param coder The coder object the entity is created from.
 	 */
 	public Entity(Coder coder) {
 		String type = coder.decodeString();
@@ -113,7 +113,10 @@ public abstract class Entity implements ImageObserver, Encodable {
 		
 		this.visible = isVisible;
 	}
-	
+	/**
+	 * Turns the entity into a game string in the coder.
+	 * @param coder The coder object the game is made from.
+	 */
 	public void encode(Coder coder) {		
 		coder.encode(getType());
 		coder.encode(getHealth());
@@ -131,16 +134,16 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
-	 * Gets the entity's id
-	 * @return
+	 * Gets the entity's id.
+	 * @return The entity's id.
 	 */
 	public String getID() {
 		return id;
 	}
 	
 	/**
-	 * Gets the entity's type
-	 * @return
+	 * Gets the entity's type.
+	 * @return The entity's type.
 	 */
 	public String getType() {
 		return type;
@@ -148,13 +151,18 @@ public abstract class Entity implements ImageObserver, Encodable {
 	
 	/**
 	 * 
-	 * @param type
-	 * @return
+	 * @param type An entity type.
+	 * @return Whether the entity if of the type.
 	 */
 	public boolean isOfType(String type) {
 		return getType().equals(type);
 	}
 	
+	/**
+	 * 
+	 * @param types A list of entity types.
+	 * @return Whether the entity is of one of the types in types.
+	 */
 	public boolean isOfType(String[] types) {
 		for (String type: types) {
 			 if (getType().equals(type)) {
@@ -165,16 +173,16 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
-	 * Gets the entity's health
-	 * @return
+	 * Gets the entity's health.
+	 * @return The entity's health.
 	 */
 	public int getHealth() {
 		return health;
 	}
 	
 	/**
-	 * Checks whether entity is alive
-	 * @return Whether the entity is dead
+	 * Checks whether entity is alive.
+	 * @return Whether the entity is dead.
 	 */
 	public boolean isDead() {
 		return getHealth() == 0;
@@ -185,43 +193,46 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
-	 * Gets the maximum health of entity
-	 * @return
+	 * Gets the maximum health of entity.
+	 * @return The maximum health of entity.
 	 */
 	public int getMaxHealth() {
 		return maxHealth;
 	}
 	
 	/**
-	 * Gets the entity's x position
-	 * @return
+	 * Gets the entity's x position.
+	 * @return The entity's x position.
 	 */
 	public int getX() {
 		return x;
 	}
 	
 	/**
-	 * Gets the entity's y position
-	 * @return
+	 * Gets the entity's y position.
+	 * @return The entity's y position.
 	 */
 	public int getY() {
 		return y;
 	}
 	
 	/**
-	 * Gets the entity's visibility
-	 * @return Whether the entity is currently visible on screen
+	 * Gets the entity's visibility.
+	 * @return Whether the entity is currently visible on screen.
 	 */
 	public boolean isVisible() {
 		return visible;
 	}
-	
+	/**
+	 * Determines if the entity should be visible or not.
+	 * @return Whether the entity should be visible or invisible.
+	 */
 	public boolean shouldShow() {
 		return true;
 	}
 	
 	/**
-	 * Makes the entity visible
+	 * Makes the entity visible.
 	 */
 	public void show() {
 		if (shouldShow()) {
@@ -230,16 +241,16 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
-	 * Makes the entity invisible
+	 * Makes the entity invisible.
 	 */
 	public void hide() {
 		visible = false;
 	}
 	
 	/**
-	 * Checks if the entity is in the specified bounds
-	 * @param containerSize The container in which the entity should be checked
-	 * @return Whether the entity is on screen
+	 * Checks if the entity is in the specified bounds.
+	 * @param containerSize The container in which the entity should be checked.
+	 * @return Whether the entity is on screen.
 	 */
 	public boolean isOnScreen(Dimension containerSize) {
 		return (x + size.width > 0 && y + size.height > 0)							// top left
@@ -255,42 +266,46 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
-	 * Gets the entity's width
-	 * @return
+	 * Gets the entity's width.
+	 * @return The entity's width.
 	 */
 	public int getWidth() {
 		return (int)size.getWidth();
 	}
 	
 	/**
-	 * Gets the entity's height
-	 * @return
+	 * Gets the entity's height.
+	 * @return The entity's height.
 	 */
 	public int getHeight() {
 		return (int)size.getHeight();
 	}
 	
+	/**
+	 * Paints the entity.
+	 * @param g The graphics object to paint to.
+	 */
 	public void paint(Graphics2D g) {
         g.drawImage(images[currentImage], x, y, this);
 	}
 	
 	/**
-	 * Sets the entity's first costume
+	 * Sets the entity's first costume.
 	 */
 	public void setFirstImage() {
 		currentImage = 0;
 	}
 	
 	/**
-	 * Sets a specific costume of the entity
-	 * @param index The index of the costume to set
+	 * Sets a specific costume of the entity.
+	 * @param index The index of the costume to set.
 	 */
 	public void setImageAtIndex(int index) {
 		currentImage = index;
 	}
 	
 	/**
-	 * Moves to the next costume, wrapping to the front if necessary
+	 * Moves to the next costume, wrapping to the front if necessary.
 	 */
 	public void setNextImage() {
 		currentImage++;
@@ -300,7 +315,7 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
-	 * Moves to the previous costume, wrapping to the back if necessary
+	 * Moves to the previous costume, wrapping to the back if necessary.
 	 */
 	public void setPreviousImage() {
 		currentImage--;
@@ -310,9 +325,9 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
-	 * Sets the entity's new position
-	 * @param x
-	 * @param y
+	 * Sets the entity's new position.
+	 * @param x The x position the entity is set to.
+	 * @param y The y position the entity is set to.
 	 */
 	public void setPosition(int x, int y) {
 		this.x = x;
@@ -320,24 +335,24 @@ public abstract class Entity implements ImageObserver, Encodable {
 	}
 	
 	/**
-	 * Changes the entity's x position
-	 * @param delta How much to change the x position by
+	 * Changes the entity's x position.
+	 * @param delta How much to change the x position by.
 	 */
 	public void updateXBy(int delta) {
 		x += delta;
 	}
 	
 	/**
-	 * Changes the entity's y position
-	 * @param delta How much to change the y position by
+	 * Changes the entity's y position.
+	 * @param delta How much to change the y position by.
 	 */
 	public void updateYBy(int delta) {
 		y += delta;
 	}
 	
 	/**
-	 * Heals the entity
-	 * @param change How much to heal the entity by
+	 * Heals the entity.
+	 * @param change How much to heal the entity by.
 	 */
 	public void heal(int change) {
 		if (health + change > maxHealth) {
@@ -346,14 +361,17 @@ public abstract class Entity implements ImageObserver, Encodable {
 			health += change;
 		}
 	}
-	
+	/**
+	 * Sets the health of the entity.
+	 * @param health The health the entity is set to.
+	 */
 	public void setHealth(int health) {
 		this.health = health;
 	}
 	
 	/**
-	 * Hurts the entity
-	 * @param change How much to hurt the entity by
+	 * Hurts the entity.
+	 * @param change How much to hurt the entity by.
 	 */
 	public void takeDamage(int change) {
 		if (health - change < 0) {
@@ -366,9 +384,9 @@ public abstract class Entity implements ImageObserver, Encodable {
 		
 			
 	/**
-	 * Whether the entity collides with another
-	 * @param otherEntity The entity to check collision with
-	 * @return
+	 * Whether the entity collides with another.
+	 * @param otherEntity The entity to check collision with.
+	 * @return Whether the entity is colliding with the other entity.
 	 */
 	// https://jeffreythompson.org/collision-detection/rect-rect.php
 	public boolean collidesWith(Entity otherEntity) {
@@ -381,8 +399,22 @@ public abstract class Entity implements ImageObserver, Encodable {
 				&& (y + getHeight() > otherEntity.y);				// Is the TOP edge of r1 ABOVE the BOTTOM edge of r2?
 	}
 	
+	/**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	public abstract void cycle(Level level, Game.GameInfo info);
 
+	/**
+	 * Checks if the image needs to be updated.
+	 * @param img The image that is painted.
+	 * @param infoflags The index of the flag of the image.
+	 * @param x The x position of the image.
+	 * @param y The y position of the iamge.
+	 * @param width The width of the image.
+	 * @param height The height of the image.
+	 */
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 //		size = new Dimension(width, height);
@@ -390,6 +422,10 @@ public abstract class Entity implements ImageObserver, Encodable {
 		return false;
 	}
 	
+	/**
+	 * Creates a string for the entity.
+	 * @return The entity as a string.
+	 */
 	@Override
 	public String toString() {
 		return id + "[health=" + health + ", at=(" + x + ", " + y + "), " + (visible ? "visible" : "not visible") + "]"; 

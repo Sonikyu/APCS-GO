@@ -22,32 +22,57 @@ public class Item extends Entity {
 	
 	private ItemType object;
 	
+	/**
+     * Initializes an item object.
+     * @param object The object that the item is initialzied as. 
+     */
 	public Item(ItemType object) {
 		super("Item", 0, IMAGE_FILES);	
 		this.object = object;
 		this.setImageAtIndex(object.ordinal());
 	}
 	
+	/**
+     * Initializes an item object.
+     * @param coder The object that creates the entity from a game string.
+     */
+
 	public Item(Coder coder) {
 		super(coder);
 		//this.object = (Object)coder.decodeInt();
 	}
 
+	/**
+     * Turns the item into a game string.
+     * @oaran coder The object that creates the entity from a game string.
+     */
+
 	public void encode(Coder coder) {
     	super.encode(coder);
     }
 	
+	/**
+     * Sets the item to an empty item.
+     */
 	public void setEmpty() {
 		this.object = ItemType.EMPTY;
 		this.setImageAtIndex(ItemType.EMPTY.ordinal());
 	}
 	
+	/**
+     * Gets the item type.
+     * @return The item type.
+     */
+
 	public ItemType getItemType() {
 		return object;
 	}
-		
-//TODO make constructor take in all types, make image files array of image files
 
+	/**
+     * Cycles the item.
+     * @param level The current level.
+     * @param info The game information.
+     */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		

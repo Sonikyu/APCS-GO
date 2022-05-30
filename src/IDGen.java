@@ -13,6 +13,11 @@ import java.util.HashMap;
 public class IDGen {
 	private static HashMap<String, Integer> idMap = new HashMap<String, Integer>();
 	
+	/**
+	 * Creates an ID for an entity.
+	 * @param type The entity type.
+	 * @return The ID of the entity.
+	 */
 	public static String make(String type) {
 		Integer count = idMap.get(type);
 		if (count == null) {

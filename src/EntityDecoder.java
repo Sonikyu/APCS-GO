@@ -10,7 +10,13 @@ import restore.Coder;
 //
 // Add your name here if you work on this class:
 /** @author Ethan */ 
+
 public class EntityDecoder {
+	/**
+	 * Decodes the game entity from the game string.
+	 * @param coder The coder object that uses the game string to create the game.
+	 * @return The decoded entity.
+	 */
 	public static Entity decode(Coder coder) {
 		String type = coder.decodeString();
 		coder.putBack(type);

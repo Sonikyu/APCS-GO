@@ -38,6 +38,12 @@ public class Game implements Encodable {
 		START_GAME, IN_GAME, END_GAME;
 	}
 	
+	/**
+	 * Initializes the game.
+	 * @param size The dimensions of the game.
+	 * @param p The player.
+	 * @param levels The level creators.
+	 */
 	public Game(Dimension size, Player p, LevelCreator[] levels) {
 		this.player = p;
 		this.levelCreators = levels;
@@ -52,7 +58,10 @@ public class Game implements Encodable {
 		initialDebug();
 	}
 	
-	
+	/**
+	 * Initializes the game.
+	 * @param coder The object that creates the game from a game string.
+	 */
 	public Game(Coder coder) {	
 		Integer verMaj = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Unknown major version"); return; }
 		Integer verBreak = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Unknown minor version"); return; }
@@ -76,6 +85,10 @@ public class Game implements Encodable {
 		initialDebug();
 	}
 	
+	/**
+	 * Turns the game into a game string.
+	 * @param coder The object that creates the game from a game string.
+	 */
 	public void encode(Coder coder) {
 		coder.encode(Game.VER_MAJ);
 		coder.encode(Game.VER_BREAK);
@@ -89,18 +102,32 @@ public class Game implements Encodable {
 		System.out.println("Encoded game");
 	}
 	
+	/**
+	 * Gets the game information.
+	 * @return The game information.
+	 */
 	public GameInfo getGameInfo() {
 		return info;
 	}
 	
+	/**
+	 * Resets the specified level.
+	 * @param The level that is being reset.
+	 */
 	public void resetLevel(int levIndex) {
 		levels[levIndex] = levelCreators[levIndex].createLevel(player);
 	}
 	
+	/**
+	 * Restarts the current level.
+	 */
 	public void restartLevel() {
 		resetLevel(currLevel);
 	}
 	
+	/**
+	 * Creates the next level.
+	 */
 	public void nextLevel() {
 		currLevel++;
 
@@ -108,6 +135,10 @@ public class Game implements Encodable {
 		levels[currLevel].getCurrentRoom().setPlayerPosition(); // HACKY
 	}
 	
+	/**
+	 * Paints the game.
+	 * @param g The graphics object the game is painted to.
+	 */
 	public void paint(Graphics2D g) {	
 		if (state == GameState.IN_GAME) {
 			levels[currLevel].paint(g);
@@ -120,6 +151,9 @@ public class Game implements Encodable {
 		}
 	}
 	
+	/**
+	 * Cycles the game.
+	 */
 	public void cycle() {
 		if (state == GameState.IN_GAME) {
 			levels[currLevel].cycle(info);
@@ -136,6 +170,10 @@ public class Game implements Encodable {
 	
 	// https://stackoverflow.com/questions/37490551/disabling-key-repeat-in-swing
 	
+	/**
+	 * Adds the pressed key to a hashmap.
+	 * @param key The key that is pressed.
+	 */
 	public void keyPressed(KeyEvent key) {
 		int keycode = key.getKeyCode();
 		if (0 <= keycode && keycode <= 0xFFFF) {
@@ -145,6 +183,10 @@ public class Game implements Encodable {
 
 	}
 	
+	/**
+	 * Removes the pressed key from the hashmap.
+	 * @param key The key that is released.
+	 */
 	public void keyReleased(KeyEvent key) {
 		int keycode = key.getKeyCode();
 	    if (0 <= keycode && keycode <= 0xFFFF) {
@@ -153,6 +195,9 @@ public class Game implements Encodable {
 	    }
 	}
 	
+	/**
+	 * Determines if the game version is up to date.
+	 */
 	private void initialDebug() {
 		Debugger.main.start();
 		
@@ -161,8 +206,9 @@ public class Game implements Encodable {
 	}
 	
 	
-// johnny wrote this
-	
+	/**
+	 * The game information.
+	 */
 	public class GameInfo {
 		
 		private Dimension size;
@@ -170,6 +216,11 @@ public class Game implements Encodable {
 		private Long frameCount;
 		private Game game;
 		
+		/**
+		 * 
+		 * @param size The dimensions of the game.
+		 * @param game The current game.
+		 */
 		public GameInfo(Dimension size, Game game) {
 			this.size = size;
 			this.keysDown = new HashSet<Integer>();
@@ -177,30 +228,54 @@ public class Game implements Encodable {
 			this.game = game;
 		}
 		
+		/**
+		 * Gets the dimensions of the game.
+		 * @return The dimensions of the game.
+		 */
 		public Dimension getSize() {
 			return size;
 		}
 		
+		/**
+		 * Restarts the current level.
+		 */
 		public void restartLevel() {
 			game.restartLevel();
 		}
 
+		/**
+		 * Sets the current level to the next level.
+		 */
 		public void nextLevel() {
 			game.nextLevel();
 		}
 		
+		/**
+		 * Gets the hashmap of the keys pressed.
+		 * @return The hashmap of the keys pressed.
+		 */
 		public HashSet<Integer> getKeysDown() {
 			return keysDown;
 		}
 		
+		/**
+		 * Gets the current frame count.
+		 * @return The frame count.
+		 */
 		public long getFrameCount() {
 			return frameCount;
 		}
 		
+		/**
+		 * Starts the game after the start screen.
+		 */
 		public void startGame() {
 			state = GameState.IN_GAME;
 		}
 		
+		/**
+		 * Ends the game.
+		 */
 		public void endGame() {
 			System.err.println("endGame");
 			state = GameState.END_GAME;
