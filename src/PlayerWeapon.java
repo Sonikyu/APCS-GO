@@ -7,7 +7,7 @@ import restore.Encodable;
 
 public class PlayerWeapon extends Entity implements Encodable {
 	private static String TYPE = "Attack";
-	private static String[] IMAGE_FILES = {"PlayerAttack_North.png", "PlayerAttack_North.png", "PlayerAttack_East.png", "PlayerAttack_North.png", "PlayerAttack_South.png", "PlayerAttack_North.png", "PlayerAttack_West.png" ,"PlayerAttack_North.png"};
+	private static String[] IMAGE_FILES = {"PlayerAttack_North.png", null, "PlayerAttack_East.png", null, "PlayerAttack_South.png", null, "PlayerAttack_West.png", null};
 	
 	private int attackDamage;
 	private int frameAttacking = -Player.ATTACK_DURATION;
