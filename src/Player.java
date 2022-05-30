@@ -246,6 +246,7 @@ public class Player extends Entity {
 					DoorTile t = (DoorTile) entity;
 					if(!t.isOpen()){
 						useItem(info.getFrameCount());
+						entity.setImageAtIndex(1);
 						t.setOpen(true);
 						t.setImageAtIndex(1);
 					}
@@ -283,8 +284,8 @@ public class Player extends Entity {
 				// TODO: Replace with the static variables
 				if (entity.isOfType("DoorTile")){
 					DoorTile t = (DoorTile) entity;
-					if (t.isOpen()) {
-						continue;
+					if(t.isOpen()){
+					return false;
 					}
 				}
 				if (entity.isOfType(Tile.WALL_TYPES)) {
@@ -318,16 +319,16 @@ public class Player extends Entity {
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
 			xDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.WEST;
-			if (getX() < -2) {
-				this.setPosition((int) windowSize.getWidth() - 2, getY());
+			if (!this.isOnScreen(windowSize) && getX() < 0) {
+				this.setPosition((int) windowSize.getWidth(), getY());
 				level.moveRoomLeft();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
 			xDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.EAST;
-			if (getX() + 2 > windowSize.getWidth()) {
-				this.setPosition(-getWidth()/2, getY());
+			if (!this.isOnScreen(windowSize) && getX() + getWidth() > windowSize.getWidth()) {
+				this.setPosition(-getWidth(), getY());
 				level.moveRoomRight();
 			}
 		}
@@ -338,16 +339,16 @@ public class Player extends Entity {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
 			yDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.NORTH;
-			if (getY() < -getHeight()/2) {
-				this.setPosition(getX(), (int) windowSize.getHeight() - 2);
+			if (!this.isOnScreen(windowSize) && getY() < 0) {
+				this.setPosition(getX(), (int) windowSize.getHeight());
 				level.moveRoomUp();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
 			yDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.SOUTH;
-			if (getY() + 2 > windowSize.getHeight()) {
-				this.setPosition(getX(), -2);
+			if (!this.isOnScreen(windowSize) && getY() + getHeight() > windowSize.getHeight()) {
+				this.setPosition(getX(), -getHeight());
 				level.moveRoomDown();
 			}
 		}

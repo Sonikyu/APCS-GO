@@ -13,9 +13,6 @@
 
 import restore.Coder;
 
-/**
- * Thump thump! Heart is one of the little hearts on the top left that show health.
- */
 public class Heart extends Entity {
 
 	private static String TYPE = "Heart";
