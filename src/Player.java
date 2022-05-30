@@ -320,7 +320,7 @@ public class Player extends Entity {
 			xDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.WEST;
 			if (!this.isOnScreen(windowSize) && getX() < 0) {
-				this.setPosition((int) windowSize.getWidth(), getY());
+				this.setPosition((int) windowSize.getWidth() - getWidth(), getY());
 				level.moveRoomLeft();
 			}
 		}
@@ -328,7 +328,7 @@ public class Player extends Entity {
 			xDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.EAST;
 			if (!this.isOnScreen(windowSize) && getX() + getWidth() > windowSize.getWidth()) {
-				this.setPosition(-getWidth(), getY());
+				this.setPosition(0, getY());
 				level.moveRoomRight();
 			}
 		}
@@ -340,7 +340,7 @@ public class Player extends Entity {
 			yDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.NORTH;
 			if (!this.isOnScreen(windowSize) && getY() < 0) {
-				this.setPosition(getX(), (int) windowSize.getHeight());
+				this.setPosition(getX(), (int) windowSize.getHeight() - getHeight());
 				level.moveRoomUp();
 			}
 		}
@@ -348,7 +348,7 @@ public class Player extends Entity {
 			yDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.SOUTH;
 			if (!this.isOnScreen(windowSize) && getY() + getHeight() > windowSize.getHeight()) {
-				this.setPosition(getX(), -getHeight());
+				this.setPosition(getX(), 0);
 				level.moveRoomDown();
 			}
 		}
