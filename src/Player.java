@@ -287,7 +287,7 @@ public class Player extends Entity {
 						continue;
 					}
 				}
-				if (entity.isOfType(Tile.WALL_TYPES)) {
+				if (entity.isOfType(Tile.WALL_TYPES) || entity.isOfType(BreakableTile.TYPE)) {
 					return true;
 				}
 				if (entity.isOfType(SwitchDoor.TYPE) && !((SwitchDoor)entity).isOpen()) {

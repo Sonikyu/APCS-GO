@@ -78,7 +78,7 @@ public class LevelOneCreator implements LevelCreator {
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
 				"-----J      L------7",
-				"                   |",
+				"                  B|",
 				"-----7             L",
 				"GGGGG|   S         D",
 				"GGGGG|             P",
@@ -89,7 +89,10 @@ public class LevelOneCreator implements LevelCreator {
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
 		};
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+//		room.placeEntity(new BreakableTile(100), 7, 7);
+//		return new Room(layout, p);
+		return room;
 	}
 	
 	private Room createKeyRoom(Player p) {
