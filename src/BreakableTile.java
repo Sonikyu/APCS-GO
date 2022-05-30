@@ -1,5 +1,6 @@
 import restore.Coder;
 import restore.Encodable;
+import restore.CoderException;
 
 public class BreakableTile extends Entity implements Encodable{
 	public static String TYPE = "BreakableTile";
@@ -11,7 +12,7 @@ public class BreakableTile extends Entity implements Encodable{
 		Debugger.main.print("BreakableTile Created");
 	}
 	
-	public BreakableTile(Coder coder) {
+	public BreakableTile(Coder coder) throws CoderException {
 		super(coder);
 	}
 
@@ -37,7 +38,6 @@ public class BreakableTile extends Entity implements Encodable{
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 }
