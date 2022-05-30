@@ -148,6 +148,7 @@ public class Game implements Encodable {
 		}
 		else {
 			endScreen.paint(g);
+			new TimerDisplay().paint(g);
 		}
 	}
 	
