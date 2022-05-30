@@ -11,9 +11,9 @@ public class PlayerWeapon extends Entity implements Encodable {
 	
 	private int attackDamage;
 	private int frameAttacking = -Player.ATTACK_DURATION;
-	private Player.PlayerDirection pD;
+	private Player.Direction pD;
 	
-	public PlayerWeapon(Player.PlayerDirection pD, int attackDamage) {
+	public PlayerWeapon(Player.Direction pD, int attackDamage) {
 		super(TYPE, 0, IMAGE_FILES);
 		this.pD = pD;
 		this.attackDamage = attackDamage;
@@ -29,7 +29,7 @@ public class PlayerWeapon extends Entity implements Encodable {
 		coder.encode(this.attackDamage);
 	}
 	
-	public void setDirection(Player.PlayerDirection pD) {
+	public void setDirection(Player.Direction pD) {
 		this.pD = pD;
 		this.setImageAtIndex(this.pD.ordinal());
 	}

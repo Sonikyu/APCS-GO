@@ -1,12 +1,8 @@
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-
-
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-
 import restore.Coder;
 
 // AP CS Project
@@ -20,6 +16,10 @@ import restore.Coder;
 // Add your name here if you work on this class:
 /** @author Johnny Ethan Alex*/
 public class Player extends Entity {
+	public enum Direction {
+		NORTH, EAST, SOUTH, WEST
+	}
+	
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
 	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
@@ -49,13 +49,7 @@ public class Player extends Entity {
 	private boolean speedUp = false;
 	private long spedUpFrame;
 
-
-	private PlayerDirection pD;
-
-	public enum PlayerDirection {
-	NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST
-	}
-
+	private Direction direction;
 
 	public Player() {
 		super(Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILES);
@@ -67,8 +61,8 @@ public class Player extends Entity {
 			inventory[i] = new Item(Item.ItemType.EMPTY);
 		}
 		currentSlot = 0;
-		pD = PlayerDirection.NORTH;
-		this.weapon = new PlayerWeapon(pD, this.attackDamage);
+		direction = Direction.NORTH;
+		this.weapon = new PlayerWeapon(direction, this.attackDamage);
 	}
 
 	public Player(Coder coder) {
@@ -81,7 +75,7 @@ public class Player extends Entity {
 			inventory[i] = new Item(coder);
 		}
 		currentSlot = coder.decodeInt();
-		pD = PlayerDirection.NORTH;
+		direction = Direction.NORTH;
 	}
 
 	public void encode(Coder coder) {
@@ -121,8 +115,8 @@ public class Player extends Entity {
 		attackDamage = damageValue;
 	}
 
-	public PlayerDirection getPlayerDirection() {
-		return pD;
+	public Direction getPlayerDirection() {
+		return direction;
 	}
 
 	public Item[] getInventory() {
@@ -180,7 +174,7 @@ public class Player extends Entity {
 			weapon.hide();
 		}
 		if (frameCount - lastFrameAttacking > Player.ATTACK_DURATION) {
-			weapon.setDirection(pD);
+			weapon.setDirection(direction);
 		}
 
 
@@ -319,7 +313,7 @@ public class Player extends Entity {
 	private void moveOnKeysHorizontal(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
 			xDelta -= Player.PLAYER_SPEED;
-			this.pD = PlayerDirection.WEST;
+			this.direction = Direction.WEST;
 			if (!this.isOnScreen(windowSize) && getX() < 0) {
 				this.setPosition((int) windowSize.getWidth(), getY());
 				level.moveRoomLeft();
@@ -327,7 +321,7 @@ public class Player extends Entity {
 		}
 		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
 			xDelta += Player.PLAYER_SPEED;
-			this.pD = PlayerDirection.EAST;
+			this.direction = Direction.EAST;
 			if (!this.isOnScreen(windowSize) && getX() + getWidth() > windowSize.getWidth()) {
 				this.setPosition(-getWidth(), getY());
 				level.moveRoomRight();
@@ -339,7 +333,7 @@ public class Player extends Entity {
 	private void moveOnKeysVertical(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
 			yDelta -= Player.PLAYER_SPEED;
-			this.pD = PlayerDirection.NORTH;
+			this.direction = Direction.NORTH;
 			if (!this.isOnScreen(windowSize) && getY() < 0) {
 				this.setPosition(getX(), (int) windowSize.getHeight());
 				level.moveRoomUp();
@@ -347,7 +341,7 @@ public class Player extends Entity {
 		}
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
 			yDelta += Player.PLAYER_SPEED;
-			this.pD = PlayerDirection.SOUTH;
+			this.direction = Direction.SOUTH;
 			if (!this.isOnScreen(windowSize) && getY() + getHeight() > windowSize.getHeight()) {
 				this.setPosition(getX(), -getHeight());
 				level.moveRoomDown();
