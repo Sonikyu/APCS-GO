@@ -1,7 +1,7 @@
 class LevelTwoCreator implements LevelCreator {
 	public Level createLevel(Player p) {
 		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
-		TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3);
+		TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3, 0);
 
 		DoorSwitch switch1 = new DoorSwitch();
 		DoorSwitch switch2 = new DoorSwitch();

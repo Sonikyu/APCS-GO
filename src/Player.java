@@ -290,12 +290,10 @@ public class Player extends Entity {
 			Entity entity = visibleEntities.get(i);
 			if (collidesWith(entity)) {				
 				// TODO: Replace with the static variables
-				if (entity.isOfType("WallTile")) {
-					return true;
-				} else if (entity.isOfType(SwitchDoor.TYPE) && !((SwitchDoor)entity).isOpen()) {
+				if (entity.isOfType(Tile.WALL_TYPES)) {
 					return true;
 				}
-				else if (entity.isOfType("DoorTile")) {
+				if (entity.isOfType(SwitchDoor.TYPE) && !((SwitchDoor)entity).isOpen()) {
 					return true;
 				}
 			}

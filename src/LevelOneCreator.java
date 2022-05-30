@@ -6,6 +6,7 @@ public class LevelOneCreator implements LevelCreator {
 		Room startingRoom = this.createStartingRoom(p);
 		Room keyRoom = this.createKeyRoom(p);
 		Room weaponRoom = this.createWeaponRoom(p);
+		Room enemyRoom = this.creatEnemyRoom(p);
 		Room potionRoom = this.createPotionRoom(p);
 		Room trackingEnemyRoom = this.createTrackingEnemyRoom(p);
 		Room goalRoom = this.createGoalRoom(p);
@@ -13,7 +14,7 @@ public class LevelOneCreator implements LevelCreator {
 		Room[][] rooms = {
 				{ null, 		keyRoom, 		null, 		null, 				null 		},
 				{ testingRoom, 	startingRoom, 	potionRoom,	trackingEnemyRoom,	goalRoom	},
-				{ null, 		weaponRoom, 	null,		null, 				null 		},
+				{ null, 		weaponRoom, 	enemyRoom,	null, 				null 		},
 		};
 		
 		// Auto find starting room
@@ -76,7 +77,6 @@ public class LevelOneCreator implements LevelCreator {
 		return new Room(layout, p);
 	}
 	
-	
 	private Room createKeyRoom(Player p) {
 		String[] layout = { 
 				"GGGGGGGGGGGGGGGGGGGG",
@@ -108,19 +108,44 @@ public class LevelOneCreator implements LevelCreator {
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
 				"GGGGG|      |GGGGGGG",
-				"GGP##J      L##7GGGG",
-				"GG|            |GGGG",
-				"GG|            |GGGG",
-				"GG|            |GGGG",
-				"GG|            |GGGG",
-				"GGL____________JGGGG",
-				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGG|      L-------",
+				"GGGGG|              ",
+				"GGGGG|              ",
+				"GGGGG|              ",
+				"GGGGG|              ",
+				"GGGGG|              ",
+				"GGGGGL______________",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 		};
 		Room room = new Room(layout, p);
 		// add faux weapon "item"
+		return room;
+	}
+	
+	private Room creatEnemyRoom(Player p) {
+		String[] layout = {
+				"GGGGGP------7GGGGGGG",
+				"GGGGG|      |GGGGGGG",
+				"GGGGG|      |GGGGGGG",
+				"GGGGG|      |GGGGGGG",
+				"GGGGG|      |GGGGGGG",
+				"-----J      L------7",
+				"                   |",
+				"                   |",
+				"                   |",
+				"                   |",
+				"                   |",
+				"___________________J",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+		};
+		Room room = new Room(layout, p);
+		room.placeEntity(new Item(Item.ItemType.HEALPOT), 17, 9);
+		MoveOnlyEnemy enemy = new MoveOnlyEnemy(0, Tile.HEIGHT * -10, 5);
+		room.placeEntity(enemy, 8, 9);
 		return room;
 	}
 	
@@ -143,7 +168,6 @@ public class LevelOneCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG",
 		};
 		Room room = new Room(layout, p);
-		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
 		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 8, 6);
 		return room;
 	}
@@ -168,7 +192,7 @@ public class LevelOneCreator implements LevelCreator {
 		};
 		Room room = new Room(layout, p);
 
-		TrackingEnemy enemy = new TrackingEnemy(20, 9, 9, 0, 0);
+		TrackingEnemy enemy = new TrackingEnemy(7, 9, 9, 0, 20, 100);
 		room.placeEntity(enemy, 9, 9);
 
 //		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
