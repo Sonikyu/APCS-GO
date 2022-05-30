@@ -4,7 +4,7 @@
 // This is a template comment that you should paste verbatim above every class.
 // Fill out any necessary information:
 //
-// File: Player.java
+// File: InventorySlot.java
 //
 // Add your name here if you work on this class:
 /** @author Johnny*/ 

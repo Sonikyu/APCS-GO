@@ -1,3 +1,16 @@
+// AP CS Project
+// Alex, Johnny, Ethan, and Uday
+//
+// This is a template comment that you should paste verbatim above every class.
+// Fill out any necessary information:
+//
+// File: LevelTwoCreator.java
+//
+// Add your name here if you work on this class:
+/** @author Johnny, Alex, Uday, Ethan */ 
+
+
+
 class LevelTwoCreator implements LevelCreator {
 	public Level createLevel(Player p) {
 		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);

@@ -1,6 +1,17 @@
 import restore.Coder;
 import restore.Encodable;
 
+//AP CS Project
+//Alex, Johnny, Ethan, and Uday
+//
+//This is a template comment that you should paste verbatim above every class.
+//Fill out any necessary information:
+//
+//File: SwitchDoor.java
+//
+//Add your name here if you work on this class:
+/** @author Johnny */ 
+
 public class SwitchDoor extends Entity implements Encodable {
 	public static String TYPE = "SwitchDoor";
 	private static String[] IMAGE_FILES = { "SwitchDoor.png", "FloorTile.png" };

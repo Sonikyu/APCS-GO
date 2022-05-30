@@ -6,6 +6,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.event.KeyEvent;
 
+//AP CS Project
+//Alex, Johnny, Ethan, and Uday
+//
+//This is a template comment that you should paste verbatim above every class.
+//Fill out any necessary information:
+//
+//File: NPCGuard.java
+//
+//Add your name here if you work on this class:
+/** @author Uday */ 
+
 public class NPCGuard extends Entity{
 	public static String TYPE = "NPCGuard";
 	private static int MAX_HEALTH = 100000;

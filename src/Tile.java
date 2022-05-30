@@ -7,7 +7,7 @@
 // File: StaticTile.java
 //src/StaticTile.java
 // Add your name here if you work on this class:
-/** @author Alex, Johnny */
+/** @author Alex, Johnny, Ethan*/
 
 import restore.Coder;
 import java.util.ArrayList;

@@ -4,8 +4,16 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-//TODO turn class into methods to make thread easier
-//Still wip, need more storyboarding 
+//AP CS Project
+//Alex, Johnny, Ethan, and Uday
+//
+//This is a template comment that you should paste verbatim above every class.
+//Fill out any necessary information:
+//
+//File: Audio.java
+//
+//Add your name here if you work on this class:
+/** @author Alex */ 
 
 public class Audio extends Thread{
  

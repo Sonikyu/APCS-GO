@@ -1,5 +1,16 @@
 import javax.swing.ImageIcon;
 
+//AP CS Project
+//Alex, Johnny, Ethan, and Uday
+//
+//This is a template comment that you should paste verbatim above every class.
+//Fill out any necessary information:
+//
+//File: LevelOneCreator.java
+//
+//Add your name here if you work on this class:
+/** @author Johnny, Alex, Uday, Ethan */ 
+
 public class LevelOneCreator implements LevelCreator {	
 	public Level createLevel(Player p) {
 		Room testingRoom = this.createTestingRoom(p);
