@@ -158,6 +158,7 @@ public class Game implements Encodable {
 		if (state == GameState.IN_GAME) {
 			levels[currLevel].cycle(info);
 			info.frameCount++;
+			Timer.timer.updateTime();
 		}
 		else if (state ==  GameState.START_GAME) {
 			startScreen.cycle(null,info);
@@ -269,6 +270,7 @@ public class Game implements Encodable {
 		 * Starts the game after the start screen.
 		 */
 		public void startGame() {
+			Timer.timer.start();
 			state = GameState.IN_GAME;
 		}
 		

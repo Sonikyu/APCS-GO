@@ -29,6 +29,7 @@ public class Room implements Encodable {
 	private Player player;
 	private Heart[] healthBar;
 	private InventorySlot[] inventoryBar;
+	private TimerDisplay timer;
 
 	
 	public Room(String[] roomString, Player player) {
@@ -36,7 +37,7 @@ public class Room implements Encodable {
 		this.entities = new ArrayList<Entity>();
 		// TODO: need rooms to take an arraylist of entities
 		this.player = player;
-		setUpHealthAndInventory();
+		setUpHealthAndInventoryAndTimer();
 		tileInit(roomString);
 		setPlayerPosition();
 	}
@@ -65,7 +66,7 @@ public class Room implements Encodable {
 			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.EMPTY));
 			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
 		}
-		setUpHealthAndInventory();
+		setUpHealthAndInventoryAndTimer();
 		setPlayerPosition();
 	}
 	
@@ -164,7 +165,7 @@ public class Room implements Encodable {
 		}
 	}
 	
-	private void setUpHealthAndInventory() {
+	private void setUpHealthAndInventoryAndTimer() {
 		healthBar = new Heart[10];
 		for (int i = 0; i < healthBar.length; i++) {
 			Heart h = new Heart();
@@ -176,6 +177,7 @@ public class Room implements Encodable {
 			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.EMPTY)); // make item type empty when done testing
 			inventoryBar[i].setPosition(242 + i * inventoryBar[i].getWidth(), 565);
 		}
+		timer = new TimerDisplay();
 	}
 	
 	@Override
@@ -222,6 +224,9 @@ public class Room implements Encodable {
 				slot.paint(g);
 			}
 		}
+		if (timer.isVisible()) {
+			timer.paint(g);
+		}
 	}
 	
 	public void loadRoom() {
@@ -239,6 +244,7 @@ public class Room implements Encodable {
 		for (InventorySlot slot : inventoryBar) {
 			slot.show();
 		}
+		timer.show();
 	}
 	
 	public void unloadRoom() {
@@ -256,6 +262,7 @@ public class Room implements Encodable {
 		for (InventorySlot slot : inventoryBar) {
 			slot.hide();
 		}
+		timer.hide();
 	}
 	
 	/**
