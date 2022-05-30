@@ -1,6 +1,9 @@
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
@@ -144,6 +147,8 @@ public class Player extends Entity {
 			speedUp = true;
 			spedUpFrame = frameCount;
 			inventory[currentSlot].setEmpty();
+		case KEY:
+			inventory[currentSlot].setEmpty();
 		default:
 			break;
 		}
@@ -225,19 +230,39 @@ public class Player extends Entity {
 		updateWeapon(frameCount);
 		weapon.cycle(level, info);
 		
+		
+		
 		// Player Attack & Check for collisions
+		// Key Door Interaction
 		playerAttack(level, info.getKeysDown(), (int) info.getFrameCount());
 		if (isDead()) info.restartLevel(); 
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
-			if (collidesWith(entity)) {				
-				if (entity.isOfType("DoorTile")) {
-					if (inventory[currentSlot].isOfType("Key")) {
+			
+
+			if (entity.isOfType("DoorTile")) {
+
+				double distance = Math.sqrt(Math.pow(entity.getX() - getX(), 2) + Math.pow(entity.getY() - getY(), 2));
+				boolean hasKey = false;
+				if(firstOccur(Item.ItemType.KEY) >= 0){
+					hasKey = true;
+				}
+				if(hasKey && distance < 50){
+					System.out.print("Collided with Door with Key");
+					Tile t = (Tile) entity;
+					if(!t.getOpen()){
+						System.out.print("trying to open");
 						useItem(info.getFrameCount());
 						entity.setImageAtIndex(1);
+						t.setOpen(true);
+						t.changeMaterial(Tile.Material.FLOOR);
+						t.setImageAtIndex(1);	
 					}
 				}
-				else if (entity.isOfType("LevelUpTile")) {
+			}
+
+			if (collidesWith(entity) ) {				
+				if (entity.isOfType("LevelUpTile")) {
 					for (int j = 0; j < inventory.length; j++) {
 						inventory[j].setEmpty();
 					}
