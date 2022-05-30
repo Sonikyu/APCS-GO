@@ -1,7 +1,10 @@
 
 import java.util.ArrayList;
 
-public class Boss extends Entity{
+import restore.Coder;
+import restore.Encodable;
+
+public class Boss extends Entity implements Encodable {
 	public static String TYPE = "BossEnemy";
 	private static int MAX_HEALTH = 100;
 	private static String IMAGE_FILE = "ParthInThePark.png";
@@ -20,6 +23,18 @@ public class Boss extends Entity{
 		super(Boss.TYPE, Boss.MAX_HEALTH, Boss.IMAGE_FILE);
 		xTether = colTether * Tile.WIDTH;
 		yTether = rowTether * Tile.HEIGHT;
+	}
+	
+	public Boss(Coder coder) {
+		super(Boss.TYPE, Boss.MAX_HEALTH, Boss.IMAGE_FILE);
+		xTether = coder.decodeInt();
+		yTether = coder.decodeInt();
+		
+	}
+	
+	public void encode(Coder coder) {
+		coder.encode(xTether);
+		coder.encode(yTether);
 	}
 	
 	public void setMinionAttack(boolean attack) {

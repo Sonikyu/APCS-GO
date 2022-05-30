@@ -15,6 +15,10 @@ public class BreakableTile extends Entity implements Encodable{
 		super(coder);
 	}
 
+	public void encode(Coder coder) {
+		super.encode(coder);
+	}
+	
 	@Override
 	public boolean shouldShow() {
 		return !isDead();

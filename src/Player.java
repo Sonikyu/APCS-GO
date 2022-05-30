@@ -27,6 +27,9 @@ public class Player extends Entity {
 	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
 	private static int PLAYER_SPEED = 1;
 
+	private Heart[] healthBar;
+	private InventorySlot[] inventoryBar;
+	private TimerDisplay timer;
 	public static final int INVENTORY_SIZE = 9;
 
 	private int xDelta;
@@ -65,6 +68,7 @@ public class Player extends Entity {
 		currentSlot = 0;
 		direction = Direction.NORTH;
 		this.weapon = new PlayerWeapon(direction, this.attackDamage);
+		setUpHealthAndInventoryAndTimer();
 	}
 
 	public Player(Coder coder) {
@@ -178,16 +182,77 @@ public class Player extends Entity {
 		if (frameCount - lastFrameAttacking > Player.ATTACK_DURATION) {
 			weapon.setDirection(direction);
 		}
-
-
 	}
 
+	private void setUpHealthAndInventoryAndTimer() {
+		healthBar = new Heart[10];
+		for (int i = 0; i < healthBar.length; i++) {
+			Heart h = new Heart();
+			h.setPosition(10 + i * h.getWidth(), 10);
+			healthBar[i] = h;
+		}
+		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
+		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
+			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.EMPTY)); // make item type empty when done testing
+			inventoryBar[i].setPosition(242 + i * inventoryBar[i].getWidth(), 565);
+		}
+		timer = new TimerDisplay();
+	}
+	
+	private void updateHearts() {
+		int health = getHeartCount();
+		for (int i = 0; i < healthBar.length; i++) {
+			if (health >= 2) {
+				healthBar[i].setImageAtIndex(2);
+				health -= 2;
+			}
+			else if (health == 1) {
+				healthBar[i].setImageAtIndex(1);
+				health--;
+			}
+			else {
+				healthBar[i].setImageAtIndex(0);
+			}
+		}
+	}
+	public void updateInventoryBar() {
+		int slotNum = getCurrentSlot();
+		Item[] inv = getInventory();
+		//possible bad code warning
+		for (int i = 0; i < inventoryBar.length; i++) {
+			inventoryBar[i].setSlotItem(inv[i]);
+			if (slotNum == i) {
+				inventoryBar[i].setImageAtIndex(1);
+			}
+			else {
+				inventoryBar[i].setImageAtIndex(0);
+			}
+		}
+	}
+	
+	
+	
 	@Override
 	public void paint(Graphics2D g) {
 		if (weapon.isVisible()) {
 			weapon.paint(g);
 		}
 		super.paint(g);
+		for (int i = 0; i < healthBar.length; i++) {
+			Heart heart = healthBar[i];
+			if (heart.isVisible()) {
+				heart.paint(g);
+			}
+		}
+		for (int i = 0; i < inventoryBar.length; i++) {
+			InventorySlot slot = inventoryBar[i];
+			if (slot.isVisible()) {
+				slot.paint(g);
+			}
+		}
+		if (timer.isVisible()) {
+			timer.paint(g);
+		}
 	}
 
 
@@ -226,7 +291,17 @@ public class Player extends Entity {
 		updateWeapon(frameCount);
 		weapon.cycle(level, info);
 
-
+		// Cycle for Hearts 
+		updateHearts();
+		for (int i = 0; i < healthBar.length; i++) {
+			healthBar[i].cycle(level, info);
+		}
+		
+		// Get current item slot
+		updateInventoryBar();
+		for (int i = 0; i < inventoryBar.length; i++) {
+			inventoryBar[i].cycle(level, info);
+		}
 
 		// Player Attack & Check for collisions
 		playerAttack(level, info.getKeysDown(), info.getFrameCount());
