@@ -77,8 +77,8 @@ public class PlayerWeapon extends Entity implements Encodable {
 					else if (entity.isOfType(DoorSwitch.TYPE)) {
 						DoorSwitch s = (DoorSwitch) entity;
 						frameAttacking = (int) info.getFrameCount();
-						s.setNextImage();
 						s.nextCombNumber();
+						s.setImageAtIndex(s.getCombNumber());
 					}
 				}
 			}

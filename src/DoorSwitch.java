@@ -14,31 +14,44 @@ import restore.Encodable;
 
 public class DoorSwitch extends Entity implements Encodable {
 	public static String TYPE = "DoorSwitch";
-	private static String[] IMAGE_FILES = {"DoorSwitch.png", "DoorSwitch_Stage1.png"};
+	private static String[] IMAGE_FILES = {"DoorSwitch.png", "DoorSwitch_Stage1.png", "LevelUpTile.png"};
 	
 	private int combNumber;
-	
+	private int maxCycle;
 	
 	/**
 	 * Initializes a DoorSwitch entity.
 	 */
 	
-	public DoorSwitch() {
+	public DoorSwitch(int maxCycle) {
 		super(TYPE, 0 , IMAGE_FILES);
 		this.combNumber = 0;
+		if (maxCycle > IMAGE_FILES.length) {
+			this.maxCycle = IMAGE_FILES.length;
+		}
+		else {
+			this.maxCycle = maxCycle;
+		}
+		
 	}
 	
 	/**
 	 * 
 	 * @param combNumber The starting combination number of the switch.
 	 */
-	public DoorSwitch(int combNumber) {
+	public DoorSwitch(int combNumber, int maxCycle) {
 		super(TYPE, 0 , IMAGE_FILES);
 		if (combNumber < IMAGE_FILES.length) {
 			this.combNumber = combNumber;
 		}
 		else {
 			this.combNumber = 0;
+		}
+		if (maxCycle > IMAGE_FILES.length) {
+			this.maxCycle = IMAGE_FILES.length;
+		}
+		else {
+			this.maxCycle = maxCycle;
 		}
 	}
 	
@@ -58,7 +71,7 @@ public class DoorSwitch extends Entity implements Encodable {
 	
 	public void nextCombNumber() {
 		this.combNumber++;
-		combNumber = combNumber % IMAGE_FILES.length;
+		combNumber = combNumber % maxCycle;
 	}
 	
 	public int getCombNumber() {

@@ -16,12 +16,12 @@ class LevelTwoCreator implements LevelCreator {
 		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
 		TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3, 0);
 
-		DoorSwitch switch1 = new DoorSwitch();
-		DoorSwitch switch2 = new DoorSwitch();
-		DoorSwitch switch3 = new DoorSwitch();
+		DoorSwitch switch1 = new DoorSwitch(2);
+		DoorSwitch switch2 = new DoorSwitch(3);
+		DoorSwitch switch3 = new DoorSwitch(2);
 		DoorSwitch[] switches = {switch1, switch2, switch3};
 
-		int[] combination = {1,1,1};
+		int[] combination = {1,2,1};
 		SwitchDoor eDoor1 = new SwitchDoor(combination, switches);
 
 
