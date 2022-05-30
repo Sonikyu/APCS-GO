@@ -319,7 +319,7 @@ public class Player extends Entity {
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
 			xDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.WEST;
-			if (!this.isOnScreen(windowSize) && getX() < 0) {
+			if (getX() < 0) {
 				this.setPosition((int) windowSize.getWidth() - getWidth(), getY());
 				level.moveRoomLeft();
 			}
@@ -327,7 +327,7 @@ public class Player extends Entity {
 		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
 			xDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.EAST;
-			if (!this.isOnScreen(windowSize) && getX() + getWidth() > windowSize.getWidth()) {
+			if (getX() + getWidth() > windowSize.getWidth()) {
 				this.setPosition(0, getY());
 				level.moveRoomRight();
 			}
@@ -339,7 +339,7 @@ public class Player extends Entity {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
 			yDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.NORTH;
-			if (!this.isOnScreen(windowSize) && getY() < 0) {
+			if (getY() < 0) {
 				this.setPosition(getX(), (int) windowSize.getHeight() - getHeight());
 				level.moveRoomUp();
 			}
@@ -347,7 +347,7 @@ public class Player extends Entity {
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
 			yDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.SOUTH;
-			if (!this.isOnScreen(windowSize) && getY() + getHeight() > windowSize.getHeight()) {
+			if (getY() + getHeight() > windowSize.getHeight()) {
 				this.setPosition(getX(), 0);
 				level.moveRoomDown();
 			}
