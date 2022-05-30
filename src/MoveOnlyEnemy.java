@@ -37,15 +37,19 @@ public class MoveOnlyEnemy extends Entity {
 		this.attackStrength = attackStrength;
 
 		if (totalXDelta < 0) {
-			this.offsetX = totalXDelta;
+			//this.offsetX = totalXDelta;
 			this.updateXBy(totalXDelta);
+			totalXDelta = -totalXDelta;
+			//this.xDelta *= -1;
 		} else {
 			this.offsetX = 0;
 		}
 		
 		if (totalYDelta < 0) {
-			this.offsetY = totalYDelta;
+			//this.offsetY = totalYDelta;
 			this.updateYBy(totalYDelta);
+			totalYDelta = -totalYDelta;
+			//this.yDelta *= -1;
 		} else {
 			this.offsetY = 0;
 		}

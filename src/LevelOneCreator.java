@@ -144,8 +144,8 @@ public class LevelOneCreator implements LevelCreator {
 		};
 		Room room = new Room(layout, p);
 		room.placeEntity(new Item(Item.ItemType.HEALPOT), 17, 9);
-		MoveOnlyEnemy enemy = new MoveOnlyEnemy(0, Tile.HEIGHT * -10, 5);
-		room.placeEntity(enemy, 8, 9);
+		MoveOnlyEnemy enemy = new MoveOnlyEnemy(0, Tile.HEIGHT * 10, 5);
+		room.placeEntity(enemy, 8, 3);
 		return room;
 	}
 	
@@ -210,9 +210,9 @@ public class LevelOneCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG",
 				"----------7GGGGGGGGG",
 				"  |       |GGGGGGGGG",
+				"  |       |GGGGGGGGG",
 				"  |   |   |GGGGGGGGG",
-				"  |   |   |GGGGGGGGG",
-				"  |   | + |GGGGGGGGG",
+				"      | + |GGGGGGGGG",
 				"      |   |GGGGGGGGG",
 				"----------JGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
