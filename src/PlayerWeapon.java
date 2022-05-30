@@ -69,7 +69,7 @@ public class PlayerWeapon extends Entity implements Encodable {
 			for (int i = 0; i < visibleEntities.size(); i++) {
 				Entity entity = visibleEntities.get(i);
 				if (collidesWith(entity)) {
-					if (entity.isOfType(MoveOnlyEnemy.TYPE) || entity.isOfType(TrackingEnemy.TYPE)) {
+					if (entity.isOfType(MoveOnlyEnemy.TYPE) || entity.isOfType(TrackingEnemy.TYPE) || entity.isOfType("BossBattleMinion")) {
 						frameAttacking = (int) info.getFrameCount();
 						entity.takeDamage(attackDamage);
 						Debugger.main.print(entity + " took " + attackDamage + " damage.");
