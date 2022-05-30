@@ -93,6 +93,7 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
 		};
 		return new Room(layout, p);

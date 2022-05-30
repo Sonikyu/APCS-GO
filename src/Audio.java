@@ -19,15 +19,21 @@ public class Audio extends Thread{
  
    private ArrayList<String> SoundList ;
    public static final Audio main = new Audio();
+   private int curr;
    private String root ;
    public Audio(){
 //      File file = new File("Audio.java");
 //      String path = file.getAbsolutePath();
       SoundList = new ArrayList<String>();         
 //      //Use root as the base string for all the sounds
-//      root = path.substring(0, path.length()-10) + "\\sounds\\";
-	  root = "sounds/";
+//     root = path.substring(0, path.length()-10) + "\\sounds\\";
+	   root = "sounds/";
+      
+      //Add Sounds
+
       SoundList.add("Angry Birds Theme Song.wav");
+
+      curr = 0;
    }
    
    public void playSound(int x){
@@ -48,11 +54,18 @@ public class Audio extends Thread{
       }
 
    }
+
+   public void changeAudio(int i){
+      curr = i;
+   }
      
 
    public void run(){
-      //TODO fill with 
-	   main.playSound(0);
+      //TODO fill with
+      int now = curr;
+      while(now == curr){
+	      main.playSound(now);
+      }
 	   
 
    }

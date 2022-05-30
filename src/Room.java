@@ -200,7 +200,7 @@ public class Room implements Encodable {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				Tile tile = tiles[i][j];
-				if (tile.isVisible()) {
+				if (tile != null && tile.isVisible()) {
 					tile.paint(g);
 				}
 			}
