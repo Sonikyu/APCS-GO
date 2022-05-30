@@ -188,6 +188,9 @@ public class Room implements Encodable {
 				tile.show();
 			}
 		}
+		for (Entity entity : entities) {
+			entity.show();
+		}
 	}
 	
 	public void unloadRoom() {

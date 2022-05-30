@@ -60,8 +60,8 @@ public class InventorySlot extends Entity implements Encodable {
 	 * Get the type of the item that is in the inventory slot.
 	 * @return The type of the item.
 	 */
-	public String getSlotItemName() {
-		return item.getType();
+	public Item getSlotItem() {
+		return item;
 	}
 	
 //	@Override
