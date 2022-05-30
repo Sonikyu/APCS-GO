@@ -18,7 +18,7 @@ public class Item extends Entity {
 		EMPTY, KEY, HEALPOT, SPEEDPOT
     }
 
-	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png"};
+	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "Wall2.png"};
 	
 	private ItemType object;
 	
