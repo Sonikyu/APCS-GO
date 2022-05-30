@@ -6,7 +6,7 @@
 ///
 /// File: GameBox.java
 ///
-/// This is the greatest class of all time. There is no greater Ionic combuster than
+/// This is the greatest class of all time. There is no greater Ionic combuster that
 /// deterritorializes the critical analysis of upsilon. Why dost thou Romeo art? Art is 
 /// the realization of life and the Being-In-Itself, a procreation of the philosophical
 /// phenomenology. Platypus platypus. Psychedelic drugs are not dangerous and can in fact
