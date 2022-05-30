@@ -15,7 +15,7 @@ import restore.CoderException;
 /** @author Johnny, Ethan */ 
 
 public class PlayerWeapon extends Entity implements Encodable {
-	private static String TYPE = "Attack";
+	public static String TYPE = "Attack";
 	private static String[] IMAGE_FILES = {"PlayerAttack_North.png", "PlayerAttack_East.png",  "PlayerAttack_South.png",  "PlayerAttack_West.png"};
 	
 	private int attackDamage;

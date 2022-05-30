@@ -4,6 +4,9 @@ import java.util.HashSet;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import restore.Encodable;
+
 import java.awt.event.KeyEvent;
 
 //AP CS Project
@@ -17,7 +20,7 @@ import java.awt.event.KeyEvent;
 //Add your name here if you work on this class:
 /** @author Uday */ 
 
-public class NPCGuard extends Entity {
+public class NPCGuard extends Entity implements Encodable {
 	public static String TYPE = "NPCGuard";
 	private static int MAX_HEALTH = 100000;
 	private static String IMAGE_FILE = "HelpfulNPC.png";
@@ -25,6 +28,7 @@ public class NPCGuard extends Entity {
 	private int range = 75;
 	ImageIcon image;
 	private JFrame NPCDialogue = new JFrame();
+	
 	public NPCGuard(ImageIcon image) {
 		super(NPCGuard.TYPE, NPCGuard.MAX_HEALTH, NPCGuard.IMAGE_FILE);
 		this.image = image;
@@ -37,6 +41,10 @@ public class NPCGuard extends Entity {
 		NPCDialogue.setVisible(false);
 		
 	}
+	
+//	public NPCGuard(Coder coder) {
+//		
+//	}
 	
 	public void cycle(Level level, Game.GameInfo info) {
 		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();

@@ -1,3 +1,6 @@
+import restore.Coder;
+import restore.CoderException;
+import restore.Encodable;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -10,7 +13,7 @@
 // Add your name here if you work on this class:
 /** @author Johnny */ 
 
-public class StartScreen extends Entity {
+public class StartScreen extends Entity implements Encodable {
 	public static String TYPE = "StartScreen";
 	private static String IMAGE_FILE =  "StartScreen.png";
 	
@@ -18,7 +21,13 @@ public class StartScreen extends Entity {
 		super(TYPE, 0, IMAGE_FILE);
 	}
 	
+	public StartScreen(Coder coder) throws CoderException {
+		super(coder);
+	}
 	
+	public void encode(Coder coder) {
+		super.encode(coder);
+	}
 
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
