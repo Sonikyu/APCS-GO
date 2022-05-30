@@ -53,7 +53,10 @@ public class LevelOneCreator implements LevelCreator {
 				"|                  |",
 				"L__________________J",
 		};
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		room.placeEntity(new BossBattleTracker(), 8, 10);
+		return room;
+		
 	}
 	
 	private Room createStartingRoom(Player p) {

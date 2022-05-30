@@ -15,10 +15,10 @@ import restore.Coder;
 public class Item extends Entity {
 
 	public enum ItemType {
-		EMPTY, KEY, HEALPOT, SPEEDPOT
+		EMPTY, KEY, HEALPOT, SPEEDPOT, LUCKPOT
     }
 
-	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "Wall2.png"};
+	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png", "LuckPot.png"};
 	
 	private ItemType object;
 	
@@ -78,26 +78,25 @@ public class Item extends Entity {
 		
 		if (this.object != ItemType.EMPTY){
 			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
-			for (int i = 0; i < visibleEntities.size(); i++) {
-				Entity entity = visibleEntities.get(i);
-				if (collidesWith(entity)) {
-					if (entity.isOfType(Player.TYPE)) {
-						Player p = (Player) entity;						
-						int temp = p.firstOccur(ItemType.EMPTY);							
-						if(temp >= 0){
-							p.addItem(this); 
-							Debugger.main.print("Player obtained " + this);
-							hide();
+				for (int i = 0; i < visibleEntities.size(); i++) {
+					Entity entity = visibleEntities.get(i);
+					if (collidesWith(entity)) {
+						if (entity.isOfType(Player.TYPE)) {
+							Player p = (Player) entity;						
+							int temp = p.firstOccur(ItemType.EMPTY);							
+							if(temp >= 0){
+								p.addItem(this); 
+								Debugger.main.print("Player obtained " + this);
+								hide();
+							}
+							else{
+								Debugger.main.print("Full inventory, didn't pick up " + this);
+							}
 						}
-						else{
-							Debugger.main.print("Full inventory, didn't pick up " + this);
-						}
-					}
 
-				}
+					}
 			}
 		}
-		
 	}
 	
 }
