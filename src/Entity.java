@@ -90,7 +90,6 @@ public abstract class Entity implements ImageObserver, Encodable {
 		this.images = new Image[imageNames.length];
 		this.currentImage = 0;
 		for (int i = 0; i < imageNames.length; i++) {
-			imageNames[i] = "Wall2.png";
 			this.images[i] = new ImageIcon("images/" + imageNames[i]).getImage();
 		}
 		
