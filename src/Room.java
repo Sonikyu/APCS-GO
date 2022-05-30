@@ -148,7 +148,7 @@ public class Room implements Encodable {
 		System.out.println("PlayerPostion called");
 		for (Tile[] row: tiles) {
 			for (Tile tile: row) {
-				if (tile.getMaterial() == Tile.Material.START) {
+				if (tile != null && tile.getMaterial() == Tile.Material.START) {
 					Debugger.main.print("Start tile found");
 					player.setPosition(tile.getX(), tile.getY());
 					System.out.println("Tile Found: X: " + tile.getX() + "| Y: " + tile.getY());
@@ -340,7 +340,7 @@ public class Room implements Encodable {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				Tile tile = tiles[i][j];
-				if (tile.isVisible()) {
+				if (tile != null && tile.isVisible()) {
 					visibleEntities.add(tile);
 				}
 			}

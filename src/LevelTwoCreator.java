@@ -1,3 +1,5 @@
+import javax.swing.text.html.parser.DTD;
+
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
 //
@@ -12,7 +14,10 @@
 
 
 class LevelTwoCreator implements LevelCreator {
+	private Player p;
 	public Level createLevel(Player p) {
+		this.p = p;
+		/*
 		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
 		TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3, 0);
 
@@ -23,68 +28,350 @@ class LevelTwoCreator implements LevelCreator {
 
 		int[] combination = {1,1,1};
 		SwitchDoor eDoor1 = new SwitchDoor(combination, switches);
-
-
-
-		String[] room1Layout = {
-				"P###################",
-				"|                   ",
-				"|  S                ",
-				"|                   ",
-				"|                   ",
-				"|                   ",
-				"|              #####",
-				"|                   ",
-				"|  +                ",
-				"|                   ",
-				"|                   ",
-				"|                   ",
-				"|                   ",
-				"|##                 ",
-				"L###################"
+		*/
+		Room[][] rooms = {
+			{L(),   UL(),	null,	null,	null,	null,	null},
+			{U(), 	UD(),	U(),	UR(),	LR(),	R(),	U()},
+			{UD(), 	UD(),   DR(),	RUD(),	UR(),	LR(),	RUD()},
+			{DR(), 	DLR(),	ULR(),	ULDR(),	RUD(),	L(),	RUD()},
+			{null, 	UR(),	RUD(),	UD(),	DR(),	UL(),	UD()},
+			{L(), 	DL(),	UD(),	UD(),	null,	UD(),	UD()},
+			{null, 	null,	D(),	D(),	L(),	DL(),	D()},
 		};
-		String[] room2Layout = {
-				"###################7",
-				"                   |",
-				"                   |",
-				"                   |",
-				"                   |",
-				"                   |",
-				"              #####|",
-				"                   |",
-				"                   |",
-				"                   |",
-				"                   |",
-				"                   |",
-				"                   |",
-				"                 ##|",
-				"###################J"
-		};
-		Room room1 = new Room(room1Layout, p);
-		Room room2 = new Room(room2Layout, p);
-		room1.placeEntity(enemy1, 16, 1);
-		room1.placeEntity(enemy2, 10, 13);
-		room2.placeEntity(switch1, 18, 1);
-		room2.placeEntity(switch2, 18, 13);
-		room1.placeEntity(switch3, 5, 5);
-		room2.placeEntity(eDoor1, 2, 2);
 
+		// Auto find starting room
+		Room startingRoom = rooms[3][3];
+		int row = 0;
+		int col = 0;
+		for (int i = 0; i < rooms.length; i++) {
+			for (int j = 0; j < rooms[0].length; j++) {
+				// Double equal works because we aren't checking for equality just the same class
+				if (rooms[i][j] == startingRoom) {
+					row = i;
+					col = j;
+					break;
+				}
+			}
+		}
 
-
-		Room[][] rooms = {{ room1, room2}};
-
-
-
-		Item key1 = new Item(Item.ItemType.KEY);
-		Item healPot1 = new Item(Item.ItemType.HEALPOT);
-		key1.setPosition(200, 200);
-		healPot1.setPosition(260, 200);
-		room1.addEntity(key1);
-		room1.addEntity(healPot1);
-
-		room1.setPlayerPosition();
-		Level level = new Level(rooms, 0, 0, p);
-
+		Level level = new Level(rooms, row, col, p);
 		return level;
-	}		
+	}
+	private Room LR(){	
+		String [] layout = {		
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"####################",
+				"                    ",
+				"                    ",
+				"                    ",
+				"                    ",
+				"                    ",
+				"####################",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG"
+		};
+		return new Room(layout, p);
+	}
+
+	private Room UD(){
+		String [] layout = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};
+		return new Room(layout, p);
+	}
+
+
+	private Room ULDR(){
+		String [] layout = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"####|          |####",
+				"                    ",
+				"                    ",
+				"         S          ",
+				"                    ",
+				"                    ",
+				"####|          |####",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};
+		return new Room(layout, p);
+	}
+
+	private Room DLR(){
+		String [] layout = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"####|          |####",
+				"                    ",
+				"                    ",
+				"                    ",
+				"                    ",
+				"                    ",
+				"####################",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG"
+		};
+		return new Room(layout, p);
+	}
+	
+	private Room LUD(){
+		String [] layout = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |####",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|          |####",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};
+		return new Room(layout, p);
+	}
+	private Room ULR(){
+		String [] layout =  {
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"####################",
+				"                    ",
+				"                    ",
+				"                    ",
+				"                    ",
+				"                    ",
+				"####|          |####",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};
+		return new Room(layout, p);
+	}
+		
+	private Room RUD(){
+		String [] layout  = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"####|          |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"####|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};
+		return new Room(layout, p);
+	}
+
+	private Room DR(){
+		String [] layout = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |####",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|###############",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG"
+		};
+		return new Room(layout, p);
+	}
+
+	private Room DL(){
+		String [] layout = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"####|          |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"###############|GGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG"
+		};
+		return new Room(layout, p);
+	}
+		
+	private Room UR(){
+		String [] layout = {
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGG|###############",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|          #####",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};	
+		return new Room(layout, p);
+	}
+
+	private Room UL(){
+		String[] layout = {
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"###############|GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"####|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};	
+		return new Room(layout, p);
+	}
+
+	private Room R(){
+		String[] layout = {
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"###############|GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"###############|GGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+		};
+
+		return new Room(layout, p);
+	}
+
+	private Room U(){
+		String[] layout = {
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGG############GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};	
+		return new Room(layout, p);
+	}
+
+
+	private Room D(){
+		String [] layout = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|##########|GGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG"
+		};
+		return new Room(layout, p);
+	}
+
+	private Room L(){
+		String [] layout = {
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGG################",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|               ",
+				"GGGG|###############",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG"
+		};
+
+		return new Room(layout, p);
+	}
+
 }
