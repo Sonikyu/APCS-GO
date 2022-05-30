@@ -239,7 +239,7 @@ public class Player extends Entity {
 
 				double distance = Math.sqrt(Math.pow(entity.getX() - getX(), 2) + Math.pow(entity.getY() - getY(), 2));
 				boolean hasKey = false;
-				if(firstOccur(Item.ItemType.KEY) >= 0){
+				if (inventory[currentSlot].getItemType() == (Item.ItemType.KEY)){
 					hasKey = true;
 				}
 				if(hasKey && distance < 50){
@@ -327,7 +327,7 @@ public class Player extends Entity {
 			xDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.EAST;
 			if (getX() + 2 > windowSize.getWidth()) {
-				this.setPosition(-getWidth()/2, getY());
+				this.setPosition(-getWidth() + 2, getY());
 				level.moveRoomRight();
 			}
 		}

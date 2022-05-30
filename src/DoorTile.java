@@ -1,3 +1,6 @@
+
+
+
 public class DoorTile extends Tile{
     private boolean open;
     public DoorTile(){

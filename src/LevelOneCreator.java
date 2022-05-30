@@ -17,7 +17,7 @@ public class LevelOneCreator implements LevelCreator {
 		Room startingRoom = this.createStartingRoom(p);
 		Room keyRoom = this.createKeyRoom(p);
 		Room weaponRoom = this.createWeaponRoom(p);
-		Room enemyRoom = this.creatEnemyRoom(p);
+		Room enemyRoom = this.createEnemyRoom(p);
 		Room potionRoom = this.createPotionRoom(p);
 		Room trackingEnemyRoom = this.createTrackingEnemyRoom(p);
 		Room goalRoom = this.createGoalRoom(p);
@@ -142,7 +142,7 @@ public class LevelOneCreator implements LevelCreator {
 		return room;
 	}
 	
-	private Room creatEnemyRoom(Player p) {
+	private Room createEnemyRoom(Player p) {
 		String[] layout = {
 				"GGGGGP------7GGGGGGG",
 				"GGGGG|      |GGGGGGG",
