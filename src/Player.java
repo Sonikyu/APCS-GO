@@ -129,11 +129,17 @@ public class Player extends Entity {
 			Debugger.main.print("The player healed 30 HP");
 			inventory[currentSlot].getSlotItem().setItemType(Item.ItemType.EMPTY);
 			Debugger.main.print("The item slot is now empty");
+			SFX.main.run(5);
 			break;
 		case SPEEDPOT:
 			speedUp = true;
 			spedUpFrame = frameCount;
+<<<<<<< Updated upstream
 			inventory[currentSlot].getSlotItem().setEmpty();
+=======
+			inventory[currentSlot].setEmpty();
+			SFX.main.run(5);
+>>>>>>> Stashed changes
 		case KEY:
 			inventory[currentSlot].getSlotItem().setEmpty();
 		default:
@@ -261,6 +267,7 @@ public class Player extends Entity {
 		// Determine player costume (damaged or not)
 		if (frameCount - lastFrameAttacked < ANIMATION_TIME) {
 			this.setImageAtIndex(1);
+
 		}
 		else {
 			this.setImageAtIndex(0);
@@ -307,6 +314,7 @@ public class Player extends Entity {
 						useItem(info.getFrameCount());
 						t.setOpen(true);
 						t.setImageAtIndex(1);
+						SFX.main.run(3);
 					}
 				}
 			}
@@ -366,6 +374,7 @@ public class Player extends Entity {
 	public void takeDamage(Game.GameInfo info, int change) {
 		super.takeDamage(change);
 		lastFrameAttacked = (int) info.getFrameCount();
+		SFX.main.run(7);
 		if (isDead()) {
 			Debugger.main.print(getID() + " is dead and cannot be damaged further");
 		} else {
@@ -454,6 +463,7 @@ public class Player extends Entity {
 			if (l - lastFrameAttacking > ATTACK_COOLDOWN) {
 				isAttacking = true;
 				lastFrameAttacking = l;
+				SFX.main.run(6);
 			}
 		}
 	}

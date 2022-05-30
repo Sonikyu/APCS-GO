@@ -55,6 +55,10 @@ class LevelTwoCreator implements LevelCreator {
 		}
 
 		Level level = new Level(rooms, row, col, p);
+		
+		Audio.main.stopAudio();		
+		Audio.main.run(2);
+		Audio.main.loopAudio();
 		return level;
 	}
 	private Room LR(){	

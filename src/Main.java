@@ -84,7 +84,12 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 
+<<<<<<< Updated upstream
 		// MOOSIC
 		//Audio.main.run();
+=======
+		// MOOSIC : Done through other classes LOl
+		
+>>>>>>> Stashed changes
 	}
 }

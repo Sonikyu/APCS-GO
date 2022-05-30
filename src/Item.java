@@ -91,6 +91,7 @@ public class Item extends Entity {
 						if(temp >= 0){
 							p.addItem(this); 
 							Debugger.main.print("Player obtained " + this);
+							SFX.main.run(4);
 							hide();
 						}
 						else{

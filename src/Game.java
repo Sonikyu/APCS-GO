@@ -273,6 +273,9 @@ public class Game implements Encodable {
 		public void startGame() {
 			Timer.timer.start();
 			state = GameState.IN_GAME;
+			Audio.main.stopAudio();
+			Audio.main.run(1);
+			Audio.main.loopAudio();
 		}
 		
 		/**
