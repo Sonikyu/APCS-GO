@@ -53,25 +53,26 @@ public class Item extends Entity {
 		
 		if (this.object != ItemType.EMPTY){
 			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
-				for (int i = 0; i < visibleEntities.size(); i++) {
-					Entity entity = visibleEntities.get(i);
-					if (collidesWith(entity)) {
-						if (entity.isOfType(Player.TYPE)) {
-							Player p = (Player) entity;						
-							int temp = p.firstOccur(ItemType.EMPTY);							
-							if(temp >= 0){
-								p.addItem(this); 
-								Debugger.main.print("Player obtained " + this);
-								hide();
-							}
-							else{
-								Debugger.main.print("Full inventory, didn't pick up " + this);
-							}
+			for (int i = 0; i < visibleEntities.size(); i++) {
+				Entity entity = visibleEntities.get(i);
+				if (collidesWith(entity)) {
+					if (entity.isOfType(Player.TYPE)) {
+						Player p = (Player) entity;						
+						int temp = p.firstOccur(ItemType.EMPTY);							
+						if(temp >= 0){
+							p.addItem(this); 
+							Debugger.main.print("Player obtained " + this);
+							hide();
 						}
-
+						else{
+							Debugger.main.print("Full inventory, didn't pick up " + this);
+						}
 					}
+
+				}
 			}
 		}
+		
 	}
 	
 }

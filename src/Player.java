@@ -1,6 +1,9 @@
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
@@ -15,45 +18,45 @@ import restore.Coder;
 // File: Player.java
 //
 // Add your name here if you work on this class:
-/** @author Johnny Ethan Alex*/ 
+/** @author Johnny Ethan Alex*/
 public class Player extends Entity {
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
 	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
 	private static int PLAYER_SPEED = 1;
-	
+
 	public static final int INVENTORY_SIZE = 9;
 
 	private int xDelta;
 	private int yDelta;
-	
+
 	private long lastFrameAttacked;
-	
+
 	//time for player to cycle through animation
 	private static final int ANIMATION_TIME = 100;
 
 	private Item[] inventory;
 	private int currentSlot;
-	
+
 	private PlayerWeapon weapon;
 	private static final int ATTACK_COOLDOWN = 100;
 	public static final int ATTACK_DURATION = 20;
 	private int attackDamage = 30;
-	
+
 	public boolean isAttacking;
 	private long lastFrameAttacking;
-	
+
 	private boolean speedUp = false;
 	private long spedUpFrame;
-	
-	
+
+
 	private PlayerDirection pD;
 
-	public enum PlayerDirection { 
+	public enum PlayerDirection {
 	NORTH, NORTH_EAST, EAST, SOUTH_EAST, SOUTH, SOUTH_WEST, WEST, NORTH_WEST
 	}
-	
-	
+
+
 	public Player() {
 		super(Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILES);
 		this.xDelta = 0;
@@ -67,7 +70,7 @@ public class Player extends Entity {
 		pD = PlayerDirection.NORTH;
 		this.weapon = new PlayerWeapon(pD, this.attackDamage);
 	}
-	
+
 	public Player(Coder coder) {
 		super(coder);
 		this.xDelta = 0;
@@ -80,7 +83,7 @@ public class Player extends Entity {
 		currentSlot = coder.decodeInt();
 		pD = PlayerDirection.NORTH;
 	}
-	
+
 	public void encode(Coder coder) {
 		super.encode(coder);
 		for (int i = 0; i < INVENTORY_SIZE; i++) {
@@ -88,7 +91,7 @@ public class Player extends Entity {
 		}
 		coder.encode(currentSlot);
 	}
-	
+
 	/**
 	 *  Gets player heart count for display
 	 */
@@ -102,34 +105,34 @@ public class Player extends Entity {
 		}
 		return 0;
 	}
-	
+
 	public void respawn() {
 		setHealth(MAX_HEALTH);
 		for (int i = 0; i < inventory.length; i++) {
 			inventory[i].setEmpty();
 		}
 	}
-	
+
 	public int getAttackDamage() {
 		return attackDamage;
 	}
-	
+
 	public void setAttackDamage(int damageValue) {
 		attackDamage = damageValue;
 	}
-	
+
 	public PlayerDirection getPlayerDirection() {
 		return pD;
 	}
-	
+
 	public Item[] getInventory() {
 		return inventory;
 	}
-	
+
 	public int getCurrentSlot() {
 		return currentSlot;
 	}
-	
+
 	public void useItem(long frameCount) {
 		switch (inventory[currentSlot].getItemType()) {
 		case EMPTY:
@@ -144,11 +147,13 @@ public class Player extends Entity {
 			speedUp = true;
 			spedUpFrame = frameCount;
 			inventory[currentSlot].setEmpty();
+		case KEY:
+			inventory[currentSlot].setEmpty();
 		default:
 			break;
 		}
 	}
-	
+
 
 	public int firstOccur(Item.ItemType item){
 		for(int i = 0; i < inventory.length; i++){
@@ -165,7 +170,7 @@ public class Player extends Entity {
 			inventory[temp]=item;
 		}
 	}
-	
+
 	public void updateWeapon(long frameCount) {
 		if (isAttacking) {
 			weapon.setPosition(this);
@@ -177,10 +182,10 @@ public class Player extends Entity {
 		if (frameCount - lastFrameAttacking > Player.ATTACK_DURATION) {
 			weapon.setDirection(pD);
 		}
-		
-		
+
+
 	}
-	
+
 	@Override
 	public void paint(Graphics2D g) {
 		if (weapon.isVisible()) {
@@ -188,17 +193,17 @@ public class Player extends Entity {
 		}
 		super.paint(g);
 	}
-	
-	
+
+
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		// Player does not move automatically
 		xDelta = 0;
 		yDelta = 0;
-		
-		
+
+
 		long frameCount = info.getFrameCount();
-		
+
 		if (speedUp) {
 			if (frameCount - spedUpFrame <= 200) {
 				PLAYER_SPEED = 2;
@@ -215,29 +220,48 @@ public class Player extends Entity {
 		else {
 			this.setImageAtIndex(0);
 		}
-		
+
 		final ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
-		
+
 		// Update current inventory slot
 		inventoryUpdate(level, info.getKeysDown(), frameCount);
-		
+
 		// Update player attack
 		updateWeapon(frameCount);
 		weapon.cycle(level, info);
-		
+
+
+
 		// Player Attack & Check for collisions
 		playerAttack(level, info.getKeysDown(), info.getFrameCount());
-		if (isDead()) info.restartLevel(); 
+		if (isDead()) info.restartLevel();
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
-			if (collidesWith(entity)) {				
-				if (entity.isOfType("DoorTile")) {
-					if (inventory[currentSlot].isOfType("Key")) {
+
+
+			if (entity.isOfType("DoorTile")) {
+
+				double distance = Math.sqrt(Math.pow(entity.getX() - getX(), 2) + Math.pow(entity.getY() - getY(), 2));
+				boolean hasKey = false;
+				if(firstOccur(Item.ItemType.KEY) >= 0){
+					hasKey = true;
+				}
+				if(hasKey && distance < 50){
+					System.out.print("Collided with Door with Key");
+					Tile t = (Tile) entity;
+					if(!t.getOpen()){
+						System.out.print("trying to open");
 						useItem(info.getFrameCount());
 						entity.setImageAtIndex(1);
+						t.setOpen(true);
+						t.changeMaterial(Tile.Material.FLOOR);
+						t.setImageAtIndex(1);
 					}
 				}
-				else if (entity.isOfType("LevelUpTile")) {
+			}
+
+			if (collidesWith(entity) ) {
+				if (entity.isOfType("LevelUpTile")) {
 					for (int j = 0; j < inventory.length; j++) {
 						inventory[j].setEmpty();
 					}
@@ -248,7 +272,7 @@ public class Player extends Entity {
 				}
 			}
 		}
-		
+
 		// Move with arrow keys
 		moveOnKeysHorizontal(level, info.getKeysDown(), info.getSize());
 		if (shouldRevertMovement(visibleEntities)) {
@@ -259,11 +283,11 @@ public class Player extends Entity {
 			revertLastVerticalMovement();
 		}
 	}
-	
+
 	boolean shouldRevertMovement(ArrayList<Entity> visibleEntities) {
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
-			if (collidesWith(entity)) {				
+			if (collidesWith(entity)) {
 				// TODO: Replace with the static variables
 				if (entity.isOfType(Tile.WALL_TYPES)) {
 					return true;
@@ -275,13 +299,13 @@ public class Player extends Entity {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void heal(int change) {
 		super.heal(change);
 		Debugger.main.print(getID() + " healed " + change + ", now at " + getHealth());
 	}
-	
+
 	public void takeDamage(Game.GameInfo info, int change) {
 		super.takeDamage(change);
 		lastFrameAttacked = (int) info.getFrameCount();
@@ -291,7 +315,7 @@ public class Player extends Entity {
 			Debugger.main.print(getID() + " took " + change + " damage points" + ", now at " + getHealth());
 		}
 	}
-		
+
 	private void moveOnKeysHorizontal(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
 			xDelta -= Player.PLAYER_SPEED;
@@ -311,14 +335,14 @@ public class Player extends Entity {
 		}
 		updateXBy(xDelta);
 	}
-	
+
 	private void moveOnKeysVertical(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
 			yDelta -= Player.PLAYER_SPEED;
 			this.pD = PlayerDirection.NORTH;
 			if (!this.isOnScreen(windowSize) && getY() < 0) {
 				this.setPosition(getX(), (int) windowSize.getHeight());
-				level.moveRoomUp();				
+				level.moveRoomUp();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
@@ -331,7 +355,7 @@ public class Player extends Entity {
 		}
 		updateYBy(yDelta);
 	}
-	
+
 	public void inventoryUpdate(Level level, HashSet<Integer> keysDown, long frameCount) {
 		if (keysDown.contains(KeyEvent.VK_ENTER)) {
 			useItem(frameCount);
@@ -364,7 +388,7 @@ public class Player extends Entity {
 			currentSlot = 8;
 		}
 	}
-	
+
 	public void playerAttack(Level level, HashSet<Integer> keysDown, long l) {
 		if (l - lastFrameAttacking > ATTACK_DURATION) {
 			isAttacking = false;
@@ -376,7 +400,7 @@ public class Player extends Entity {
 			}
 		}
 	}
-	
+
 
 	/**
 	 * Reverts the last movement made by the player
@@ -385,10 +409,9 @@ public class Player extends Entity {
 		xDelta *= -1;
 		updateXBy(xDelta);
 	}
-	
+
 	private void revertLastVerticalMovement() {
 		yDelta *= -1;
 		updateYBy(yDelta);
 	}
 }
- 

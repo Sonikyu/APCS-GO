@@ -10,8 +10,10 @@
 /** @author Alex, Johnny */
 
 import restore.Coder;
+import java.util.ArrayList;
 
 public class Tile extends Entity {
+    private boolean open;
     public enum Material {
         WALL, FLOOR, DOOR, START, GOAL, LEVEL_UP, GRASS
     }
@@ -33,6 +35,9 @@ public class Tile extends Entity {
     public Tile(Material material){
         super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);
         this.material = material;
+        if(material == Material.DOOR){
+            open = false;
+        }
     }
     
     public Tile(Coder coder) {
@@ -43,9 +48,21 @@ public class Tile extends Entity {
     	super.encode(coder);
     }
 
+    public boolean getOpen(){
+        return open;
+    }
+
+    public void setOpen(boolean bool){
+        open = bool;
+    }
+
+    public void changeMaterial(Material material){
+        this.material = material;
+    }
+
     @Override
     public void cycle(Level level, Game.GameInfo info){
-    	
+
     }
 }
 
