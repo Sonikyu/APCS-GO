@@ -246,7 +246,6 @@ public class Player extends Entity {
 					DoorTile t = (DoorTile) entity;
 					if(!t.isOpen()){
 						useItem(info.getFrameCount());
-						entity.setImageAtIndex(1);
 						t.setOpen(true);
 						t.setImageAtIndex(1);
 					}
@@ -284,8 +283,8 @@ public class Player extends Entity {
 				// TODO: Replace with the static variables
 				if (entity.isOfType("DoorTile")){
 					DoorTile t = (DoorTile) entity;
-					if(t.isOpen()){
-					return false;
+					if (t.isOpen()) {
+						continue;
 					}
 				}
 				if (entity.isOfType(Tile.WALL_TYPES)) {
@@ -319,15 +318,15 @@ public class Player extends Entity {
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
 			xDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.WEST;
-			if (getX() < -getWidth()/2) {
-				this.setPosition((int) windowSize.getWidth() - getWidth()/2, getY());
+			if (getX() < -2) {
+				this.setPosition((int) windowSize.getWidth() - 2, getY());
 				level.moveRoomLeft();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
 			xDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.EAST;
-			if (getX() + getWidth()/2 > windowSize.getWidth()) {
+			if (getX() + 2 > windowSize.getWidth()) {
 				this.setPosition(-getWidth()/2, getY());
 				level.moveRoomRight();
 			}
@@ -340,15 +339,15 @@ public class Player extends Entity {
 			yDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.NORTH;
 			if (getY() < -getHeight()/2) {
-				this.setPosition(getX(), (int) windowSize.getHeight() - getHeight()/2);
+				this.setPosition(getX(), (int) windowSize.getHeight() - 2);
 				level.moveRoomUp();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
 			yDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.SOUTH;
-			if (getY() + getHeight()/2 > windowSize.getHeight()) {
-				this.setPosition(getX(), -getHeight()/2);
+			if (getY() + 2 > windowSize.getHeight()) {
+				this.setPosition(getX(), -2);
 				level.moveRoomDown();
 			}
 		}

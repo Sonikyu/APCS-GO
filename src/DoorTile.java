@@ -12,5 +12,4 @@ public class DoorTile extends Tile{
     public void setOpen(boolean bool){
         open = bool;
     }
-
 }
