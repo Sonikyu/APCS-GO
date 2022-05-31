@@ -19,6 +19,9 @@ public class TimerDisplay extends Entity {
 	public static String TYPE = "TimerDisplay";
 	private static String IMAGE_FILE =  "TimerDisplay.png";
 	
+	/**
+	 * Initializes a TimerDisplay entity.
+	 */
 	public TimerDisplay() {
 		super(TYPE, 0, IMAGE_FILE);
 	}
@@ -28,6 +31,10 @@ public class TimerDisplay extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * Sets the position of the TimerDisplay.
+	 * @param time The current time of the timer.
+	 */
 	public void setPosition(long time) {
 		int digits = 0;
 		if (time == 0) {
@@ -40,6 +47,10 @@ public class TimerDisplay extends Entity {
 		super.setPosition(790 - (20 * digits), 30);
 	}
 	
+	/**
+	 * Paints the TimerDisplay object.
+	 * @param g The graphics object the entity is painted to.
+	 */
 	@Override
 	public void paint(Graphics2D g) {
 		super.paint(g);
@@ -51,6 +62,11 @@ public class TimerDisplay extends Entity {
 		g.drawString(time, getX(), getY());
 	}
 
+	/**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 	}

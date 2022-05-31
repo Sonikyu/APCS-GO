@@ -37,6 +37,18 @@ public class TrackingEnemy extends Entity{
 	private boolean stunned = false;
 	private boolean transitioning = false;
 	
+	/**
+	 * Initializes a TrackingEnemy entity.
+	 * @param range The range the enemy can track
+	 * @param xTether The x-position of the tether.
+	 * @param yTether The y-position of the tether.
+	 * @param attackStrength The entity's damage value.
+	 * @param stunTransitionDuration The entity's stun duration before returning to the tether.
+	 * @param stunStationaryDuration The entity's stun duration when colliding with a wall.
+	 * @param attackDelay The enemy's delay between attacks.
+	 * @param refreshSpeed The rate at which the frames affect the enemy.
+	 */
+	
 	public TrackingEnemy(int range, int xTether, int yTether, int attackStrength, int stunTransitionDuration, int stunStationaryDuration, int attackDelay, int refreshSpeed) {
 		super(TrackingEnemy.TYPE, TrackingEnemy.MAX_HEALTH, TrackingEnemy.IMAGE_FILE);
 		this.range = range;
@@ -48,7 +60,15 @@ public class TrackingEnemy extends Entity{
 		this.attackDelay = attackDelay;
 		this.refreshSpeed = refreshSpeed;
 	}
-	
+	/**
+	 * Initializes a TrackingEnemy entity.
+	 * @param range The range the enemy can track in tiles.
+	 * @param xTether The x-position of the tether in terms of tiles.
+	 * @param yTether The y-position of the tether in terms of tiles.
+	 * @param attackStrength The entity's damage value.
+	 * @param stunTransitionDuration The entity's stun duration before returning to the tether.
+	 * @param stunStationaryDuration The entity's stun duration when colliding with a wall.
+	 */
 	public TrackingEnemy(int rangeInTiles, int colTether, int rowTether, int attackStrength, int stunTransitionDuration, int stunStationaryDuration) {
 		this(rangeInTiles * Tile.WIDTH, colTether * Tile.WIDTH, rowTether * Tile.HEIGHT, attackStrength, stunTransitionDuration, stunStationaryDuration, 150, 3);
 	}
@@ -87,17 +107,30 @@ public class TrackingEnemy extends Entity{
 		coder.encode(this.transitioning);
 	}
 	
+	/**
+	 * Determines if the entity should show or not.
+	 * @return Whether the entity should show or not.
+	 */
 	@Override
 	public boolean shouldShow() {
 		return !isDead();
 	}
 	
+	/**
+	 * Determines if the entity should show or not.
+	 * @return Whether the tntiy should show or not.
+	 */
 	@Override
 	public void whenDead() {
 		SFX.main.run(SFX.Sound.ENTITYKILLED);
 		hide();
 	}
 	
+	/**
+	 * Makes the enemy move.
+	 * @param xPffset The change in the entity's x-coordinate.
+	 * @param yOffset The change in the entity's y-coordinate.
+	 */
 	public void move(int xOffset, int yOffset) {
 		if (xOffset < 0) {
 			updateXBy(1);
@@ -115,6 +148,12 @@ public class TrackingEnemy extends Entity{
 		}
 	}
 	
+	
+	/**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	public void cycle(Level level, Game.GameInfo info) {
 		if (refreshSpeed != 0 && info.getFrameCount() % refreshSpeed != 0) {
 			final long frameCount = info.getFrameCount();

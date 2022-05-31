@@ -18,7 +18,12 @@ public class BossBattleTracker extends Entity implements Encodable {
 	private Boss boss;
 	
 	
-	
+	/**
+	 * Initalizes a boss minion.
+	 * @param boss The boss entity.
+	 * @param type The entity's type.
+	 * @param refreshSpeed The number of frames.
+	 */
 	public BossBattleTracker(Boss boss, String type, int refreshSpeed) {
 		super(type, BossBattleTracker.MAX_HEALTH, BossBattleTracker.IMAGE_FILE);
 		this.TYPE = type;
@@ -26,32 +31,54 @@ public class BossBattleTracker extends Entity implements Encodable {
 		this.refreshSpeed = refreshSpeed;
 	}
 	
+	/**
+	 * See coder class.
+	 */
 	public BossBattleTracker(Coder coder) throws CoderException {
 		super(coder);
 		this.boss = new Boss(coder);
 	}
 	
+	/**
+	 * See coder class.
+	 */
 	public void encode(Coder coder) {
 		super.encode(coder);
 		boss.encode(coder);
 	}
 	
+	/**
+	 * Determines if the entity should be showing.
+	 * @return Whether the entity should show or not.
+	 */
 	@Override
 	public boolean shouldShow() {
 		return !isDead();
 	}
 	
+	/**
+	 * Hides the entity when it dies.
+	 */
 	@Override
 	public void whenDead() {
 		hide();
 	}
 	
+	/**
+	 * Makes the entity take damage.
+	 * @param change The amount of damage the entity takes.
+	 */
 	@Override
 	public void takeDamage(int change) {
 		super.takeDamage(change);
 		boss.setMinionAttack(true);
 	}
 	
+	/**
+	 * Moves the entity.
+	 * @param xOffset The change in the x-coordinate.
+	 * @param yOffSet The change in the y-coordinate.
+	 */
 	public void move(int xOffset, int yOffset) {
 		if (xOffset < 0) {
 			updateXBy(1);
@@ -69,6 +96,11 @@ public class BossBattleTracker extends Entity implements Encodable {
 		}
 	}
 	
+	/**
+	 * Cycles the entity every frame.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	public void cycle(Level level, Game.GameInfo info) {
 		frameCount = info.getFrameCount();
 		if (frameCount % refreshSpeed != 0) {

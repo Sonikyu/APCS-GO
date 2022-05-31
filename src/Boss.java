@@ -8,7 +8,7 @@ import restore.CoderException;
 //This is a template comment that you should paste verbatim above every class.
 //Fill out any necessary information:
 //
-//File: NPCGuard.java
+//File: Boss.java
 //
 //Add your name here if you work on this class:
 /** @author Uday */ 
@@ -37,22 +37,41 @@ public class Boss extends Entity{
 	private boolean retreat = false;
 	private boolean aggravated = false;
 	
+	
+	/**
+	 * Initializes a boss entity.
+	 */
 	public Boss() {
 		super(Boss.TYPE, Boss.MAX_HEALTH, Boss.IMAGE_FILE);;
 	}
 	
+	/**
+	 * See coder class.
+	 */
 	public Boss(Coder coder) throws CoderException {
 		super(coder);
 	}
 	
+	/**
+	 * See coder class.
+	 */
 	public void encode(Coder coder) {
 		super.encode(coder);
 	}
+	
+	/**
+	 * Determines if the minion has been attacked.
+	 * @param attack Whether the minion has been attacked or not.
+	 */
 	public void setMinionAttack(boolean attack) {
 		minionAttack = attack;
 	}
 	
-
+	/**
+	 * 
+	 * @param
+	 * @return
+	 */
 	public boolean plotLineLow(int x0, int y0, int x1, int y1) {
 		if (dx < 0) {
 			xi = -xi;

@@ -28,6 +28,14 @@ public class MoveOnlyEnemy extends Entity {
 	private int attackDelay = 150;
 	private long lastFrameAttacked;
 	
+	/**
+	 * Initalizes a MoveOnlyEnemy entity.
+	 * @param totalXDelta The maximum distance the entity can travel on the x-axis.
+	 * @param totalYDelta The maximum distance the enitty can travel on the y-axis.
+	 * @param attackStrength The entity's damage. 
+	 * @oaram xDelta The entity's change in its x-position every cycle.
+	 * @param yDelta The entity's change in its y-position every cycle.
+	 */
 	public MoveOnlyEnemy(int totalXDelta, int totalYDelta, int attackStrength, int xDelta, int yDelta) {
 		super(MoveOnlyEnemy.TYPE, MoveOnlyEnemy.MAX_HEALTH, MoveOnlyEnemy.IMAGE_FILE);
 		this.xDelta = xDelta;
@@ -75,17 +83,29 @@ public class MoveOnlyEnemy extends Entity {
 		coder.encode(this.attackStrength);
 	}
 	
+	/**
+	 * Determines if the entity should show or not.
+	 * @return Whether the entity should should or not.
+	 */
 	@Override
 	public boolean shouldShow() {
 		return !isDead();
 	}
 	
+	/**
+	 * Hides the entity when it dies.
+	 */
 	@Override
 	public void whenDead() {
 		SFX.main.run(SFX.Sound.ENTITYKILLED); //DIE NOISE
 		hide();
 	}
 	
+	/**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		if (info.getFrameCount() % 3 == 0) {

@@ -54,6 +54,9 @@ public class Player extends Entity {
 
 	private Direction direction;
 
+	/**
+	 * Initalizes the player entity.
+	 */
 	public Player() {
 		super(Player.TYPE, Player.MAX_HEALTH, Player.IMAGE_FILES);
 		this.xDelta = 0;
@@ -86,7 +89,8 @@ public class Player extends Entity {
 	}
 
 	/**
-	 *  Gets player heart count for display
+	 *  Gets the number of half-hearts to be displayed.
+	 *  @return The number of half-hearts to be displayed.
 	 */
 	public int getHeartCount() {
 		int health = getHealth();
@@ -98,7 +102,10 @@ public class Player extends Entity {
 		}
 		return 0;
 	}
-
+	
+	/**
+	 * Respawns the player.
+	 */
 	public void respawn() {
 		setHealth(MAX_HEALTH);
 		for (int i = 0; i < inventory.length; i++) {
@@ -106,22 +113,42 @@ public class Player extends Entity {
 		}
 	}
 
+	/**
+	 * Gets the player's damage value.
+	 * @return The player's damage value.
+	 */
 	public int getAttackDamage() {
 		return attackDamage;
 	}
 
+	/**
+	 * Sets the player's damage value.
+	 * @param damageValue The player's new damage value.
+	 */
 	public void setAttackDamage(int damageValue) {
 		attackDamage = damageValue;
 	}
 
+	/**
+	 * Gets the player's direction.
+	 * @return The player's direction.
+	 */
 	public Direction getPlayerDirection() {
 		return direction;
 	}
 
+	/**
+	 * Gets the current slot index.
+	 * @return The index of the current slot.
+	 */
 	public int getCurrentSlot() {
 		return currentSlot;
 	}
 
+	/**
+	 * Uses the item in the current slot.
+	 * @param frameCount The current frame of the game.
+	 */
 	public void useItem(long frameCount) {
 		switch (inventory[currentSlot].getSlotItem().getItemType()) {
 		case EMPTY:
@@ -155,6 +182,11 @@ public class Player extends Entity {
 	}
 
 
+	/**
+	 * Gets the first occurrance of an item in the inventory.
+	 * @param item The type of item.
+	 * @return The index of the first item of the desired type.
+	 */
 	public int firstOccur(Item.ItemType item){
 		for(int i = 0; i < inventory.length; i++){
 			if (inventory[i].getSlotItem().getItemType() == item){
@@ -164,6 +196,10 @@ public class Player extends Entity {
 		return -1;
 	}
 
+	/**
+	 * Adds an item to the inventory.
+	 * @param item The item to be added to the inventory.
+	 */
 	public void addItem(Item item){
 		int temp = firstOccur(Item.ItemType.EMPTY);
 		if(temp >= 0){
@@ -171,6 +207,10 @@ public class Player extends Entity {
 		}
 	}
 
+	/**
+	 * Updates the weapon's visibility and direction.
+	 * @param frameCount The frame of the current game.
+	 */
 	public void updateWeapon(long frameCount) {
 		if (isAttacking) {
 			weapon.setPosition(this);
@@ -184,6 +224,9 @@ public class Player extends Entity {
 		}
 	}
 
+	/**
+	 * Initializes the health bar, inventory bar, and timer.
+	 */
 	private void setUpHealthAndInventoryAndTimer() {
 		healthBar = new Heart[10];
 		for (int i = 0; i < healthBar.length; i++) {
@@ -199,6 +242,9 @@ public class Player extends Entity {
 		timer = new TimerDisplay();
 	}
 	
+	/**
+	 * Updates the health bar.
+	 */
 	private void updateHearts() {
 		int health = getHeartCount();
 		for (int i = 0; i < healthBar.length; i++) {
@@ -215,6 +261,10 @@ public class Player extends Entity {
 			}
 		}
 	}
+	
+	/**
+	 * Updates the inventory bar.
+	 */
 	public void updateInventoryBar() {
 		int slotNum = getCurrentSlot();
 		for (int i = 0; i < inventory.length; i++) {
@@ -228,7 +278,10 @@ public class Player extends Entity {
 	}
 	
 	
-	
+	/**
+	 * Paints the weapon, player, health bar, inventorybar, and timer entities.
+	 * @param g The graphics object the entities are painted to.
+	 */
 	@Override
 	public void paint(Graphics2D g) {
 		if (weapon.isVisible()) {
@@ -252,7 +305,11 @@ public class Player extends Entity {
 		}
 	}
 
-
+	/**
+	 * Cycles the weapon, player, health bar, inventory bar, and timer entities.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		// Player does not move automatically
@@ -350,6 +407,10 @@ public class Player extends Entity {
 		}
 	}
 
+	/**
+	 * Determines if the player needs to revert its last movement.
+	 * @param visibleEntites An ArrayList of visible entities in the current room.
+	 */
 	boolean shouldRevertMovement(ArrayList<Entity> visibleEntities) {
 		for (int i = 0; i < visibleEntities.size(); i++) {
 			Entity entity = visibleEntities.get(i);
@@ -372,12 +433,21 @@ public class Player extends Entity {
 		return false;
 	}
 
+	/**
+	 * Heals the player by a certain value.
+	 * @param change The value the player is healed by.
+	 */
 	@Override
 	public void heal(int change) {
 		super.heal(change);
 		Debugger.main.print(getID() + " healed " + change + ", now at " + getHealth());
 	}
 
+	/**
+	 * Damages the player by a certain value.
+	 * @param info The game information.
+	 * @param change The value the player is damaged by.
+	 */
 	public void takeDamage(Game.GameInfo info, int change) {
 		super.takeDamage(change);
 		lastFrameAttacked = (int) info.getFrameCount();
@@ -389,6 +459,12 @@ public class Player extends Entity {
 		}
 	}
 
+	/**
+	 * Moves the player horizontally.
+	 * @param level The current level.
+	 * @param keysDown A hashmap of current keys pressed.
+	 * @param windowSize The dimensions of the game.
+	 */
 	private void moveOnKeysHorizontal(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
 			xDelta -= Player.PLAYER_SPEED;
@@ -409,6 +485,12 @@ public class Player extends Entity {
 		updateXBy(xDelta);
 	}
 
+	/**
+	 * Moves the player vertically.
+	 * @param level The current level.
+	 * @param keysDown A hashmap of current keys pressed.
+	 * @param windowSize The dimensions of the game.
+	 */
 	private void moveOnKeysVertical(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
 			yDelta -= Player.PLAYER_SPEED;
@@ -429,6 +511,12 @@ public class Player extends Entity {
 		updateYBy(yDelta);
 	}
 
+	/**
+	 * Updates the inventory.
+	 * @param level The current level.
+	 * @param keysDown A hashmap of keys currently pressed.
+	 * @param frameCount The frame number of the game.
+	 */
 	public void inventoryUpdate(Level level, HashSet<Integer> keysDown, long frameCount) {
 		if (keysDown.contains(KeyEvent.VK_ENTER)) {
 			useItem(frameCount);
@@ -462,6 +550,12 @@ public class Player extends Entity {
 		}
 	}
 
+	/**
+	 * Makes the player attack.
+	 * @param level The current level.
+	 * @param keysDown A hashmap of keys currently pressed.
+	 * @param l The frame number of the game.
+	 */
 	public void playerAttack(Level level, HashSet<Integer> keysDown, long l) {
 		if (l - lastFrameAttacking > ATTACK_DURATION) {
 			isAttacking = false;
@@ -477,13 +571,16 @@ public class Player extends Entity {
 
 
 	/**
-	 * Reverts the last movement made by the player
+	 * Reverts the last horizontal movement made by the player.
 	 */
 	private void revertLastHorizontalMovement() {
 		xDelta *= -1;
 		updateXBy(xDelta);
 	}
 
+	/**
+	 * Reverts the last vertical movement made by the player.
+	 */
 	private void revertLastVerticalMovement() {
 		yDelta *= -1;
 		updateYBy(yDelta);

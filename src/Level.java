@@ -27,11 +27,12 @@ public class Level implements Encodable {
 	private Player player;
 	
 	/**
-     * 
-     * @param type
-     * @return
+     * Initalizes a level.
+     * @param rooms A 2D array of rooms.
+     * @param curRow The current row in the 2D array.
+     * @param curCol The current column in the 2D array.
+     * @param player The player entity.
      */
-
 	public Level(Room[][] rooms, int curRow, int curCol, Player player) {
 		map = rooms;
 		currentRow = curRow;
@@ -69,10 +70,17 @@ public class Level implements Encodable {
 		System.out.println("Encoding Room");
 	}
 	
+	/**
+	 * Gets the current room.
+	 * @return The current room.
+	 */
 	public Room getCurrentRoom() {
 		return map[currentRow][currentCol];
 	}
 
+	/**
+	 * Moves the current room to the room above.
+	 */
 	public void moveRoomUp() {
 		if (currentRow > 0) {
 			Room currentRoom = getCurrentRoom();
@@ -83,6 +91,9 @@ public class Level implements Encodable {
 		}
 	}
 
+	/**
+	 * Moves the current room to the room to the right.
+	 */
 	public void moveRoomRight() {
 		if (currentCol < map[0].length-1) {
 			Room currentRoom = getCurrentRoom();
@@ -93,6 +104,9 @@ public class Level implements Encodable {
 		}
 	}
 	
+	/**
+	 * Moves the current room to the room below.
+	 */
 	public void moveRoomDown() {
 		if (currentRow < map.length-1) {
 			Room currentRoom = getCurrentRoom();
@@ -103,6 +117,9 @@ public class Level implements Encodable {
 		}
 	}
 	
+	/**
+	 * Moves the current room the the room to the left.
+	 */
 	public void moveRoomLeft() {
 		if (currentCol > 0) {
 			Room currentRoom = getCurrentRoom();
@@ -113,10 +130,18 @@ public class Level implements Encodable {
 		}
 	}
 	
+	/**
+	 * Cycles the current room of the level.
+	 * @param info The game information.
+	 */
 	public void cycle(Game.GameInfo info) {
 		getCurrentRoom().cycle(this,info);
 	}
 	
+	/**
+	 * Paints the current room of the level.
+	 * @param g The graphics object the game is painted to.
+	 */
 	public void paint(Graphics2D g) {
 		getCurrentRoom().paint(g);
 	}

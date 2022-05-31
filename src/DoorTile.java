@@ -17,6 +17,9 @@ import restore.CoderException;
 public class DoorTile extends Tile implements Encodable {
     private boolean open;
     
+	/**
+	 * Initalizes a DoorTile entity.
+	 */
     public DoorTile() {
         super(Tile.Material.DOOR);
         open = false;
@@ -33,10 +36,18 @@ public class DoorTile extends Tile implements Encodable {
     	coder.encode(open);
     }
     
+	/**
+	 * Determines if the door entity is open or not.
+	 * @return Whether the door entity is open or not.
+	 */
     public boolean isOpen() {
         return open;
     }
 
+	/**
+	 * Closes and opens the door.
+	 * @param bool Whether the door should be open or closed.
+	 */
     public void setOpen(boolean bool) {
         open = bool;
     }

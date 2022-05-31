@@ -20,6 +20,11 @@ public class SwitchDoor extends Entity implements Encodable {
 	private int[] combination;
 	private DoorSwitch[] switches;
 	
+	/**
+	 * Initalizes a SwitchDoor entity.
+	 * @param combination The combination of the SwitchDoor entity.
+	 * @param switches An array of doorswtich entities.
+	 */
 	public SwitchDoor(int[] combination, DoorSwitch[] switches) {
 		super(TYPE, 0, IMAGE_FILES);
 		this.combination = combination;
@@ -52,6 +57,10 @@ public class SwitchDoor extends Entity implements Encodable {
 		}
 	}
 	
+	/**
+	 * Determines whether the SwitchDoor is open or not.
+	 * @return Whether the SwitchDoor is open or not.
+	 */
 	public boolean isOpen() {
 		boolean combo = true;
 		for (int i = 0; i < combination.length; i++) {
@@ -63,11 +72,12 @@ public class SwitchDoor extends Entity implements Encodable {
 	}
 	
 	
-//	@Override
-//	public boolean shouldShow() {
-//		return !hasCorrectCombination;
-//	}
 	
+	/**
+	 * Cycles the current entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		if (isOpen()) {
