@@ -15,7 +15,7 @@ import restore.CoderException;
 // File: Game.java
 //
 // Add your name here if you work on this class:
-/** @author Johnny, Ethan */ 
+/** @author Johnny, Ethan, Alex */ 
 public class Game implements Encodable {
 	
 	public static final int VER_MAJ = 0;

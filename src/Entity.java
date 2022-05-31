@@ -16,7 +16,7 @@ import restore.CoderException;
 // File: Entity.java
 //
 // Add your name here if you work on this class:
-/** @author Ethan Johnny */ 
+/** @author Ethan, Johnny, Alex */ 
 /**
  * A class that represents a drawable object with behavior.
  */

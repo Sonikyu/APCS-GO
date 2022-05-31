@@ -4,11 +4,13 @@ import restore.CoderException;
 
 public class BreakableTile extends Entity implements Encodable{
 	public static String TYPE = "BreakableTile";
-	private static String[] IMAGE_FILES = {"SwitchDoor.png", "BreakingTile.png"};
+	private static String[] IMAGE_FILES = {"BreakingTile.png", "BreakingTile2.png", "BreakingTile3.png"};
+	private int counter = 0 ;
 	
 	
 	public BreakableTile(int health) {
-		super(TYPE, health, IMAGE_FILES);
+		super(TYPE, 70, IMAGE_FILES);
+		counter = 0;
 	}
 	
 	public BreakableTile(Coder coder) throws CoderException {
@@ -33,7 +35,8 @@ public class BreakableTile extends Entity implements Encodable{
 	public void takeDamage(int change) {
 		super.takeDamage(change);
 		if (getHealth() < getMaxHealth() && getHealth() > 0) {
-			setImageAtIndex(1);
+			counter ++;
+			setImageAtIndex(counter);
 		}
 	}
 	
