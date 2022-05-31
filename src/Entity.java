@@ -16,7 +16,7 @@ import restore.CoderException;
 // File: Entity.java
 //
 // Add your name here if you work on this class:
-/** @author Ethan Johnny */ 
+/** @author Ethan, Johnny, Alex */ 
 /**
  * A class that represents a drawable object with behavior.
  */
@@ -55,8 +55,8 @@ public abstract class Entity implements ImageObserver, Encodable {
 	
 	/**
 	 * A hack to make the constructor work.
-	 * @param str
-	 * @return
+	 * @param str The string of image types.
+	 * @return The string as an array.
 	 */
 	private static String[] singleArray(String str) {
 		String[] strs = {str};

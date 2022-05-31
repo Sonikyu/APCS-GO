@@ -29,7 +29,11 @@ public class Room implements Encodable {
 	private Player player;
 
 
-	
+	/**
+	 * Initializes a room from a string.
+	 * @param roomString The string that creates the room.
+	 * @param player The player entity.
+	 */
 	public Room(String[] roomString, Player player) {
 		this.tiles = new Tile[HEIGHT][WIDTH];
 		this.entities = new ArrayList<Entity>();
@@ -40,6 +44,12 @@ public class Room implements Encodable {
 		setPlayerPosition();
 	}
 	
+	/**
+	 * Initializes a room.
+	 * @param entities An ArrayList of entities in the room.
+	 * @param tiles A 2D Array of tiles in the room.
+	 * @param player The player entity.
+	 */
 	public Room(ArrayList<Entity> entities, Tile[][] tiles, Player player) {
 		this.tiles = new Tile[HEIGHT][WIDTH];
 		
@@ -73,12 +83,16 @@ public class Room implements Encodable {
 		setPlayerPosition();
 	}
 	
+	/**
+	 * Initializes the room from a string array.
+	 * @param roomString The string array.
+	 */
 	private void tileInit(String[] roomString) {
 		for (int i = 0; i < roomString.length; i++) {
 			String row = roomString[i];
 			for (int j = 0; j < row.length(); j++) {
 				switch (row.charAt(j)) {
-		
+				
 				case ' ':
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
 					break;
@@ -124,6 +138,11 @@ public class Room implements Encodable {
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
 					placeEntity(new BreakableTile(100), j, i);
 					break;
+				
+				case 'F':
+					this.tiles[i][j] = new Tile(Tile.Material.FARM);
+					placeEntity(new Tile(Tile.Material.FARM), j, i);
+					break;
 				default:
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
 				}
@@ -132,6 +151,9 @@ public class Room implements Encodable {
 		}
 	}
 	
+	/**
+	 * Sets the player's position.
+	 */
 	public void setPlayerPosition() {
 		for (Tile[] row: tiles) {
 			for (Tile tile: row) {
@@ -159,7 +181,11 @@ public class Room implements Encodable {
 	}
 	
 
-	
+	/**
+	 * Paints all visible entities in the room.
+	 * @param g The graphics object the entities are painted to.
+
+	 */
 	public void paint(Graphics2D g) {	
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
@@ -179,6 +205,9 @@ public class Room implements Encodable {
 		
 	}
 	
+	/**
+	 * Loads the room.
+	 */
 	public void loadRoom() {
 		for (Tile[] tileRow : tiles) {
 			for (Tile tile : tileRow) {
@@ -190,6 +219,9 @@ public class Room implements Encodable {
 		}
 	}
 	
+	/**
+	 * Unloads the room.
+	 */
 	public void unloadRoom() {
 		for (Tile[] tileRow : tiles) {
 			for (Tile tile : tileRow) {
@@ -202,8 +234,8 @@ public class Room implements Encodable {
 	}
 	
 	/**
-	 * 
-	 * @param id
+	 * Gets an entity from its ID.
+	 * @param id The ID of the entity.
 	 * @return The entity with the given id or null if none exists.
 	 */
 	public Entity getEntityByID(String id) {
@@ -218,7 +250,7 @@ public class Room implements Encodable {
 	
 	
 	/**
-	 * For example, to get the player, use: game.getEntitiesByType(Player.TYPE).get(0)
+	 * Gets the entity by its type.
 	 * @param type
 	 * @return A list of visible entities of the given type.
 	 */
@@ -233,16 +265,30 @@ public class Room implements Encodable {
 		return entitiesByType;
 	}
 	
+	/**
+	 * Adds an entity to a room.
+	 * @param entity The entity added to the room.
+	 */
 	public void addEntity(Entity entity) {
 		System.out.println("entities[" + entities.size() + "] = " + entity);
 		entities.add(entity);
 	}
 	
+	/**
+	 * Places an entity at a specified location in the room.
+	 * @param entity The entity added to the room.
+	 * @param col The tile column the entity will be added to.
+	 * @param row The tile row the entity will be added to.
+	 */
 	public void placeEntity(Entity entity, int col, int row) {
 		entity.setPosition(col * Tile.WIDTH, row * Tile.HEIGHT);
 		addEntity(entity);
 	}
 	
+	/**
+	 * Removes an entity using its ID.
+	 * @param id The id of the entity to be removed.
+	 */
 	public void removeEntityByID(String id) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i).getID().equals(id)) {
@@ -252,6 +298,10 @@ public class Room implements Encodable {
 		}
 	}
 	
+	/**
+	 * Gets all the visible entities in the room.
+	 * @return An ArrayList of visible entities in the room.
+	 */
 	public ArrayList<Entity> getVisibleEntities() {
 		ArrayList<Entity> visibleEntities = new ArrayList<Entity>();
 		visibleEntities.add(player);
@@ -272,6 +322,11 @@ public class Room implements Encodable {
 		return visibleEntities;
 	}
 
+	/**
+	 * Cycles the entities in the room.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	public void cycle(Level level, Game.GameInfo info) {
 		// Testing code
 		for (int i = 0; i < entities.size(); i++) {

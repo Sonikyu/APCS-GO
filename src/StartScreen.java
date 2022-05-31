@@ -17,9 +17,13 @@ public class StartScreen extends Entity implements Encodable {
 	public static String TYPE = "StartScreen";
 	private static String IMAGE_FILE =  "StartScreen.png";
 	
+	/**
+	 * Initializes a StartScreen entity.
+	 */
 	public StartScreen() {
 		super(TYPE, 0, IMAGE_FILE);
 	}
+	
 	
 	public StartScreen(Coder coder) throws CoderException {
 		super(coder);
@@ -29,6 +33,11 @@ public class StartScreen extends Entity implements Encodable {
 		super.encode(coder);
 	}
 
+	/**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		if (info.getKeysDown().size() > 0) {

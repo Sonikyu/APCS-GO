@@ -14,12 +14,12 @@ import restore.CoderException;
 
 public class Tile extends Entity {
     public enum Material {
-        WALL, FLOOR, DOOR, START, GOAL, LEVEL_UP, GRASS
+        WALL, FLOOR, DOOR, START, GOAL, LEVEL_UP, GRASS, FARM
     }
 
-    public static final String[] TYPES = {"WallTile", "FloorTile", "DoorTile", "StartTile", "GoalTile", "LevelUpTile", "GrassTile" };
+    public static final String[] TYPES = {"WallTile", "FloorTile", "DoorTile", "StartTile", "GoalTile", "LevelUpTile", "GrassTile", "Farm" };
     public static final String[] WALL_TYPES = { "WallTile", "DoorTile" };
-    private static final String[][] PNGS = {{"WallTileH.png","WallTileV.png","WallTileDL.png","WallTIleDR.png", "WallTileUL.png","WallTileUR.png"}, {"FloorTile.png"}, {"DoorTile.png", "FloorTile.png"}, {"FloorTile.png"}, {"GoalTile.png"}, {"LevelUpTile.png"}, {"GrassTile.png"}};
+    private static final String[][] PNGS = {{"WallTileH.png","WallTileV.png","WallTileDL.png","WallTIleDR.png", "WallTileUL.png","WallTileUR.png"}, {"FloorTile.png"}, {"DoorTile.png", "FloorTile.png"}, {"FloorTile.png"}, {"GoalTile.png"}, {"LevelUpTile.png"}, {"GrassTile.png"}, {"Farm.png"}};
 
 
     public static final int HEIGHT = 40;
@@ -27,10 +27,11 @@ public class Tile extends Entity {
     
     private final Material material;
     
-    public Material getMaterial() {
-    	return material;
-    }
-    
+   
+	/**
+	 * Initializes a tile entity.
+	 * @param material The type of tile.
+	 */
     public Tile(Material material){
         super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);
         this.material = material;
@@ -45,6 +46,19 @@ public class Tile extends Entity {
     	super.encode(coder);
     }
 
+    /**
+	 * Get the type of tile.
+	 * @return The type of tile.
+	 */
+    public Material getMaterial() {
+    	return material;
+    }
+    
+    /**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
     @Override
     public void cycle(Level level, Game.GameInfo info){
 

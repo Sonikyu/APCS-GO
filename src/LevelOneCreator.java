@@ -12,6 +12,12 @@ import javax.swing.ImageIcon;
 /** @author Johnny, Alex, Uday, Ethan */ 
 
 public class LevelOneCreator implements LevelCreator {	
+	
+	/**
+	 * Creates level one.
+	 * @param p The player entity.
+	 * @return The created level.
+	 */
 	public Level createLevel(Player p) {
 		Room testingRoom = this.createTestingRoom(p);
 		Room startingRoom = this.createStartingRoom(p);
@@ -49,6 +55,11 @@ public class LevelOneCreator implements LevelCreator {
 		return level;
 	}		
 	
+	/**
+	 * Creates a specific room.
+	 * @param p The player entity.
+	 * @return The created room.
+	 */
 	private Room createTestingRoom(Player p) {
 		String[] layout = { // for uday
 				"P------------------7",
@@ -77,11 +88,11 @@ public class LevelOneCreator implements LevelCreator {
 	
 	private Room createStartingRoom(Player p) {
 		String[] layout = { //House png will be put left of the Spawn tile,
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-				"-----J      L------7",
+				"P####7      |GGGGGGG",
+				"|F   |      |GGGGGGG",
+				"|    |      |GGGGGGG",
+				"|    |      |GGGGGGG",
+				"--J LJ      L------7",
 				"                  B|",
 				"-----7             L",
 				"GGGGG|   S         D",

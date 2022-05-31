@@ -107,6 +107,9 @@ public class GameView extends JComponent implements Runnable {
         }
     }
     
+	/**
+	 * Adds a notification.
+	 */
     public void addNotify() {
         super.addNotify();
 
