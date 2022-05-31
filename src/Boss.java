@@ -241,10 +241,10 @@ public class Boss extends Entity{
 			randY = (int) (centerY + r * Math.sin(theta));
 			
 			randX = Math.max(Tile.WIDTH, randX);
-			randX = Math.min(800 - getWidth(), randX);
+			randX = Math.min((int)info.getSize().getWidth() - getWidth(), randX);
 			
 			randY = Math.max(Tile.HEIGHT, randY);
-			randY = Math.min(600 - getHeight(), randY);
+			randY = Math.min((int)info.getSize().getHeight() - getHeight(), randY);
 			minionAttack = false;
 			aggravated = true;
 			
