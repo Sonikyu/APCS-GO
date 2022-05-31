@@ -23,6 +23,9 @@ public class Audio extends Thread{
    private int curr;
    public Clip c;
   
+/**
+ * Creates an Audio player object
+ */
    public Audio() {
 //
 //      SoundList = new ArrayList<String>();         
@@ -38,6 +41,10 @@ public class Audio extends Thread{
 //      curr = 0;
    }
    
+/**
+ * Sets the Audio player to a certain file
+* @param x index of the file you want to play
+*/
    public void setAudio(int x){
 //      if(x < SoundList.size()){
 //         File sound = new File(root + SoundList.get(x));
@@ -55,27 +62,34 @@ public class Audio extends Thread{
 
    }
 
+/**
+ * 
+ * @return the index of current file
+ */
    public int getCurr(){
       return curr;
    }
 
+/**
+ * Increases curr by one
+ */
    public void increaseCurr(){
 //      curr ++;
    }
 
-   public void playSound(int x) {
-	   
-   }
-   
-   public void playAudio(){
+
+   private void playAudio(){
 //      c.start();
 //		System.out.println("Audio Playing : " + SoundList.get(curr));
    }
 
-   public void loopAudio() {
+   private void loopAudio() {
 //      c.loop(Clip.LOOP_CONTINUOUSLY);
    }
 
+/**
+* Stops the audio being played 
+*/
    public void stopAudio(){
 //      System.out.println("Audio stopped :" + SoundList.get(curr));
 //      c.stop();

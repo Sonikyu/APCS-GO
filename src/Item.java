@@ -72,7 +72,7 @@ public class Item extends Entity {
 	}
 
 	/**
-     * Cycles the item.
+     * Cycles the item and Checks collision with player
      * @param level The current level.
      * @param info The game information.
      */
