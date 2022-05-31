@@ -11,7 +11,10 @@ import restore.CoderException;
 //File: Boss.java
 //
 //Add your name here if you work on this class:
-/** @author Uday */ 
+/** 
+ * Class for creating a boss to be used in the boss battle
+ * @author Uday 
+ * */ 
 public class Boss extends Entity{
 	public static String TYPE = "BossEnemy";
 	private static int MAX_HEALTH = 100;
@@ -39,7 +42,7 @@ public class Boss extends Entity{
 	
 	
 	/**
-	 * Initializes a boss entity.
+	 * Constructs a boss object
 	 */
 	public Boss() {
 		super(Boss.TYPE, Boss.MAX_HEALTH, Boss.IMAGE_FILE);;
@@ -52,16 +55,24 @@ public class Boss extends Entity{
 		super(coder);
 	}
 	
+
 	/**
 	 * See coder class.
+	
+	/**
+	 * See coder
+	 * @param coder See Coder
+
 	 */
 	public void encode(Coder coder) {
 		super.encode(coder);
 	}
 	
+
 	/**
-	 * Determines if the minion has been attacked.
-	 * @param attack Whether the minion has been attacked or not.
+	 * Tells the boss whether the minion has been attacked
+	 * @param attack Boolean value to represent whether the minion has been attacked
+
 	 */
 	public void setMinionAttack(boolean attack) {
 		minionAttack = attack;
@@ -72,7 +83,8 @@ public class Boss extends Entity{
 	 * @param
 	 * @return
 	 */
-	public boolean plotLineLow(int x0, int y0, int x1, int y1) {
+
+	private boolean plotLineLow(int x0, int y0, int x1, int y1) {
 		if (dx < 0) {
 			xi = -xi;
 			dx = -dx;
@@ -105,7 +117,7 @@ public class Boss extends Entity{
 		}
 	}
 	
-	public boolean plotLineHigh(int x0, int y0, int x1, int y1) {
+	private boolean plotLineHigh(int x0, int y0, int x1, int y1) {
 			if (dx < 0) {
 				xi = -xi;
 				dx = -dx;
@@ -139,6 +151,12 @@ public class Boss extends Entity{
 			}
 		}
 	
+	
+	/**
+	 * Cycles the enemy
+	 * @param level The current level in the game.
+	 * @param info The game information.
+	 */
 	public void cycle(Level level, Game.GameInfo info) {
 		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 		for (int i = 0; i < visibleEntities.size(); i ++) {

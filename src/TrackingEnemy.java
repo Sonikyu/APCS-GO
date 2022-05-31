@@ -16,7 +16,7 @@ import restore.CoderException;
 public class TrackingEnemy extends Entity{
 	public static String TYPE = "TrackingEnemy";
 	private static int MAX_HEALTH = 100;
-	private static String IMAGE_FILE = "Enemy.png";
+	private static String[] IMAGE_FILES = {"TrackingEnemy.png", "TrackingEnemyCharging.png", "TrackingEnemyStunned.png"};
 	
 	private int range;
 	private int xTether;
@@ -50,7 +50,7 @@ public class TrackingEnemy extends Entity{
 	 */
 	
 	public TrackingEnemy(int range, int xTether, int yTether, int attackStrength, int stunTransitionDuration, int stunStationaryDuration, int attackDelay, int refreshSpeed) {
-		super(TrackingEnemy.TYPE, TrackingEnemy.MAX_HEALTH, TrackingEnemy.IMAGE_FILE);
+		super(TrackingEnemy.TYPE, TrackingEnemy.MAX_HEALTH, TrackingEnemy.IMAGE_FILES);
 		this.range = range;
 		this.xTether = xTether;
 		this.yTether = yTether;
@@ -159,6 +159,7 @@ public class TrackingEnemy extends Entity{
 			final long frameCount = info.getFrameCount();
 			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 			if (transitioning) {
+				this.setImageAtIndex(2);
 				int xOffset = getX() - xTether;
 				int yOffset = getY() - yTether;
 				if (xOffset == 0 && yOffset == 0) {
@@ -171,6 +172,7 @@ public class TrackingEnemy extends Entity{
 				}
 			}
 			else if (stationary) {
+				this.setImageAtIndex(2);
 				if (frameCount - stationaryFrame >= stunStationaryDuration) {
 					stationary = false;
 					stunned = false;
@@ -181,6 +183,7 @@ public class TrackingEnemy extends Entity{
 					Entity entity = visibleEntities.get(i);
 					if (collidesWith(entity)) {
 						if (entity.isOfType(Tile.WALL_TYPES)) {
+							this.setImageAtIndex(2);
 							if (stunned) {
 								if (frameCount - lastFrameStunned >= stunTransitionDuration) {
 									transitioning = true;
@@ -204,6 +207,7 @@ public class TrackingEnemy extends Entity{
 					if (!stunned) {
 						double distance = Math.sqrt(Math.pow(entity.getX() - xTether, 2) + Math.pow(entity.getY() - yTether, 2));
 						if (entity.getType() == Player.TYPE &&  distance <= range){
+							this.setImageAtIndex(1);
 							int xOffset = getX() - entity.getX();
 							int yOffset = getY() - entity.getY();
 							lastFrameInRadius = frameCount;
@@ -212,6 +216,7 @@ public class TrackingEnemy extends Entity{
 						}
 						else if (entity.getType() == Player.TYPE &&  distance > range){
 							if (frameCount - lastFrameInRadius >= 200) {
+								this.setImageAtIndex(0);
 								if (getX() - xTether != 0 || getY() - yTether != 0) {
 									int xOffset = getX() - xTether;
 									int yOffset = getY() - yTether;

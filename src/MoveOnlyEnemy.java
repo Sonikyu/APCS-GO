@@ -61,6 +61,7 @@ public class MoveOnlyEnemy extends Entity {
 		} else {
 			this.offsetY = 0;
 		}
+		
 	}
 	
 	public MoveOnlyEnemy(Coder coder) throws CoderException {
