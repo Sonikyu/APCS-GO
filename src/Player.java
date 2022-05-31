@@ -24,7 +24,7 @@ public class Player extends Entity {
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
 	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
-	private static int PLAYER_SPEED = 2;
+	private static int PLAYER_SPEED = 1;
 
 	private Heart[] healthBar;
 	private TimerDisplay timer;
@@ -102,7 +102,7 @@ public class Player extends Entity {
 	public void respawn() {
 		setHealth(MAX_HEALTH);
 		for (int i = 0; i < inventory.length; i++) {
-			inventory[i].getSlotItem().setItemType(Item.ItemType.EMPTY);
+			inventory[i].getSlotItem().setEmpty();
 		}
 	}
 
@@ -129,15 +129,16 @@ public class Player extends Entity {
 		case HEALPOT:
 			this.heal(30);
 			Debugger.main.print("The player healed 30 HP");
-			inventory[currentSlot].getSlotItem().setItemType(Item.ItemType.EMPTY);
+			inventory[currentSlot].getSlotItem().setEmpty();
 			Debugger.main.print("The item slot is now empty");
 			SFX.main.run(SFX.Sound.ITEMUSED);
 			break;
 		case SPEEDPOT:
 			speedUp = true;
 			spedUpFrame = frameCount;
-			inventory[currentSlot].getSlotItem().setItemType(Item.ItemType.EMPTY);
+			inventory[currentSlot].getSlotItem().setEmpty();
 			SFX.main.run(SFX.Sound.ITEMUSED);
+			break;
 		case LUCKPOT:
 			if(Math.random() > 0.5) {
 				this.heal(30);
@@ -145,8 +146,9 @@ public class Player extends Entity {
 			else {
 				this.takeDamage(30);
 			}
-		case KEY:
-			inventory[currentSlot].getSlotItem().setEmpty();
+			break;
+//		case KEY:
+//			inventory[currentSlot].getSlotItem().setEmpty();
 		default:
 			break;
 		}
@@ -316,7 +318,7 @@ public class Player extends Entity {
 				if(hasKey && distance < 50){
 					DoorTile t = (DoorTile) entity;
 					if(!t.isOpen()){
-						useItem(info.getFrameCount());
+						inventory[currentSlot].getSlotItem().setEmpty();
 						t.setOpen(true);
 						t.setImageAtIndex(1);
 						SFX.main.run(SFX.Sound.DOOROPEN);

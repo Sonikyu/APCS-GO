@@ -62,10 +62,6 @@ public class Item extends Entity {
 		this.setImageAtIndex(ItemType.EMPTY.ordinal());
 	}
 	
-	public void setItemType(Item.ItemType itemType) {
-		this.object = itemType;
-	}
-	
 	/**
      * Gets the item type.
      * @return The item type.
