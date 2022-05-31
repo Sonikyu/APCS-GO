@@ -1,7 +1,7 @@
 import java.awt.Font;
 import java.awt.Graphics2D;
+
 import restore.Coder;
-import restore.CoderException;
 
 //AP CS Project
 //Alex, Johnny, Ethan, and Uday
@@ -23,7 +23,7 @@ public class TimerDisplay extends Entity {
 		super(TYPE, 0, IMAGE_FILE);
 	}
 	
-	public TimerDisplay(Coder coder) throws CoderException {
+	public TimerDisplay(Coder coder) {
 		super(coder);
 		// TODO Auto-generated constructor stub
 	}

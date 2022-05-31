@@ -1,11 +1,10 @@
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
-import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 import restore.Coder;
 import restore.Encodable;
-import restore.CoderException;
+import java.awt.Graphics2D;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -105,7 +104,7 @@ public abstract class Entity implements ImageObserver, Encodable {
 	 * Loads an entity from the given coder.
 	 * @param coder The coder object the entity is created from.
 	 */
-	public Entity(Coder coder) throws CoderException {
+	public Entity(Coder coder) {
 		String type = coder.decodeString();
 		
 		int health = coder.decodeInt();		

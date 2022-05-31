@@ -1,10 +1,10 @@
 import java.awt.Graphics2D;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import restore.Coder;
 import restore.Encodable;
-import restore.CoderException;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -26,8 +26,6 @@ public class Game implements Encodable {
 	private GameState state;
 
 	private Player player;
-	private Level[] levels2;
-	private boolean levels2AsSource;
 	private LevelCreator[] levelCreators;
 	private Level[] levels;
 	private int currLevel;
@@ -51,7 +49,6 @@ public class Game implements Encodable {
 		this.levelCreators = levels;
 		this.info = new GameInfo(size, this);
 		this.levels = new Level[levels.length];
-		this.levels2AsSource = false;
 		currLevel = 0;
 		state = GameState.START_GAME;
 		startScreen = new StartScreen();
@@ -65,22 +62,22 @@ public class Game implements Encodable {
 	 * Initializes the game.
 	 * @param coder The object that creates the game from a game string.
 	 */
-	public Game(Coder coder) throws CoderException {	
-		this.levels2AsSource = true;
-		Integer verMaj = coder.decodeInt(); 
-		Integer verBreak = coder.decodeInt();
+	public Game(Coder coder) {	
+		Integer verMaj = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Unknown major version"); return; }
+		Integer verBreak = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Unknown minor version"); return; }
 		if (Game.VER_MAJ != verMaj || Game.VER_BREAK != verBreak) {
-			throw new CoderException("Incompatible game versions");
+			coder.setErrorMsg("Incompatible game versions");
+			return;
 		}
 		
-		Integer width = coder.decodeInt();
-		Integer height = coder.decodeInt();
+		Integer width = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Failed to decode width"); return; }
+		Integer height = coder.decodeInt(); if (coder.hasError()) { coder.setErrorMsg("Failed to decode height"); return; }
 		
 		
 		this.info = new GameInfo(new Dimension(width, height), this);
 		this.verBreak = verBreak;
 		
-		Long frameCount = coder.decodeLong();
+		Long frameCount = coder.decodeLong(); if (coder.hasError()) { coder.setErrorMsg("Failed to decode frame count"); return; }
 		this.info.frameCount = frameCount;
 //		TODO: Fix encoder
 //		this.levels = new Level(coder); if (coder.hasError()) { coder.setErrorMsg("Failed to decode level"); return; }
@@ -114,30 +111,11 @@ public class Game implements Encodable {
 	}
 	
 	/**
-	 * Gets the current level.
-	 * @return THe current level.
-	 */
-	public Level getCurrentLevel() {
-		return levels[currLevel];
-	}
-	
-	/**
 	 * Resets the specified level.
 	 * @param The level that is being reset.
 	 */
 	public void resetLevel(int levIndex) {
-		if (levels2AsSource) {
-			Coder coder = new Coder();
-			levels2[levIndex].encode(coder);
-			try {
-				levels[levIndex] = new Level(coder);
-			} catch (CoderException e) {
-				System.err.println(e);
-				System.exit(1);
-			}
-		} else {
-			levels[levIndex] = levelCreators[levIndex].createLevel(player);
-		}
+		levels[levIndex] = levelCreators[levIndex].createLevel(player);
 	}
 	
 	/**
@@ -152,7 +130,8 @@ public class Game implements Encodable {
 	 */
 	public void nextLevel() {
 		currLevel++;
-		resetLevel(currLevel);
+
+		levels[currLevel] = levelCreators[currLevel].createLevel(player);
 		levels[currLevel].getCurrentRoom().setPlayerPosition(); // HACKY
 	}
 	
@@ -221,7 +200,9 @@ public class Game implements Encodable {
 	/**
 	 * Determines if the game version is up to date.
 	 */
-	private void initialDebug() {		
+	private void initialDebug() {
+		Debugger.main.start();
+		
 		System.out.println("Game v" + VER_MAJ + "." + verBreak + "\n==========");
 		System.out.println("Window Size: " + info.size.getWidth() + "px by " + info.size.getHeight() + "px");
 		Audio.main.run(Audio.main.getCurr());

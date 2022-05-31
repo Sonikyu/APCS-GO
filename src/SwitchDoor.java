@@ -1,6 +1,5 @@
 import restore.Coder;
 import restore.Encodable;
-import restore.CoderException;
 
 //AP CS Project
 //Alex, Johnny, Ethan, and Uday
@@ -26,7 +25,7 @@ public class SwitchDoor extends Entity implements Encodable {
 		this.switches = switches;
 	}
 	
-	public SwitchDoor(Coder coder) throws CoderException {
+	public SwitchDoor(Coder coder) {
 		super(coder);
 		int combinationSize = coder.decodeInt();
 		this.combination = new int[combinationSize];

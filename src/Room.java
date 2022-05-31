@@ -1,7 +1,7 @@
 
 import restore.Coder;
 import restore.Encodable;
-import restore.CoderException;
+
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -56,7 +56,7 @@ public class Room implements Encodable {
 		setPlayerPosition();
 	}
 	
-	public Room(Coder coder) throws CoderException {
+	public Room(Coder coder) {
 		tiles = new Tile[HEIGHT][WIDTH];
 		this.entities = new ArrayList<Entity>(); 
 		this.player = new Player(coder);

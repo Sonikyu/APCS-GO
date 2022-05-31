@@ -10,7 +10,7 @@
 /** @author Alex, Johnny, Ethan*/
 
 import restore.Coder;
-import restore.CoderException;
+import java.util.ArrayList;
 
 public class Tile extends Entity {
     public enum Material {
@@ -36,9 +36,9 @@ public class Tile extends Entity {
         this.material = material;
     }
     
-    public Tile(Coder coder) throws CoderException {
+    public Tile(Coder coder) {
     	super(coder);
-        material = Material.FLOOR; // FIX
+        material = Material.FLOOR;
     }
     
     public void encode(Coder coder) {

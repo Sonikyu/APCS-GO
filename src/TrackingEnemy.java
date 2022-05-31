@@ -10,8 +10,8 @@
 /** @author Uday*/ 
 
 import java.util.ArrayList;
+
 import restore.Coder;
-import restore.CoderException;
 
 public class TrackingEnemy extends Entity{
 	public static String TYPE = "TrackingEnemy";
@@ -26,6 +26,7 @@ public class TrackingEnemy extends Entity{
 	private int stunStationaryDuration;
 	private int attackDelay;
 	private int refreshSpeed;
+	private long frameCount;
 	
 	private long lastFrameInRadius = 0;
 	private long lastFrameAttacked = 0;
@@ -53,7 +54,7 @@ public class TrackingEnemy extends Entity{
 		this(rangeInTiles * Tile.WIDTH, colTether * Tile.WIDTH, rowTether * Tile.HEIGHT, attackStrength, stunTransitionDuration, stunStationaryDuration, 150, 3);
 	}
 	
-	public TrackingEnemy(Coder coder) throws CoderException {
+	public TrackingEnemy(Coder coder) {
 		super(coder);
 		this.range = coder.decodeInt();
 		this.xTether = coder.decodeInt();
@@ -63,6 +64,7 @@ public class TrackingEnemy extends Entity{
 		this.stunStationaryDuration = coder.decodeInt();
 		this.attackDelay = coder.decodeInt();
 		this.refreshSpeed = coder.decodeInt();
+		this.frameCount = coder.decodeLong();
 		this.lastFrameInRadius = coder.decodeLong();
 		this.lastFrameAttacked = coder.decodeLong();
 		this.lastFrameStunned = coder.decodeLong();
@@ -80,6 +82,7 @@ public class TrackingEnemy extends Entity{
 		coder.encode(this.stunStationaryDuration);
 		coder.encode(this.attackDelay);
 		coder.encode(this.refreshSpeed);
+		coder.encode(this.frameCount);
 		coder.encode(this.lastFrameInRadius);
 		coder.encode(this.lastFrameAttacked);
 		coder.encode(this.lastFrameStunned);
@@ -117,7 +120,7 @@ public class TrackingEnemy extends Entity{
 	
 	public void cycle(Level level, Game.GameInfo info) {
 		if (refreshSpeed != 0 && info.getFrameCount() % refreshSpeed != 0) {
-			final long frameCount = info.getFrameCount();
+			frameCount = info.getFrameCount();
 			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 			if (transitioning) {
 				int xOffset = getX() - xTether;

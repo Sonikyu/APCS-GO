@@ -1,10 +1,6 @@
 import java.util.ArrayList;
 
-import restore.Coder;
-import restore.CoderException;
-import restore.Encodable;
-
-public class BossBattleTracker extends Entity implements Encodable {
+public class BossBattleTracker extends Entity{
 	public static String TYPE = "BossBattleMinion";
 	private static int MAX_HEALTH = 100;
 	private static String IMAGE_FILE = "Enemy.png";
@@ -21,16 +17,6 @@ public class BossBattleTracker extends Entity implements Encodable {
 	public BossBattleTracker(Boss boss) {
 		super(BossBattleTracker.TYPE, BossBattleTracker.MAX_HEALTH, BossBattleTracker.IMAGE_FILE);
 		this.boss = boss;
-	}
-	
-	public BossBattleTracker(Coder coder) throws CoderException {
-		super(coder);
-		this.boss = new Boss(coder);
-	}
-	
-	public void encode(Coder coder) {
-		super.encode(coder);
-		boss.encode(coder);
 	}
 	
 	@Override

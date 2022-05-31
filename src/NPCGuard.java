@@ -4,11 +4,6 @@ import java.util.HashSet;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
-import restore.Coder;
-import restore.CoderException;
-import restore.Encodable;
-
 import java.awt.event.KeyEvent;
 
 //AP CS Project
@@ -22,19 +17,17 @@ import java.awt.event.KeyEvent;
 //Add your name here if you work on this class:
 /** @author Uday */ 
 
-public class NPCGuard extends Entity implements Encodable {
+public class NPCGuard extends Entity {
 	public static String TYPE = "NPCGuard";
 	private static int MAX_HEALTH = 100000;
 	private static String IMAGE_FILE = "HelpfulNPC.png";
 	
 	private int range = 75;
 	ImageIcon image;
-	private String imageString;
 	private JFrame NPCDialogue = new JFrame();
-	
-	public NPCGuard(String imageString) {
+	public NPCGuard(ImageIcon image) {
 		super(NPCGuard.TYPE, NPCGuard.MAX_HEALTH, NPCGuard.IMAGE_FILE);
-		makeImage();
+		this.image = image;
 		JLabel label = new JLabel();
 		label.setIcon(image);
 		label.setBounds(0,0,300,200);
@@ -43,27 +36,6 @@ public class NPCGuard extends Entity implements Encodable {
 		NPCDialogue.add(label);
 		NPCDialogue.setVisible(false);
 		
-	}
-	
-	public NPCGuard(Coder coder) throws CoderException {
-		super(coder);
-		this.imageString = coder.decodeString();
-		makeImage();
-		JLabel label = new JLabel();
-		label.setIcon(image);
-		label.setBounds(0,0,300,200);
-		NPCDialogue.setLayout(null);
-		NPCDialogue.setSize(300,200);
-		NPCDialogue.add(label);
-		NPCDialogue.setVisible(false);
-	}
-	
-	public void encode(Coder coder) {
-		super.encode(coder);
-	}
-	
-	public void makeImage() {
-		image = new ImageIcon(imageString);
 	}
 	
 	public void cycle(Level level, Game.GameInfo info) {

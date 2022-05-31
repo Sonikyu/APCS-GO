@@ -10,8 +10,8 @@
 /** @author Uday, Johnny */ 
 
 import java.util.ArrayList;
+
 import restore.Coder;
-import restore.CoderException;
 
 public class MoveOnlyEnemy extends Entity {
 	public static String TYPE = "MoveOnlyEnemy";
@@ -55,7 +55,7 @@ public class MoveOnlyEnemy extends Entity {
 		}
 	}
 	
-	public MoveOnlyEnemy(Coder coder) throws CoderException {
+	public MoveOnlyEnemy(Coder coder) {
 		super(coder);
 		this.xDelta = 1;
 		this.yDelta = 1;

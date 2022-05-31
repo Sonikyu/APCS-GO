@@ -22,8 +22,7 @@ public class Audio extends Thread{
    private String root ;
    private int curr;
    public Clip c;
-   
-   public Audio() {
+   public Audio(){
 
       SoundList = new ArrayList<String>();         
 
@@ -63,16 +62,12 @@ public class Audio extends Thread{
       curr ++;
    }
 
-   public void playSound(int x) {
-	   
-   }
-   
    public void playAudio(){
       c.start();
 		System.out.println("Audio Playing : " + SoundList.get(curr));
    }
 
-   public void loopAudio() {
+   public void loopAudio(){
       c.loop(Clip.LOOP_CONTINUOUSLY);
    }
 

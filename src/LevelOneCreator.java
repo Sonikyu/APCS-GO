@@ -68,7 +68,7 @@ public class LevelOneCreator implements LevelCreator {
 				"L__________________J",
 		};
 		Room room = new Room(layout, p);
-		Boss boss = new Boss(3,10);
+		Boss boss = new Boss(3, 10);
 		room.placeEntity(boss, 3, 10);
 		room.placeEntity(new BossBattleTracker(boss), 10, 10);
 		return room;
@@ -217,8 +217,8 @@ public class LevelOneCreator implements LevelCreator {
 		room.placeEntity(enemy, 9, 9);
 
 //		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
-		
-		room.placeEntity(new NPCGuard("images/NPCDialogue1.png"), 6, 6);
+		ImageIcon icon = new ImageIcon("images/NPCDialogue1.png");
+		room.placeEntity(new NPCGuard(icon), 6, 6);
 
 		return room;
 	}

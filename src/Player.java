@@ -1,10 +1,11 @@
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import restore.Coder;
-import restore.CoderException;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -65,15 +66,13 @@ public class Player extends Entity {
 		setUpHealthAndInventoryAndTimer();
 	}
 
-	public Player(Coder coder) throws CoderException {
+	public Player(Coder coder) {
 		super(coder);
 		this.xDelta = 0;
 		this.yDelta = 0;
 		this.lastFrameAttacked = -ANIMATION_TIME;
 		currentSlot = coder.decodeInt();
 		direction = Direction.NORTH;
-		this.weapon = new PlayerWeapon(coder);
-		setUpHealthAndInventoryAndTimer();
 	}
 
 	public void encode(Coder coder) {
@@ -82,7 +81,6 @@ public class Player extends Entity {
 			coder.encode(inventory[i]);
 		}
 		coder.encode(currentSlot);
-		weapon.encode(coder);
 	}
 
 	/**
