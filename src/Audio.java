@@ -24,34 +24,34 @@ public class Audio extends Thread{
    public Clip c;
    
    public Audio() {
-
-      SoundList = new ArrayList<String>();         
-
-	   root = "sounds/";
-      
-      //Add Sounds
-      SoundList.add("TitleTheme.wav");
-      SoundList.add("LevelTheme.wav");
-      SoundList.add("BossTheme.wav");
-      
-
-      curr = 0;
+//
+//      SoundList = new ArrayList<String>();         
+//
+//	   root = "sounds/";
+//      
+//      //Add Sounds
+//      SoundList.add("TitleTheme.wav");
+//      SoundList.add("LevelTheme.wav");
+//      SoundList.add("BossTheme.wav");
+//      
+//
+//      curr = 0;
    }
    
    public void setAudio(int x){
-      if(x < SoundList.size()){
-         File sound = new File(root + SoundList.get(x));
-         curr = x;
-         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(sound);
-            c = AudioSystem.getClip();
-            c.open(ais);
-            
-         } 
-         catch (Exception e) {
-            System.out.println(e.getMessage());
-         }
-      }
+//      if(x < SoundList.size()){
+//         File sound = new File(root + SoundList.get(x));
+//         curr = x;
+//         try {
+//            AudioInputStream ais = AudioSystem.getAudioInputStream(sound);
+//            c = AudioSystem.getClip();
+//            c.open(ais);
+//            
+//         } 
+//         catch (Exception e) {
+//            System.out.println(e.getMessage());
+//         }
+//      }
 
    }
 
@@ -60,7 +60,7 @@ public class Audio extends Thread{
    }
 
    public void increaseCurr(){
-      curr ++;
+//      curr ++;
    }
 
    public void playSound(int x) {
@@ -68,24 +68,24 @@ public class Audio extends Thread{
    }
    
    public void playAudio(){
-      c.start();
-		System.out.println("Audio Playing : " + SoundList.get(curr));
+//      c.start();
+//		System.out.println("Audio Playing : " + SoundList.get(curr));
    }
 
    public void loopAudio() {
-      c.loop(Clip.LOOP_CONTINUOUSLY);
+//      c.loop(Clip.LOOP_CONTINUOUSLY);
    }
 
    public void stopAudio(){
-      System.out.println("Audio stopped :" + SoundList.get(curr));
-      c.stop();
+//      System.out.println("Audio stopped :" + SoundList.get(curr));
+//      c.stop();
    }
      
 
    public void run(int i){
-      main.setAudio(i);
-      main.playAudio();
-      main.loopAudio();	   
+//      main.setAudio(i);
+//      main.playAudio();
+//      main.loopAudio();	   
    }
 
    

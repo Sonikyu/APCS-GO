@@ -30,6 +30,8 @@ class LevelTwoCreator implements LevelCreator {
 		Room sr1 = createTLSwitchRoom();
 		Room sr2 = createBSwitchRoom();
 		Room sr3 = createTRSwitchRoom();
+		Room drR = createDoorRoom();
+		Room lvR = createLevelRoom();
 
 		Room[][] rooms = {
 			{L(),   UL(),	null,	null,	null,	null,	null},
@@ -37,8 +39,8 @@ class LevelTwoCreator implements LevelCreator {
 			{UD(), 	UD(),   DR(),	RUD(),	UR(),	LR(),	RUD()},
 			{DR(), 	DLR(),	ULR(),	strt,	RUD(),	L(),	RUD()},
 			{null, 	UR(),	RUD(),	UD(),	DR(),	UL(),	UD()},
-			{L(), 	DL(),	UD(),	UD(),	null,	UD(),	UD()},
-			{null, 	null,	D(),	D(),	sr2,	DL(),	D()},
+			{L(), 	DL(),	UD(),	drR,	null,	UD(),	UD()},
+			{null, 	null,	D(),	lvR,	sr2,	DL(),	D()},
 		};
 
 		// Auto find starting room
@@ -55,10 +57,7 @@ class LevelTwoCreator implements LevelCreator {
 			}
 		}
 
-		Level level = new Level(rooms, row, col, p);
-		
-
-		return level;
+		return new Level(rooms, row, col, p);
 	}
 	
 	private Room createTLSwitchRoom() {
@@ -76,6 +75,57 @@ class LevelTwoCreator implements LevelCreator {
 	private Room createTRSwitchRoom() {
 		Room room = R();
 		room.placeEntity(doorSwitch3, 13, 7);
+		return room;
+	}
+	
+	private Room createDoorRoom() {
+		String[] layout = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|----  ----|GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};
+		Room room = new Room(layout, p);
+		int[] combination = { 0, 2, 1 };
+		DoorSwitch[] switches = { doorSwitch1, doorSwitch2, doorSwitch3 };
+		SwitchDoor door1 = new SwitchDoor(combination, switches);
+		SwitchDoor door2 = new SwitchDoor(combination, switches);
+		room.placeEntity(door1, 9, 7);
+		room.placeEntity(door2, 10, 7);
+		return room;
+	}
+	
+	private Room createLevelRoom() {
+		String[] layout = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|    +     |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGGL##########JGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG",
+				"GGGGGGGGGGGGGGGGGGGG"
+		};
+		Room room = new Room(layout, p);
+		// create nPc dialogiue to congratulate on solving puzzle and then explain boso level 
 		return room;
 	}
 	
