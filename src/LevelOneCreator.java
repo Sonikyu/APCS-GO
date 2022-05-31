@@ -77,11 +77,11 @@ public class LevelOneCreator implements LevelCreator {
 	
 	private Room createStartingRoom(Player p) {
 		String[] layout = { //House png will be put left of the Spawn tile,
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-				"GGGGG|      |GGGGGGG",
-				"-----J      L------7",
+				"P####7      |GGGGGGG",
+				"|F   |      |GGGGGGG",
+				"|    |      |GGGGGGG",
+				"|    |      |GGGGGGG",
+				"--J LJ      L------7",
 				"                  B|",
 				"-----7             L",
 				"GGGGG|   S         D",

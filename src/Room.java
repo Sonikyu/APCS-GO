@@ -78,7 +78,7 @@ public class Room implements Encodable {
 			String row = roomString[i];
 			for (int j = 0; j < row.length(); j++) {
 				switch (row.charAt(j)) {
-		
+				
 				case ' ':
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
 					break;
@@ -123,6 +123,11 @@ public class Room implements Encodable {
 				case 'B':
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
 					placeEntity(new BreakableTile(100), j, i);
+					break;
+				
+				case 'F':
+					this.tiles[i][j] = new Tile(Tile.Material.FARM);
+					placeEntity(new Tile(Tile.Material.FARM), j, i);
 					break;
 				default:
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
