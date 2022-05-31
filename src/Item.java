@@ -16,12 +16,12 @@ import restore.CoderException;
 public class Item extends Entity {
 
 	public enum ItemType {
-		EMPTY, KEY, HEALPOT, SPEEDPOT
+		EMPTY, KEY, HEALPOT, SPEEDPOT, LUCKPOT
     }
 	
 	public static String TYPE = "Item";
 
-	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png"};
+	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png", "LuckPot.png"};
 	
 	private ItemType object;
 	

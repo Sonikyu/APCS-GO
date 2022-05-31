@@ -28,10 +28,10 @@ public class MoveOnlyEnemy extends Entity {
 	private int attackDelay = 150;
 	private long lastFrameAttacked;
 	
-	public MoveOnlyEnemy(int totalXDelta, int totalYDelta, int attackStrength) {
+	public MoveOnlyEnemy(int totalXDelta, int totalYDelta, int attackStrength, int xDelta, int yDelta) {
 		super(MoveOnlyEnemy.TYPE, MoveOnlyEnemy.MAX_HEALTH, MoveOnlyEnemy.IMAGE_FILE);
-		this.xDelta = 1;
-		this.yDelta = 1;
+		this.xDelta = xDelta;
+		this.yDelta = yDelta;
 		this.totalXDelta = totalXDelta;
 		this.totalYDelta = totalYDelta;
 		this.attackStrength = attackStrength;

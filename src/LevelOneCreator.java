@@ -68,7 +68,7 @@ public class LevelOneCreator implements LevelCreator {
 				"L__________________J",
 		};
 		Room room = new Room(layout, p);
-		Boss boss = new Boss(3,10);
+		Boss boss = new Boss();
 		room.placeEntity(boss, 3, 10);
 		room.placeEntity(new BossBattleTracker(boss), 10, 10);
 		return room;
@@ -95,6 +95,7 @@ public class LevelOneCreator implements LevelCreator {
 		Room room = new Room(layout, p);
 //		room.placeEntity(new BreakableTile(100), 7, 7);
 //		return new Room(layout, p);
+		room.placeEntity(new NPCGuard("images/KeyRequiredDialogue.png", 360, 240), 16, 8);
 		return room;
 	}
 	
@@ -165,8 +166,9 @@ public class LevelOneCreator implements LevelCreator {
 		};
 		Room room = new Room(layout, p);
 		room.placeEntity(new Item(Item.ItemType.HEALPOT), 17, 9);
-		MoveOnlyEnemy enemy = new MoveOnlyEnemy(0, Tile.HEIGHT * 10, 5);
+		MoveOnlyEnemy enemy = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 5, 2, 2);
 		room.placeEntity(enemy, 8, 3);
+		room.placeEntity(new NPCGuard("images/FirstEnemyDialogue.png", 360, 240), 3, 10);
 		return room;
 	}
 	
@@ -218,7 +220,7 @@ public class LevelOneCreator implements LevelCreator {
 
 //		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
 		
-		room.placeEntity(new NPCGuard("images/NPCDialogue1.png"), 6, 6);
+		room.placeEntity(new NPCGuard("images/TrackingEnemyDialogue.png", 360, 240), 3, 13);
 
 		return room;
 	}

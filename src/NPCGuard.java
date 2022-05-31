@@ -27,21 +27,19 @@ public class NPCGuard extends Entity implements Encodable {
 	private static int MAX_HEALTH = 100000;
 	private static String IMAGE_FILE = "HelpfulNPC.png";
 	
-	private int range = 75;
+	private int range = 150;
+	private int width, height;
 	ImageIcon image;
 	private String imageString;
 	private JFrame NPCDialogue = new JFrame();
+	private JLabel label;
 	
-	public NPCGuard(String imageString) {
+	public NPCGuard(String imageString, int width, int height) {
 		super(NPCGuard.TYPE, NPCGuard.MAX_HEALTH, NPCGuard.IMAGE_FILE);
+		this.width = width;
+		this.height = height;
+		this.imageString = imageString;
 		makeImage();
-		JLabel label = new JLabel();
-		label.setIcon(image);
-		label.setBounds(0,0,300,200);
-		NPCDialogue.setLayout(null);
-		NPCDialogue.setSize(300,200);
-		NPCDialogue.add(label);
-		NPCDialogue.setVisible(false);
 		
 	}
 	
@@ -64,6 +62,13 @@ public class NPCGuard extends Entity implements Encodable {
 	
 	public void makeImage() {
 		image = new ImageIcon(imageString);
+		label = new JLabel();
+		label.setIcon(image);
+		label.setBounds(0,0,width,height);
+		NPCDialogue.setLayout(null);
+		NPCDialogue.setSize(width + 18,height + 19);
+		NPCDialogue.add(label);
+		NPCDialogue.setVisible(false);
 	}
 	
 	public void cycle(Level level, Game.GameInfo info) {

@@ -138,6 +138,13 @@ public class Player extends Entity {
 			spedUpFrame = frameCount;
 			inventory[currentSlot].getSlotItem().setItemType(Item.ItemType.EMPTY);
 			SFX.main.run(SFX.Sound.ITEMUSED);
+		case LUCKPOT:
+			if(Math.random() > 0.5) {
+				this.heal(30);
+			}
+			else {
+				this.takeDamage(30);
+			}
 		case KEY:
 			inventory[currentSlot].getSlotItem().setEmpty();
 		default:

@@ -1,113 +1,168 @@
-
 import java.util.ArrayList;
-import restore.Encodable;
-import restore.Coder;
 
+import restore.Coder;
 import restore.CoderException;
 
-public class Boss extends Entity implements Encodable {
-
+public class Boss extends Entity{
 	public static String TYPE = "BossEnemy";
 	private static int MAX_HEALTH = 100;
 	private static String IMAGE_FILE = "ParthInThePark.png";
 	
+	private int startX;
+	private int startY;
+	private int retreatX;
+	private int retreatY;
 	private int randX;
 	private int randY;
-	private int xTether;
-	private int yTether;
 	private long retreatFrame;
-	private int radius = 10;
-	
+	private long lastFrameAttacked;
+	private int radius = 100;
+	private int dx;
+	private int dy;
+	private int d;
+	private int xi;
+	private int yi;
 	private boolean minionAttack = false;
 	private boolean retreat = false;
 	private boolean aggravated = false;
 	
-	public Boss(int colTether, int rowTether) {
-		super(Boss.TYPE, Boss.MAX_HEALTH, Boss.IMAGE_FILE);
-		xTether = colTether * Tile.WIDTH;
-		yTether = rowTether * Tile.HEIGHT;
+	public Boss() {
+		super(Boss.TYPE, Boss.MAX_HEALTH, Boss.IMAGE_FILE);;
 	}
 	
 	public Boss(Coder coder) throws CoderException {
 		super(coder);
-		xTether = coder.decodeInt();
-		yTether = coder.decodeInt();
 	}
 	
 	public void encode(Coder coder) {
 		super.encode(coder);
-		coder.encode(xTether);
-		coder.encode(yTether);
 	}
-	
 	public void setMinionAttack(boolean attack) {
 		minionAttack = attack;
 	}
 	
-	public void move(int xOffset, int yOffset, int speed) {
-		if (xOffset < 0) {
-			if (Math.abs(xOffset) < speed) {
-				updateXBy(-xOffset);
-			}
-			else {
-				updateXBy(speed);
-			}
+
+	public boolean plotLineLow(int x0, int y0, int x1, int y1) {
+		if (dx < 0) {
+			xi = -xi;
+			dx = -dx;
 		}
 		
-		if (xOffset > 0) {
-			if (Math.abs(xOffset) < speed) {
-				updateXBy(-xOffset);
-			}
-			else {
-				updateXBy(-speed);
-			}
+		if (dy < 0) {
+			yi = -yi;
+			dy = -dy;
 		}
 		
-		if (yOffset < 0) {
-			if (Math.abs(yOffset) < speed) {
-				updateXBy(-yOffset);
+		if (Math.abs(getX() - x1) > 1) {
+			updateXBy(xi);
+			if (d > 0) {
+				updateYBy(yi);
+				d = d + (2 * (dy-dx));
 			}
-			else {
-				updateYBy(speed);
-			}
+			else
+				d = d + 2 * dy;
+			return false;
 		}
-		if (yOffset > 0) {
-			if (Math.abs(yOffset) < speed) {
-				updateXBy(-yOffset);
-			}
-			else {
-				updateYBy(-speed);
-			}
+		else {
+			retreatX = getX();
+			retreatY = getY();
+			dx = startX - retreatX;
+			dy = startY - retreatY;
+			d = (2*dy) - dx;
+			xi = 2;
+			yi = 2;
+			return true;
 		}
 	}
 	
-	public void cycle(Level level, Game.GameInfo info) {
-		if (aggravated) {
-			int xOffset = getX() - randX;
-			int yOffset = getY() - randY;
-			move(xOffset, yOffset, 2);
-			if (xOffset == 0 && yOffset == 0) {
-//				Debugger.main.print("Reached location");
-				aggravated = false;
-				retreat = true;
-				retreatFrame = info.getFrameCount();
+	public boolean plotLineHigh(int x0, int y0, int x1, int y1) {
+			if (dx < 0) {
+				xi = -xi;
+				dx = -dx;
+			}
+			
+			if (dy < 0) {
+				yi = -yi;
+				dy = -dy;
+			}
+			
+			if (Math.abs(getY() - y1) > 1) {
+				updateYBy(yi);
+				if (d > 0) {
+					updateXBy(xi);
+					d = d + (2 * (dx-dy));
+				}
+				else {
+					d = d + 2 * dy;
+				}
+				return false;
+			}
+			else {
+				retreatX = getX();
+				retreatY = getY();
+				dx = startX - retreatX;
+				dy = startY - retreatY;
+				d = (2*dy) - dx;
+				xi = 2;
+				yi = 2;
+				return true;
 			}
 		}
-		else if (retreat) {
-//			Debugger.main.print("" + retreat);
-			if (info.getFrameCount() - retreatFrame >= 100) {
-//				Debugger.main.print("Duration over");
-				int xOffset = getX() - xTether;
-				int yOffset = getY() - yTether;
-				move(xOffset, yOffset, 1);
-				if (xOffset == 0 && yOffset == 0) {
-					retreat = false;
-					minionAttack = false;
+	
+	public void cycle(Level level, Game.GameInfo info) {
+		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
+		for (int i = 0; i < visibleEntities.size(); i ++) {
+			Entity entity = visibleEntities.get(i);
+			if (entity.isOfType(Player.TYPE)) {
+				Player p = (Player) entity;
+				if (collidesWith(p)) {
+					if (info.getFrameCount() - lastFrameAttacked >= 100) {
+						p.takeDamage(info, 10);
+						lastFrameAttacked = info.getFrameCount();
+					}
 				}
 			}
 		}
+		if (aggravated) {			
+			if (Math.abs(randY-startY) < Math.abs(randX-startX)) {
+				if(plotLineLow(startX, startY, randX, randY)) {
+					aggravated = false;
+					retreat = true;
+					retreatFrame = info.getFrameCount();
+				}
+			}
+			else {
+				if(plotLineHigh(startX, startY, randX, randY)) {
+					Debugger.main.print("Done");
+					aggravated = false;
+					retreat = true;
+					retreatFrame = info.getFrameCount();
+				};
+			}
+		}
+		else if (retreat) {
+			if (info.getFrameCount() - retreatFrame >= 100) {
+//				Debugger.main.print("Duration over");
+				if (Math.abs(startY-retreatY) < Math.abs(startX-retreatX)) {
+					Debugger.main.print("Slope is less than 1");
+					if(plotLineLow(retreatX, retreatY, startX, startY)) {
+						Debugger.main.print("Done");
+						retreat = false;
+						minionAttack = false;
+					}
+				}
+				else {
+					Debugger.main.print("Slope is more than 1");
+					if(plotLineHigh(retreatX, retreatY, startX, startY)) {
+						Debugger.main.print("Done");
+						retreat = false;
+						minionAttack = false;
+					}
+				}
+			}
+		}
+		
 		else if (minionAttack) {
-			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 			int px = 0;
 			int py = 0;
 			int ex = 0;
@@ -141,21 +196,21 @@ public class Boss extends Entity implements Encodable {
 			randY = (int) (centerY + r * Math.sin(theta));
 			
 			randX = Math.max(30, randX);
-			randX = Math.min(770, randX);
+			randX = Math.min(800 - getWidth(), randX);
 			
 			randY = Math.max(30, randY);
-			randY = Math.min(570, randY);
-			
-			Debugger.main.print("X of player: " + px);
-			Debugger.main.print("Y of player: " + py);
-			
-			Debugger.main.print("X of enemy: " + ex);
-			Debugger.main.print("Y of enemy: " + ey);
-			
-			Debugger.main.print("Random center X: " + randX);
-			Debugger.main.print("Random center Y: " + randY);
+			randY = Math.min(600 - getHeight(), randY);
 			minionAttack = false;
 			aggravated = true;
+			
+			startX = getX();
+			startY = getY();
+			dx = randX - startX;
+			dy = randY - startY;
+			d = (2*dy) - dx;
+			xi = 2;
+			yi = 2;
 		}
 	}
 }
+
