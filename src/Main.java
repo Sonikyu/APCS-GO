@@ -94,13 +94,18 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 
+
 //		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 //		    public void run() {
 //		        Inspector.main.close();
 //		    }
 //		}));
 		
+
 		// MOOSIC
 		//Audio.main.run();
+
+		
+
 	}
 }

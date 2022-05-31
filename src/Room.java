@@ -27,9 +27,7 @@ public class Room implements Encodable {
 	private ArrayList<Entity> entities;
 	private Tile[][] tiles;
 	private Player player;
-	private Heart[] healthBar;
-	private InventorySlot[] inventoryBar;
-	private TimerDisplay timer;
+
 
 	
 	public Room(String[] roomString, Player player) {
@@ -37,7 +35,7 @@ public class Room implements Encodable {
 		this.entities = new ArrayList<Entity>();
 		// TODO: need rooms to take an arraylist of entities
 		this.player = player;
-		setUpHealthAndInventoryAndTimer();
+		
 		tileInit(roomString);
 		setPlayerPosition();
 	}
@@ -54,19 +52,7 @@ public class Room implements Encodable {
 
 		this.entities = entities;
 		this.player = player;
-		healthBar = new Heart[10];
-		for (int i = 0; i < healthBar.length; i++) {
-			Heart h = new Heart();
-			h.setPosition(10 + i * h.getWidth(), 10);
-			healthBar[i] = h;
-		}
-		
-		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
-		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
-			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.EMPTY));
-			inventoryBar[i].setPosition(142 + i * inventoryBar[i].getWidth(), 565);
-		}
-		setUpHealthAndInventoryAndTimer();
+
 		setPlayerPosition();
 	}
 	
@@ -83,13 +69,7 @@ public class Room implements Encodable {
 				tiles[i][j] = new Tile(coder);
 			}
 		}
-		healthBar = new Heart[10];
-		for (int i = 0; i < healthBar.length; i++) {
-			Heart h = new Heart();
-			h.setPosition(0 + i * h.getWidth(), 10);
-			healthBar[i] = h;
-		}
-		//TODO: Inventory Bar decoder
+
 		setPlayerPosition();
 	}
 	
@@ -165,20 +145,7 @@ public class Room implements Encodable {
 		}
 	}
 	
-	private void setUpHealthAndInventoryAndTimer() {
-		healthBar = new Heart[10];
-		for (int i = 0; i < healthBar.length; i++) {
-			Heart h = new Heart();
-			h.setPosition(10 + i * h.getWidth(), 10);
-			healthBar[i] = h;
-		}
-		inventoryBar = new InventorySlot[Player.INVENTORY_SIZE];
-		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
-			inventoryBar[i] = new InventorySlot(new Item(Item.ItemType.EMPTY)); // make item type empty when done testing
-			inventoryBar[i].setPosition(242 + i * inventoryBar[i].getWidth(), 565);
-		}
-		timer = new TimerDisplay();
-	}
+
 	
 	@Override
 	public void encode(Coder coder) {
@@ -212,21 +179,7 @@ public class Room implements Encodable {
 			}	
 		}
 		player.paint(g);
-		for (int i = 0; i < healthBar.length; i++) {
-			Heart heart = healthBar[i];
-			if (heart.isVisible()) {
-				heart.paint(g);
-			}
-		}
-		for (int i = 0; i < inventoryBar.length; i++) {
-			InventorySlot slot = inventoryBar[i];
-			if (slot.isVisible()) {
-				slot.paint(g);
-			}
-		}
-		if (timer.isVisible()) {
-			timer.paint(g);
-		}
+		
 	}
 	
 	public void loadRoom() {
@@ -238,13 +191,6 @@ public class Room implements Encodable {
 		for (Entity entity : entities) {
 			entity.show();
 		}
-		for (Heart heart : healthBar) {
-			heart.show();
-		}
-		for (InventorySlot slot : inventoryBar) {
-			slot.show();
-		}
-		timer.show();
 	}
 	
 	public void unloadRoom() {
@@ -256,13 +202,6 @@ public class Room implements Encodable {
 		for (Entity entity : entities) {
 			entity.hide();
 		}
-		for (Heart heart : healthBar) {
-			heart.hide();
-		}
-		for (InventorySlot slot : inventoryBar) {
-			slot.hide();
-		}
-		timer.hide();
 	}
 	
 	/**
@@ -277,38 +216,6 @@ public class Room implements Encodable {
 			}
 		}
 		return null;
-	}
-	
-	public void updateHearts() {
-		int health = player.getHeartCount();
-		for (int i = 0; i < healthBar.length; i++) {
-			if (health >= 2) {
-				healthBar[i].setImageAtIndex(2);
-				health -= 2;
-			}
-			else if (health == 1) {
-				healthBar[i].setImageAtIndex(1);
-				health--;
-			}
-			else {
-				healthBar[i].setImageAtIndex(0);
-			}
-		}
-	}
-	
-	public void updateInventoryBar() {
-		int slotNum = player.getCurrentSlot();
-		Item[] inv = player.getInventory();
-		//possible bad code warning
-		for (int i = 0; i < inventoryBar.length; i++) {
-			inventoryBar[i].setSlotItem(inv[i]);
-			if (slotNum == i) {
-				inventoryBar[i].setImageAtIndex(1);
-			}
-			else {
-				inventoryBar[i].setImageAtIndex(0);
-			}
-		}
 	}
 	
 	
@@ -378,18 +285,6 @@ public class Room implements Encodable {
 		}
 		player.cycle(level, info);
 		
-		
-		// Cycle for Hearts 
-		updateHearts();
-		for (int i = 0; i < healthBar.length; i++) {
-			healthBar[i].cycle(level, info);
-		}
-		
-		// Get current item slot
-		updateInventoryBar();
-		for (int i = 0; i < inventoryBar.length; i++) {
-			inventoryBar[i].cycle(level, info);
-		}
 		//debugger.print("Game Loop");
 	}
 }

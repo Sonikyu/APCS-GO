@@ -62,6 +62,10 @@ public class Item extends Entity {
 		this.setImageAtIndex(ItemType.EMPTY.ordinal());
 	}
 	
+	public void setItemType(Item.ItemType itemType) {
+		this.object = itemType;
+	}
+	
 	/**
      * Gets the item type.
      * @return The item type.
@@ -78,7 +82,7 @@ public class Item extends Entity {
      */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
-		
+		setImageAtIndex(object.ordinal());
 		if (this.object != ItemType.EMPTY){
 			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 			for (int i = 0; i < visibleEntities.size(); i++) {
@@ -90,6 +94,7 @@ public class Item extends Entity {
 						if(temp >= 0){
 							p.addItem(this); 
 							Debugger.main.print("Player obtained " + this);
+							SFX.main.run(4);
 							hide();
 						}
 						else{

@@ -1,10 +1,15 @@
 
 import java.util.ArrayList;
-
+import restore.Encodable;
 import restore.Coder;
+
 import restore.CoderException;
 
-public class Boss extends Entity{
+public class Boss extends Entity {
+
+
+public class Boss extends Entity implements Encodable {
+
 	public static String TYPE = "BossEnemy";
 	private static int MAX_HEALTH = 100;
 	private static String IMAGE_FILE = "ParthInThePark.png";

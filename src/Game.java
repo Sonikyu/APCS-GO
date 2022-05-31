@@ -169,6 +169,7 @@ public class Game implements Encodable {
 		}
 		else {
 			endScreen.paint(g);
+			new TimerDisplay().paint(g);
 		}
 	}
 	
@@ -291,6 +292,9 @@ public class Game implements Encodable {
 		public void startGame() {
 			Timer.timer.start();
 			state = GameState.IN_GAME;
+			Audio.main.stopAudio();
+			Audio.main.run(1);
+			Audio.main.loopAudio();
 		}
 		
 		/**

@@ -26,7 +26,8 @@ public class Player extends Entity {
 	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
 	private static int PLAYER_SPEED = 1;
 
-	public static final int INVENTORY_SIZE = 9;
+	private Heart[] healthBar;
+	private TimerDisplay timer;
 
 	private int xDelta;
 	private int yDelta;
@@ -36,8 +37,9 @@ public class Player extends Entity {
 	//time for player to cycle through animation
 	private static final int ANIMATION_TIME = 100;
 
-	private Item[] inventory;
+	private InventorySlot[] inventory;
 	private int currentSlot;
+	public static final int INVENTORY_SIZE = 9;
 
 	private PlayerWeapon weapon;
 	private static final int ATTACK_COOLDOWN = 100;
@@ -57,13 +59,10 @@ public class Player extends Entity {
 		this.xDelta = 0;
 		this.yDelta = 0;
 		lastFrameAttacked = -ANIMATION_TIME;
-		inventory = new Item[INVENTORY_SIZE];
-		for (int i = 0; i < INVENTORY_SIZE; i++) {
-			inventory[i] = new Item(Item.ItemType.EMPTY);
-		}
 		currentSlot = 0;
 		direction = Direction.NORTH;
 		this.weapon = new PlayerWeapon(direction, this.attackDamage);
+		setUpHealthAndInventoryAndTimer();
 	}
 
 	public Player(Coder coder) throws CoderException {
@@ -71,10 +70,6 @@ public class Player extends Entity {
 		this.xDelta = 0;
 		this.yDelta = 0;
 		this.lastFrameAttacked = -ANIMATION_TIME;
-		inventory = new Item[INVENTORY_SIZE];
-		for (int i = 0; i < INVENTORY_SIZE; i++) {
-			inventory[i] = new Item(coder);
-		}
 		currentSlot = coder.decodeInt();
 		direction = Direction.NORTH;
 	}
@@ -104,7 +99,7 @@ public class Player extends Entity {
 	public void respawn() {
 		setHealth(MAX_HEALTH);
 		for (int i = 0; i < inventory.length; i++) {
-			inventory[i].setEmpty();
+			inventory[i].getSlotItem().setItemType(Item.ItemType.EMPTY);
 		}
 	}
 
@@ -120,30 +115,32 @@ public class Player extends Entity {
 		return direction;
 	}
 
-	public Item[] getInventory() {
-		return inventory;
-	}
-
 	public int getCurrentSlot() {
 		return currentSlot;
 	}
 
 	public void useItem(long frameCount) {
-		switch (inventory[currentSlot].getItemType()) {
+		switch (inventory[currentSlot].getSlotItem().getItemType()) {
 		case EMPTY:
 			break;
 		case HEALPOT:
 			this.heal(30);
 			Debugger.main.print("The player healed 30 HP");
-			inventory[currentSlot].setEmpty();
+			inventory[currentSlot].getSlotItem().setItemType(Item.ItemType.EMPTY);
 			Debugger.main.print("The item slot is now empty");
+			SFX.main.run(5);
 			break;
 		case SPEEDPOT:
 			speedUp = true;
 			spedUpFrame = frameCount;
+<<<<<<< Updated upstream
+			inventory[currentSlot].getSlotItem().setEmpty();
+=======
 			inventory[currentSlot].setEmpty();
+			SFX.main.run(5);
+>>>>>>> Stashed changes
 		case KEY:
-			inventory[currentSlot].setEmpty();
+			inventory[currentSlot].getSlotItem().setEmpty();
 		default:
 			break;
 		}
@@ -152,7 +149,7 @@ public class Player extends Entity {
 
 	public int firstOccur(Item.ItemType item){
 		for(int i = 0; i < inventory.length; i++){
-			if(inventory[i].getItemType() == item){
+			if (inventory[i].getSlotItem().getItemType() == item){
 				return i;
 			}
 		}
@@ -162,7 +159,7 @@ public class Player extends Entity {
 	public void addItem(Item item){
 		int temp = firstOccur(Item.ItemType.EMPTY);
 		if(temp >= 0){
-			inventory[temp]=item;
+			inventory[temp].setSlotItem(item);
 		}
 	}
 
@@ -177,16 +174,74 @@ public class Player extends Entity {
 		if (frameCount - lastFrameAttacking > Player.ATTACK_DURATION) {
 			weapon.setDirection(direction);
 		}
-
-
 	}
 
+	private void setUpHealthAndInventoryAndTimer() {
+		healthBar = new Heart[10];
+		for (int i = 0; i < healthBar.length; i++) {
+			Heart h = new Heart();
+			h.setPosition(10 + i * h.getWidth(), 10);
+			healthBar[i] = h;
+		}
+		inventory = new InventorySlot[Player.INVENTORY_SIZE];
+		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
+			inventory[i] = new InventorySlot(new Item(Item.ItemType.EMPTY)); 
+			inventory[i].setPosition(242 + i * inventory[i].getWidth(), 565);
+		}
+		timer = new TimerDisplay();
+	}
+	
+	private void updateHearts() {
+		int health = getHeartCount();
+		for (int i = 0; i < healthBar.length; i++) {
+			if (health >= 2) {
+				healthBar[i].setImageAtIndex(2);
+				health -= 2;
+			}
+			else if (health == 1) {
+				healthBar[i].setImageAtIndex(1);
+				health--;
+			}
+			else {
+				healthBar[i].setImageAtIndex(0);
+			}
+		}
+	}
+	public void updateInventoryBar() {
+		int slotNum = getCurrentSlot();
+		for (int i = 0; i < inventory.length; i++) {
+			if (slotNum == i) {
+				inventory[i].setImageAtIndex(1);
+			}
+			else {
+				inventory[i].setImageAtIndex(0);
+			}
+		}
+	}
+	
+	
+	
 	@Override
 	public void paint(Graphics2D g) {
 		if (weapon.isVisible()) {
 			weapon.paint(g);
 		}
 		super.paint(g);
+		for (int i = 0; i < healthBar.length; i++) {
+			Heart heart = healthBar[i];
+			if (heart.isVisible()) {
+				heart.paint(g);
+			}
+		}
+		for (int i = 0; i < inventory.length; i++) {
+			InventorySlot slot = inventory[i];
+			if (slot.isVisible()) {
+				slot.paint(g);
+			}
+		}
+		if (timer.isVisible()) {
+			timer.paint(g);
+		}
 	}
 
 
@@ -211,6 +266,7 @@ public class Player extends Entity {
 		// Determine player costume (damaged or not)
 		if (frameCount - lastFrameAttacked < ANIMATION_TIME) {
 			this.setImageAtIndex(1);
+
 		}
 		else {
 			this.setImageAtIndex(0);
@@ -225,7 +281,17 @@ public class Player extends Entity {
 		updateWeapon(frameCount);
 		weapon.cycle(level, info);
 
-
+		// Cycle for Hearts 
+		updateHearts();
+		for (int i = 0; i < healthBar.length; i++) {
+			healthBar[i].cycle(level, info);
+		}
+		
+		// Get current item slot
+		updateInventoryBar();
+		for (int i = 0; i < inventory.length; i++) {
+			inventory[i].cycle(level, info);
+		}
 
 		// Player Attack & Check for collisions
 		playerAttack(level, info.getKeysDown(), info.getFrameCount());
@@ -238,7 +304,7 @@ public class Player extends Entity {
 
 				double distance = Math.sqrt(Math.pow(entity.getX() - getX(), 2) + Math.pow(entity.getY() - getY(), 2));
 				boolean hasKey = false;
-				if (inventory[currentSlot].getItemType() == (Item.ItemType.KEY)){
+				if (inventory[currentSlot].getSlotItem().getItemType() == (Item.ItemType.KEY)){
 					hasKey = true;
 				}
 				if(hasKey && distance < 50){
@@ -247,6 +313,7 @@ public class Player extends Entity {
 						useItem(info.getFrameCount());
 						t.setOpen(true);
 						t.setImageAtIndex(1);
+						SFX.main.run(3);
 					}
 				}
 			}
@@ -254,7 +321,7 @@ public class Player extends Entity {
 			if (collidesWith(entity) ) {
 				if (entity.isOfType("LevelUpTile")) {
 					for (int j = 0; j < inventory.length; j++) {
-						inventory[j].setEmpty();
+						inventory[j].getSlotItem().setEmpty();
 					}
 					info.nextLevel();
 				}
@@ -306,6 +373,7 @@ public class Player extends Entity {
 	public void takeDamage(Game.GameInfo info, int change) {
 		super.takeDamage(change);
 		lastFrameAttacked = (int) info.getFrameCount();
+		SFX.main.run(7);
 		if (isDead()) {
 			Debugger.main.print(getID() + " is dead and cannot be damaged further");
 		} else {
@@ -394,6 +462,7 @@ public class Player extends Entity {
 			if (l - lastFrameAttacking > ATTACK_COOLDOWN) {
 				isAttacking = true;
 				lastFrameAttacking = l;
+				SFX.main.run(6);
 			}
 		}
 	}

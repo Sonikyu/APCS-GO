@@ -43,6 +43,10 @@ public class LevelOneCreator implements LevelCreator {
 		}
 
 		Level level = new Level(rooms, row, col, p);
+
+		Audio.main.run(3);
+		Audio.main.loopAudio();
+
 		return level;
 	}		
 	
