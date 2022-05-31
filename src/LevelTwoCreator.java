@@ -14,39 +14,40 @@ import javax.swing.text.html.parser.DTD;
 
 
 class LevelTwoCreator implements LevelCreator {
+	DoorSwitch doorSwitch1;
+	DoorSwitch doorSwitch2;
+	DoorSwitch doorSwitch3;
+
 	private Player p;
 	public Level createLevel(Player p) {
 		this.p = p;
-		/*
-		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, 100, 10);
-		TrackingEnemy enemy2 = new TrackingEnemy(200, 450, 450, 10, 300, 150, 3, 0);
+		this.doorSwitch1 = new DoorSwitch(3);
+		this.doorSwitch2 = new DoorSwitch(3);
+		this.doorSwitch3 = new DoorSwitch(3);
+		
+		Room strt = ULDR();
 
-		DoorSwitch switch1 = new DoorSwitch(2);
-		DoorSwitch switch2 = new DoorSwitch(3);
-		DoorSwitch switch3 = new DoorSwitch(2);
-		DoorSwitch[] switches = {switch1, switch2, switch3};
+		Room sr1 = createTLSwitchRoom();
+		Room sr2 = createBSwitchRoom();
+		Room sr3 = createTRSwitchRoom();
 
-		int[] combination = {1,2,1};
-		SwitchDoor eDoor1 = new SwitchDoor(combination, switches);
-		*/
 		Room[][] rooms = {
 			{L(),   UL(),	null,	null,	null,	null,	null},
-			{U(), 	UD(),	U(),	UR(),	LR(),	R(),	U()},
+			{sr1, 	UD(),	U(),	UR(),	LR(),	sr3,	U()},
 			{UD(), 	UD(),   DR(),	RUD(),	UR(),	LR(),	RUD()},
-			{DR(), 	DLR(),	ULR(),	ULDR(),	RUD(),	L(),	RUD()},
+			{DR(), 	DLR(),	ULR(),	strt,	RUD(),	L(),	RUD()},
 			{null, 	UR(),	RUD(),	UD(),	DR(),	UL(),	UD()},
 			{L(), 	DL(),	UD(),	UD(),	null,	UD(),	UD()},
-			{null, 	null,	D(),	D(),	L(),	DL(),	D()},
+			{null, 	null,	D(),	D(),	sr2,	DL(),	D()},
 		};
 
 		// Auto find starting room
-		Room startingRoom = rooms[3][3];
 		int row = 0;
 		int col = 0;
 		for (int i = 0; i < rooms.length; i++) {
 			for (int j = 0; j < rooms[0].length; j++) {
 				// Double equal works because we aren't checking for equality just the same class
-				if (rooms[i][j] == startingRoom) {
+				if (rooms[i][j] == strt) {
 					row = i;
 					col = j;
 					break;
@@ -59,6 +60,25 @@ class LevelTwoCreator implements LevelCreator {
 
 		return level;
 	}
+	
+	private Room createTLSwitchRoom() {
+		Room room = U();
+		room.placeEntity(doorSwitch1, 9, 6);
+		return room;
+	}
+	
+	private Room createBSwitchRoom() {
+		Room room = L();
+		room.placeEntity(doorSwitch2, 6, 7);
+		return room;
+	}
+	
+	private Room createTRSwitchRoom() {
+		Room room = R();
+		room.placeEntity(doorSwitch3, 13, 7);
+		return room;
+	}
+	
 	private Room LR(){	
 		String [] layout = {		
 				"GGGGGGGGGGGGGGGGGGGG",
