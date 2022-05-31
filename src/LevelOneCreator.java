@@ -12,6 +12,12 @@ import javax.swing.ImageIcon;
 /** @author Johnny, Alex, Uday, Ethan */ 
 
 public class LevelOneCreator implements LevelCreator {	
+	
+	/**
+	 * Creates level one.
+	 * @param p The player entity.
+	 * @return The created level.
+	 */
 	public Level createLevel(Player p) {
 		Room testingRoom = this.createTestingRoom(p);
 		Room startingRoom = this.createStartingRoom(p);
@@ -49,6 +55,11 @@ public class LevelOneCreator implements LevelCreator {
 		return level;
 	}		
 	
+	/**
+	 * Creates a specific room.
+	 * @param p The player entity.
+	 * @return The created room.
+	 */
 	private Room createTestingRoom(Player p) {
 		String[] layout = { // for uday
 				"P------------------7",

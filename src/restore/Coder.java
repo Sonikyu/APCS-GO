@@ -9,6 +9,10 @@ import java.util.ArrayList;
 //
 //File: Coder.java
 //
+// VERY IMPORTANT: This class does not work properly in our current version of the game. If the class was working properly,
+// we could save the game into a string and paste it into terminal to return to the saved game. As a result, all
+// constructors and methods that use coder (such as encode()) should be ignored. 
+//
 //Add your name here if you work on this class:
 /** @author Ethan */ 
 public class Coder {

@@ -15,7 +15,7 @@ import restore.CoderException;
 
 public class DoorSwitch extends Entity implements Encodable {
 	public static String TYPE = "DoorSwitch";
-	private static String[] IMAGE_FILES = {"DoorSwitch.png", "DoorSwitch_Stage1.png", "LevelUpTile.png"};
+	private static String[] IMAGE_FILES = {"Switch_RBY.png", "Switch_YRB.png", "Switch_BYR.png"};
 	private static int MAX_CYCLE = IMAGE_FILES.length;
 	
 	private int combNumber;
@@ -67,15 +67,27 @@ public class DoorSwitch extends Entity implements Encodable {
 		coder.encode(combNumber);
 	}
 	
+	/**
+	 * Sets the combination number to the next value in the cycle.
+	 */
 	public void nextCombNumber() {
 		this.combNumber++;
 		combNumber %= maxCycle;
 	}
 	
+	/**
+	 * Gets the current combination value of the switch.
+	 * @return The current combination value.
+	 */
 	public int getCombNumber() {
 		return combNumber;
 	}
 	
+	/**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		// TODO Auto-generated method stub

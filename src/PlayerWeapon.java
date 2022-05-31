@@ -22,6 +22,11 @@ public class PlayerWeapon extends Entity implements Encodable {
 	private long frameAttacking = -Player.ATTACK_DURATION;
 	private Player.Direction pD;
 	
+	/**
+	 * Initalizes a new playerWeapon.
+	 * @param pD The direction of the player.
+	 * @param attackDamage The player's damage value.
+	 */
 	public PlayerWeapon(Player.Direction pD, int attackDamage) {
 		super(TYPE, 0, IMAGE_FILES);
 		this.pD = pD;
@@ -42,11 +47,19 @@ public class PlayerWeapon extends Entity implements Encodable {
 		coder.encode(frameAttacking);
 	}
 	
+	/**
+	 * Sets the direction of the weapon to match the player.
+	 * @param pD The direction of the player.
+	 */
 	public void setDirection(Player.Direction pD) {
 		this.pD = pD;
 		this.setImageAtIndex(this.pD.ordinal());
 	}
 	
+	/**
+	 * Sets the position of the weapon based on the player's position.
+	 * @param player The player entity.
+	 */
 	public void setPosition(Player player) {
 		switch (pD) {
 			case NORTH:
@@ -66,6 +79,11 @@ public class PlayerWeapon extends Entity implements Encodable {
 		}
 	}
 	
+	/**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 		if (isVisible() && info.getFrameCount() - frameAttacking > Player.ATTACK_DURATION) {

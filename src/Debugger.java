@@ -21,12 +21,19 @@ public class Debugger extends Thread {
 	private long startTime;
 	private long lastTime;
 	
+	/**
+	 * Initalizes a new debugger.
+	 */
 	public Debugger() {
 		this.backlog = new ArrayList<String>();
 		this.hasStarted = false;
 		this.printDebugs = false;
 	}
 	
+	/**
+	 * Prints a string in the debugger.
+	 * @param str The line to be printed by the debugger.
+	 */
 	public void print(String str) {
 		if (!hasStarted) return;
 		long timestamp = (new Date().getTime() - startTime) / 1000;		
@@ -42,14 +49,25 @@ public class Debugger extends Thread {
 		}
 	}
 	
+	/**
+	 * Sets the debugger's visibility.
+	 * @param show Whether the debugger should be visible or not.
+	 */
 	public void showDebug(boolean show) {
 		printDebugs = show;
 	}
 	
+	/**
+	 * Gets the debugger's visibility.
+	 * @return Whether the debugger is visible or not.
+	 */
 	public boolean isShowing() {
 		return printDebugs;
 	}
 	
+	/**
+	 * Starts the debugger thread.
+	 */
 	public void start() {
 		super.start();
 		this.startTime = new Date().getTime();
@@ -57,6 +75,9 @@ public class Debugger extends Thread {
 		this.hasStarted = true;
 	}
 	
+	/**
+	 * Runs the debugger.
+	 */
 	public void run() {
 		while (true) {
 			if (printDebugs) {

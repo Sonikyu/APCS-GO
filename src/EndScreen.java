@@ -8,7 +8,7 @@ import restore.Encodable;
 // This is a template comment that you should paste verbatim above every class.
 // Fill out any necessary information:
 //
-// File: Johnny.java
+// File: EndScreen.java
 //
 // Add your name here if you work on this class:
 
@@ -20,7 +20,9 @@ public class EndScreen extends Entity implements Encodable {
 	public static String TYPE = "EndScreen";
 	private static String IMAGE_FILE = "EndScreen.png";
 	
-
+	/**
+	 * Initalizes an EndScreen entity.
+	 */
 	public EndScreen() {
 		super(TYPE, 0, IMAGE_FILE);
 	}
@@ -35,6 +37,11 @@ public class EndScreen extends Entity implements Encodable {
 	}
 	
 	
+	/**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 	

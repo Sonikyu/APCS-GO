@@ -55,8 +55,8 @@ public abstract class Entity implements ImageObserver, Encodable {
 	
 	/**
 	 * A hack to make the constructor work.
-	 * @param str
-	 * @return
+	 * @param str The string of image types.
+	 * @return The string as an array.
 	 */
 	private static String[] singleArray(String str) {
 		String[] strs = {str};

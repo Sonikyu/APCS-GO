@@ -238,7 +238,7 @@ public class Game implements Encodable {
 		private Game game;
 		
 		/**
-		 * 
+		 * Initalizes a GameInfo object.
 		 * @param size The dimensions of the game.
 		 * @param game The current game.
 		 */

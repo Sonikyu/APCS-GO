@@ -27,10 +27,11 @@ public class Tile extends Entity {
     
     private final Material material;
     
-    public Material getMaterial() {
-    	return material;
-    }
-    
+   
+	/**
+	 * Initializes a tile entity.
+	 * @param material The type of tile.
+	 */
     public Tile(Material material){
         super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);
         this.material = material;
@@ -45,6 +46,19 @@ public class Tile extends Entity {
     	super.encode(coder);
     }
 
+    /**
+	 * Get the type of tile.
+	 * @return The type of tile.
+	 */
+    public Material getMaterial() {
+    	return material;
+    }
+    
+    /**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
     @Override
     public void cycle(Level level, Game.GameInfo info){
 

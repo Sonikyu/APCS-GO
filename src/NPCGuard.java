@@ -34,7 +34,12 @@ public class NPCGuard extends Entity implements Encodable {
 	private JFrame NPCDialogue = new JFrame();
 	private JLabel label;
 	
-	
+	/**
+	 * Initalizes a NPCGuard entity.
+	 * @param imageString The string that refers to the file location.
+	 * @param width The width of the Jframe.
+	 * @param height The height of the JFrame.
+	 */
 	public NPCGuard(String imageString, int width, int height) {
 		super(NPCGuard.TYPE, NPCGuard.MAX_HEALTH, NPCGuard.IMAGE_FILE);
 		this.width = width;
@@ -61,6 +66,10 @@ public class NPCGuard extends Entity implements Encodable {
 		super.encode(coder);
 	}
 	
+	/**
+	 * Makes the image.
+	 */
+
 	private void makeImage() {
 		image = new ImageIcon(imageString);
 		label = new JLabel();
@@ -72,6 +81,11 @@ public class NPCGuard extends Entity implements Encodable {
 		NPCDialogue.setVisible(false);
 	}
 	
+	/**
+	 * Cycles the entity.
+	 * @param level The current level.
+	 * @param info The game information.
+	 */
 	public void cycle(Level level, Game.GameInfo info) {
 		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 		for(int i = 0; i < visibleEntities.size(); i++) {

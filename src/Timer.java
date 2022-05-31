@@ -26,16 +26,25 @@ public class Timer extends Thread {
 		time = 0;
 	}
 	
-
+	/**
+	 * Starts the timer thread.
+	 */
 	public void start() {
 		super.start();
 		this.startTime = new Date().getTime();
 	}
 	
+	/**
+	 * Updates the timer.
+	 */
 	public void updateTime() {
 		this.time = ((new Date().getTime() - startTime)/1000);
 	}
 	
+	/**
+	 * Gets the time from the timer.
+	 * @return The time of the timer.
+	 */
 	public long getTime() {
 		return time;
 	}
