@@ -13,6 +13,7 @@ import java.awt.Graphics2D;
 
 import restore.Coder;
 import restore.Encodable;
+import restore.CoderException;
 
 /**
  * Represents a single level in the game. Contains a 2D-array of rooms, some of which may be null.
@@ -39,7 +40,7 @@ public class Level implements Encodable {
 		this.player.respawn();
 	}
 	
-	public Level(Coder coder) {
+	public Level(Coder coder) throws CoderException {
 		this.currentRow = coder.decodeInt();
 		this.currentCol = coder.decodeInt();
 		this.player = new Player(coder);

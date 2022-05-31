@@ -1,10 +1,12 @@
 
 import java.util.ArrayList;
-
-import restore.Coder;
 import restore.Encodable;
+import restore.Coder;
+
+import restore.CoderException;
 
 public class Boss extends Entity implements Encodable {
+
 	public static String TYPE = "BossEnemy";
 	private static int MAX_HEALTH = 100;
 	private static String IMAGE_FILE = "ParthInThePark.png";
@@ -19,20 +21,21 @@ public class Boss extends Entity implements Encodable {
 	private boolean minionAttack = false;
 	private boolean retreat = false;
 	private boolean aggravated = false;
+	
 	public Boss(int colTether, int rowTether) {
 		super(Boss.TYPE, Boss.MAX_HEALTH, Boss.IMAGE_FILE);
 		xTether = colTether * Tile.WIDTH;
 		yTether = rowTether * Tile.HEIGHT;
 	}
 	
-	public Boss(Coder coder) {
-		super(Boss.TYPE, Boss.MAX_HEALTH, Boss.IMAGE_FILE);
+	public Boss(Coder coder) throws CoderException {
+		super(coder);
 		xTether = coder.decodeInt();
 		yTether = coder.decodeInt();
-		
 	}
 	
 	public void encode(Coder coder) {
+		super.encode(coder);
 		coder.encode(xTether);
 		coder.encode(yTether);
 	}
