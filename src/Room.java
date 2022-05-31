@@ -133,13 +133,10 @@ public class Room implements Encodable {
 	}
 	
 	public void setPlayerPosition() {
-		System.out.println("PlayerPostion called");
 		for (Tile[] row: tiles) {
 			for (Tile tile: row) {
 				if (tile != null && tile.getMaterial() == Tile.Material.START) {
-					Debugger.main.print("Start tile found");
 					player.setPosition(tile.getX(), tile.getY());
-					System.out.println("Tile Found: X: " + tile.getX() + "| Y: " + tile.getY());
 				}
 			}
 		}

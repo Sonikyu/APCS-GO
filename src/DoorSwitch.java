@@ -15,7 +15,7 @@ import restore.CoderException;
 
 public class DoorSwitch extends Entity implements Encodable {
 	public static String TYPE = "DoorSwitch";
-	private static String[] IMAGE_FILES = {"DoorSwitch.png", "DoorSwitch_Stage1.png", "LevelUpTile.png"};
+	private static String[] IMAGE_FILES = {"Switch_RBY.png", "Switch_YRB.png", "Switch_BYR.png"};
 	private static int MAX_CYCLE = IMAGE_FILES.length;
 	
 	private int combNumber;
