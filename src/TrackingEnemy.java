@@ -97,6 +97,7 @@ public class TrackingEnemy extends Entity{
 	
 	@Override
 	public void whenDead() {
+		SFX.main.run(SFX.Sound.ENTITYKILLED);
 		hide();
 	}
 	

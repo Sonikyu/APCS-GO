@@ -129,17 +129,13 @@ public class Player extends Entity {
 			Debugger.main.print("The player healed 30 HP");
 			inventory[currentSlot].getSlotItem().setItemType(Item.ItemType.EMPTY);
 			Debugger.main.print("The item slot is now empty");
-			SFX.main.run(5);
+			SFX.main.run(SFX.Sound.ITEMUSED);
 			break;
 		case SPEEDPOT:
 			speedUp = true;
 			spedUpFrame = frameCount;
-<<<<<<< Updated upstream
-			inventory[currentSlot].getSlotItem().setEmpty();
-=======
-			inventory[currentSlot].setEmpty();
-			SFX.main.run(5);
->>>>>>> Stashed changes
+			inventory[currentSlot].getSlotItem().setItemType(Item.ItemType.EMPTY);
+			SFX.main.run(SFX.Sound.ITEMUSED);
 		case KEY:
 			inventory[currentSlot].getSlotItem().setEmpty();
 		default:
@@ -314,7 +310,7 @@ public class Player extends Entity {
 						useItem(info.getFrameCount());
 						t.setOpen(true);
 						t.setImageAtIndex(1);
-						SFX.main.run(3);
+						SFX.main.run(SFX.Sound.DOOROPEN);
 					}
 				}
 			}
@@ -374,7 +370,7 @@ public class Player extends Entity {
 	public void takeDamage(Game.GameInfo info, int change) {
 		super.takeDamage(change);
 		lastFrameAttacked = (int) info.getFrameCount();
-		SFX.main.run(7);
+		SFX.main.run(SFX.Sound.PLAYERDAMAGED);
 		if (isDead()) {
 			Debugger.main.print(getID() + " is dead and cannot be damaged further");
 		} else {
@@ -463,7 +459,7 @@ public class Player extends Entity {
 			if (l - lastFrameAttacking > ATTACK_COOLDOWN) {
 				isAttacking = true;
 				lastFrameAttacking = l;
-				SFX.main.run(6);
+				SFX.main.run(SFX.Sound.PLAYERATTACK);
 			}
 		}
 	}

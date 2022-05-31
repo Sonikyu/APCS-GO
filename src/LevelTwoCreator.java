@@ -56,9 +56,7 @@ class LevelTwoCreator implements LevelCreator {
 
 		Level level = new Level(rooms, row, col, p);
 		
-		Audio.main.stopAudio();		
-		Audio.main.run(2);
-		Audio.main.loopAudio();
+
 		return level;
 	}
 	private Room LR(){	
@@ -84,6 +82,7 @@ class LevelTwoCreator implements LevelCreator {
 
 	private Room UD(){
 		String [] layout = {
+				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",

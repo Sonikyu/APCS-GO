@@ -17,35 +17,29 @@ import javax.sound.sampled.Clip;
 
 public class SFX extends Thread{
  
-   private ArrayList<String> SoundList ;
    public static final SFX main = new SFX();
    private int curr;
    private String root ;
    public Clip c;
-   public SFX(){
 
-      SoundList = new ArrayList<String>();         
+   public enum Sound {
+      ENTITYKILLED, DOOROPEN, ITEMOBTAINED, ITEMUSED, PLAYERATTACK, PLAYERDAMAGED
+   }
+
+   private static final String[] files = {"MonsterDie.wav", "DoorOpen.wav", "ItemObtained.wav", "ItemUsed.wav", "PlayerAttack.wav", "PlayerDamaged.wav"};
+
+   public SFX(){
+    
 
 	   root = "sounds/";
       
-      //Add Sounds
-      SoundList.add("Null.wav");
-      SoundList.add("LevelTheme.wav");
-      SoundList.add("BossTheme.wav");
-
-      SoundList.add("DoorOpen.wav");
-      SoundList.add("ItemObtained.wav");
-      SoundList.add("ItemUsed.wav");
-      SoundList.add("PlayerAttack.wav"); 
-      SoundList.add("PlayerDamaged.wav");
-
       curr = 0;
    }
-   
-   public void setAudio(int x){
-      if(x < SoundList.size()){
-         File sound = new File(root + SoundList.get(x));
-         curr = x;
+
+   public void setAudio(Sound file){
+      if(file.ordinal() < files.length){
+         File sound = new File(root + files[file.ordinal()]);
+         curr = file.ordinal();
          try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(sound);
             c = AudioSystem.getClip();
@@ -61,9 +55,6 @@ public class SFX extends Thread{
 
    public void playAudio(){
       c.start(); //Start playing audio
-		System.out.println("Audio Playing : " + SoundList.get(curr));
-      //sleep thread for length of the song
-      //Thread.sleep((int)(c.getMicrosecondLength() * 0.001));
    }
 
    public void loopAudio(){
@@ -71,16 +62,16 @@ public class SFX extends Thread{
    }
 
    public void stopAudio(){
-      System.out.println("Audio stopped :" + SoundList.get(curr));
       c.stop();
    }
      
 
-   public void run(int i){
-	      main.setAudio(i);
-         main.playAudio();	   
 
-   }
+   public void run(Sound file){
+      main.setAudio(file);
+      main.playAudio();	   
+
+}
 
    
 }

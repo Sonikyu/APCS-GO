@@ -20,33 +20,21 @@ public class Audio extends Thread{
    private ArrayList<String> SoundList ;
    public static final Audio main = new Audio();
    private String root ;
+   private int curr;
    public Clip c;
    public Audio(){
 
       SoundList = new ArrayList<String>();         
-<<<<<<< Updated upstream
-//      //Use root as the base string for all the sounds
-//      root = path.substring(0, path.length()-10) + "\\sounds\\";
-	  root = "sounds/";
-      SoundList.add("Angry Birds Theme Song.wav");
-=======
 
 	   root = "sounds/";
       
       //Add Sounds
-      SoundList.add("Null.wav");
+      SoundList.add("TitleTheme.wav");
       SoundList.add("LevelTheme.wav");
       SoundList.add("BossTheme.wav");
-      SoundList.add("TitleTheme.wav");
-
-      SoundList.add("DoorOpen.wav");
-      SoundList.add("ItemObtained.wav");
-      SoundList.add("ItemUsed.wav");
-      SoundList.add("PlayerAttack.wav"); 
-      SoundList.add("PlayerDamaged.wav");
+      
 
       curr = 0;
->>>>>>> Stashed changes
    }
    
    public void setAudio(int x){
@@ -65,20 +53,18 @@ public class Audio extends Thread{
       }
 
    }
-<<<<<<< Updated upstream
-     
 
-   public void run(){
-      //TODO fill with 
-	   main.playSound(0);
-	   
-=======
+   public int getCurr(){
+      return curr;
+   }
+
+   public void increaseCurr(){
+      curr ++;
+   }
 
    public void playAudio(){
-      c.start(); //Start playing audio
+      c.start();
 		System.out.println("Audio Playing : " + SoundList.get(curr));
-      //sleep thread for length of the song
-      //Thread.sleep((int)(c.getMicrosecondLength() * 0.001));
    }
 
    public void loopAudio(){
@@ -92,10 +78,9 @@ public class Audio extends Thread{
      
 
    public void run(int i){
-	      main.setAudio(i);
-         main.playAudio();	   
->>>>>>> Stashed changes
-
+      main.setAudio(i);
+      main.playAudio();
+      main.loopAudio();	   
    }
 
    

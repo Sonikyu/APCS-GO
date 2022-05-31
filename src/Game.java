@@ -205,6 +205,7 @@ public class Game implements Encodable {
 		
 		System.out.println("Game v" + VER_MAJ + "." + verBreak + "\n==========");
 		System.out.println("Window Size: " + info.size.getWidth() + "px by " + info.size.getHeight() + "px");
+		Audio.main.run(Audio.main.getCurr());
 	}
 	
 	
@@ -249,6 +250,9 @@ public class Game implements Encodable {
 		 */
 		public void nextLevel() {
 			game.nextLevel();
+			Audio.main.stopAudio();
+			Audio.main.increaseCurr();
+			Audio.main.run(Audio.main.getCurr());
 		}
 		
 		/**
@@ -274,8 +278,8 @@ public class Game implements Encodable {
 			Timer.timer.start();
 			state = GameState.IN_GAME;
 			Audio.main.stopAudio();
-			Audio.main.run(1);
-			Audio.main.loopAudio();
+			Audio.main.increaseCurr();
+			Audio.main.run(Audio.main.getCurr());
 		}
 		
 		/**

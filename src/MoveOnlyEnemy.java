@@ -82,6 +82,7 @@ public class MoveOnlyEnemy extends Entity {
 	
 	@Override
 	public void whenDead() {
+		SFX.main.run(SFX.Sound.ENTITYKILLED); //DIE NOISE
 		hide();
 	}
 	
