@@ -128,13 +128,15 @@ public class Boss extends Entity{
 				Player p = (Player) entity;
 				if (collidesWith(p)) {
 					if (info.getFrameCount() - lastFrameAttacked >= 100) {
+//						Boss makes contact with player, damage sound
 						p.takeDamage(info, 10);
 						lastFrameAttacked = info.getFrameCount();
 					}
 				}
 			}
 		}
-		if (aggravated) {			
+		if (aggravated) {
+//			Aggravated sound
 			if (Math.abs(randY-startY) < Math.abs(randX-startX)) {
 				if(plotLineLow(startX, startY, randX, randY)) {
 					aggravated = false;
@@ -151,6 +153,7 @@ public class Boss extends Entity{
 			}
 		}
 		else if (retreat) {
+//			Turn off aggravated
 			if (info.getFrameCount() - retreatFrame >= 100) {
 				if (Math.abs(startY-retreatY) < Math.abs(startX-retreatX)) {
 					if(plotLineLow(retreatX, retreatY, startX, startY)) {
@@ -211,6 +214,7 @@ public class Boss extends Entity{
 			startX = getX();
 			startY = getY();
 			dx = randX - startX;
+			
 			dy = randY - startY;
 			d = (2*dy) - dx;
 			xi = 2;

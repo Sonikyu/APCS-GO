@@ -71,6 +71,7 @@ public class LevelOneCreator implements LevelCreator {
 		Boss boss = new Boss();
 		room.placeEntity(boss, 3, 10);
 		room.placeEntity(new BossBattleTracker(boss, "BossBattleMinion", 3), 10, 10);
+		room.placeEntity(new BossBattleTracker(boss, "Infinitetracker", 10), 0, 0);
 		return room;
 	}
 	
