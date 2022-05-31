@@ -5,6 +5,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import restore.Coder;
+import restore.CoderException;
 import restore.Encodable;
 
 import java.awt.event.KeyEvent;
@@ -27,11 +29,12 @@ public class NPCGuard extends Entity implements Encodable {
 	
 	private int range = 75;
 	ImageIcon image;
+	private String imageString;
 	private JFrame NPCDialogue = new JFrame();
 	
-	public NPCGuard(ImageIcon image) {
+	public NPCGuard(String imageString) {
 		super(NPCGuard.TYPE, NPCGuard.MAX_HEALTH, NPCGuard.IMAGE_FILE);
-		this.image = image;
+		makeImage();
 		JLabel label = new JLabel();
 		label.setIcon(image);
 		label.setBounds(0,0,300,200);
@@ -42,9 +45,26 @@ public class NPCGuard extends Entity implements Encodable {
 		
 	}
 	
-//	public NPCGuard(Coder coder) {
-//		
-//	}
+	public NPCGuard(Coder coder) throws CoderException {
+		super(coder);
+		this.imageString = coder.decodeString();
+		makeImage();
+		JLabel label = new JLabel();
+		label.setIcon(image);
+		label.setBounds(0,0,300,200);
+		NPCDialogue.setLayout(null);
+		NPCDialogue.setSize(300,200);
+		NPCDialogue.add(label);
+		NPCDialogue.setVisible(false);
+	}
+	
+	public void encode(Coder coder) {
+		super.encode(coder);
+	}
+	
+	public void makeImage() {
+		image = new ImageIcon(imageString);
+	}
 	
 	public void cycle(Level level, Game.GameInfo info) {
 		ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
