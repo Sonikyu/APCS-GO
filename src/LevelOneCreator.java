@@ -69,7 +69,7 @@ public class LevelOneCreator implements LevelCreator {
 				"L__________________J",
 		};
 		Room room = new Room(layout, p);
-		Boss boss = new Boss(3, 10);
+		Boss boss = new Boss(3,10);
 		room.placeEntity(boss, 3, 10);
 		room.placeEntity(new BossBattleTracker(boss), 10, 10);
 		return room;

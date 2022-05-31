@@ -72,6 +72,8 @@ public class Player extends Entity {
 		this.lastFrameAttacked = -ANIMATION_TIME;
 		currentSlot = coder.decodeInt();
 		direction = Direction.NORTH;
+		this.weapon = new PlayerWeapon(coder);
+		setUpHealthAndInventoryAndTimer();
 	}
 
 	public void encode(Coder coder) {
@@ -80,6 +82,7 @@ public class Player extends Entity {
 			coder.encode(inventory[i]);
 		}
 		coder.encode(currentSlot);
+		weapon.encode(coder);
 	}
 
 	/**
