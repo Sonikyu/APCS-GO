@@ -70,7 +70,7 @@ public class LevelOneCreator implements LevelCreator {
 		Room room = new Room(layout, p);
 		Boss boss = new Boss();
 		room.placeEntity(boss, 3, 10);
-		room.placeEntity(new BossBattleTracker(boss), 10, 10);
+		room.placeEntity(new BossBattleTracker(boss, "BossBattleMinion", 3), 10, 10);
 		return room;
 	}
 	
@@ -243,6 +243,8 @@ public class LevelOneCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 		};
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		room.placeEntity(new NPCGuard("images/NextLevelDialogue.png", 360, 240), 4, 9);
+		return room;
 	}
 }

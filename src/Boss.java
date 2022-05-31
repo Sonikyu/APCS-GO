@@ -1,8 +1,17 @@
 import java.util.ArrayList;
-
 import restore.Coder;
 import restore.CoderException;
 
+//AP CS Project
+//Alex, Johnny, Ethan, and Uday
+//
+//This is a template comment that you should paste verbatim above every class.
+//Fill out any necessary information:
+//
+//File: NPCGuard.java
+//
+//Add your name here if you work on this class:
+/** @author Uday */ 
 public class Boss extends Entity{
 	public static String TYPE = "BossEnemy";
 	private static int MAX_HEALTH = 100;
@@ -14,14 +23,16 @@ public class Boss extends Entity{
 	private int retreatY;
 	private int randX;
 	private int randY;
-	private long retreatFrame;
-	private long lastFrameAttacked;
 	private int radius = 100;
 	private int dx;
 	private int dy;
 	private int d;
 	private int xi;
 	private int yi;
+	
+	private long retreatFrame;
+	private long lastFrameAttacked;
+	
 	private boolean minionAttack = false;
 	private boolean retreat = false;
 	private boolean aggravated = false;
@@ -133,7 +144,6 @@ public class Boss extends Entity{
 			}
 			else {
 				if(plotLineHigh(startX, startY, randX, randY)) {
-					Debugger.main.print("Done");
 					aggravated = false;
 					retreat = true;
 					retreatFrame = info.getFrameCount();
@@ -142,19 +152,14 @@ public class Boss extends Entity{
 		}
 		else if (retreat) {
 			if (info.getFrameCount() - retreatFrame >= 100) {
-//				Debugger.main.print("Duration over");
 				if (Math.abs(startY-retreatY) < Math.abs(startX-retreatX)) {
-					Debugger.main.print("Slope is less than 1");
 					if(plotLineLow(retreatX, retreatY, startX, startY)) {
-						Debugger.main.print("Done");
 						retreat = false;
 						minionAttack = false;
 					}
 				}
 				else {
-					Debugger.main.print("Slope is more than 1");
 					if(plotLineHigh(retreatX, retreatY, startX, startY)) {
-						Debugger.main.print("Done");
 						retreat = false;
 						minionAttack = false;
 					}
@@ -195,10 +200,10 @@ public class Boss extends Entity{
 			randX = (int) (centerX + r * Math.cos(theta));
 			randY = (int) (centerY + r * Math.sin(theta));
 			
-			randX = Math.max(30, randX);
+			randX = Math.max(Tile.WIDTH, randX);
 			randX = Math.min(800 - getWidth(), randX);
 			
-			randY = Math.max(30, randY);
+			randY = Math.max(Tile.HEIGHT, randY);
 			randY = Math.min(600 - getHeight(), randY);
 			minionAttack = false;
 			aggravated = true;

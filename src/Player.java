@@ -24,7 +24,7 @@ public class Player extends Entity {
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
 	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
-	private static int PLAYER_SPEED = 1;
+	private static int PLAYER_SPEED = 2;
 
 	private Heart[] healthBar;
 	private TimerDisplay timer;

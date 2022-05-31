@@ -34,6 +34,7 @@ public class NPCGuard extends Entity implements Encodable {
 	private JFrame NPCDialogue = new JFrame();
 	private JLabel label;
 	
+	
 	public NPCGuard(String imageString, int width, int height) {
 		super(NPCGuard.TYPE, NPCGuard.MAX_HEALTH, NPCGuard.IMAGE_FILE);
 		this.width = width;

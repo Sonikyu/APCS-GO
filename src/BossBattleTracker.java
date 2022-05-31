@@ -14,13 +14,16 @@ public class BossBattleTracker extends Entity implements Encodable {
 	private boolean attacked = false;
 	private int attackStrength = 10;
 	
+	private int refreshSpeed;
 	private Boss boss;
 	
 	
 	
-	public BossBattleTracker(Boss boss) {
-		super(BossBattleTracker.TYPE, BossBattleTracker.MAX_HEALTH, BossBattleTracker.IMAGE_FILE);
+	public BossBattleTracker(Boss boss, String type, int refreshSpeed) {
+		super(type, BossBattleTracker.MAX_HEALTH, BossBattleTracker.IMAGE_FILE);
+		this.TYPE = type;
 		this.boss = boss;
+		this.refreshSpeed = refreshSpeed;
 	}
 	
 	public BossBattleTracker(Coder coder) throws CoderException {
@@ -68,7 +71,7 @@ public class BossBattleTracker extends Entity implements Encodable {
 	
 	public void cycle(Level level, Game.GameInfo info) {
 		frameCount = info.getFrameCount();
-		if (frameCount % 3 != 0) {
+		if (frameCount % refreshSpeed != 0) {
 			ArrayList<Entity> visibleEntities = level.getCurrentRoom().getVisibleEntities();
 			for (int i = 0; i < visibleEntities.size(); i++) {
 				Entity entity = visibleEntities.get(i);
