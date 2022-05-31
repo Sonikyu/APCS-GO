@@ -1,3 +1,7 @@
+import restore.Coder;
+import restore.CoderException;
+import restore.Encodable;
+
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
 //
@@ -12,21 +16,25 @@
  * The victory screen.
  * 
 */ 
-public class EndScreen extends Entity {
+public class EndScreen extends Entity implements Encodable {
 	public static String TYPE = "EndScreen";
-	private static String IMAGE_FILE =  "EndScreen.png";
+	private static String IMAGE_FILE = "EndScreen.png";
 	
-	/**
-	 * 
-	 * @param type
-	 * @return
-	 */
+
 	public EndScreen() {
 		super(TYPE, 0, IMAGE_FILE);
 	}
 	
+	public EndScreen(Coder coder) throws CoderException {
+		super(coder);
+	}
 	
-
+	
+	public void encode(Coder coder) {
+		super.encode(coder);
+	}
+	
+	
 	@Override
 	public void cycle(Level level, Game.GameInfo info) {
 	

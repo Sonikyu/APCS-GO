@@ -1,5 +1,6 @@
 import restore.Coder;
 import restore.Encodable;
+import restore.CoderException;
 
 //AP CS Project
 //Alex, Johnny, Ethan, and Uday
@@ -10,11 +11,12 @@ import restore.Encodable;
 //File: Debugger.java
 //
 //Add your name here if you work on this class:
-/** @author Johnny */ 
+/** @author Johnny Ethan */ 
 
 public class DoorSwitch extends Entity implements Encodable {
 	public static String TYPE = "DoorSwitch";
 	private static String[] IMAGE_FILES = {"DoorSwitch.png", "DoorSwitch_Stage1.png", "LevelUpTile.png"};
+	private static int MAX_CYCLE = IMAGE_FILES.length;
 	
 	private int combNumber;
 	private int maxCycle;
@@ -27,12 +29,11 @@ public class DoorSwitch extends Entity implements Encodable {
 		super(TYPE, 0 , IMAGE_FILES);
 		this.combNumber = 0;
 		if (maxCycle > IMAGE_FILES.length) {
-			this.maxCycle = IMAGE_FILES.length;
+			this.maxCycle = MAX_CYCLE;
 		}
 		else {
 			this.maxCycle = maxCycle;
 		}
-		
 	}
 	
 	/**
@@ -55,23 +56,20 @@ public class DoorSwitch extends Entity implements Encodable {
 		}
 	}
 	
-	public DoorSwitch(Coder coder) {
+	public DoorSwitch(Coder coder) throws CoderException {
 		super(coder);
 		this.combNumber = coder.decodeInt();
+		this.maxCycle = coder.decodeInt();
 	}
 	
 	public void encode(Coder coder) {
 		super.encode(coder);
 		coder.encode(combNumber);
 	}
-
-	public void setCombNumber(int combNumber) {
-		this.combNumber = combNumber;
-	}
 	
 	public void nextCombNumber() {
 		this.combNumber++;
-		combNumber = combNumber % maxCycle;
+		combNumber %= maxCycle;
 	}
 	
 	public int getCombNumber() {

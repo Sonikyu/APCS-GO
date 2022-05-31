@@ -12,13 +12,14 @@
 
 
 import restore.Coder;
+import restore.CoderException;
 
 /**
  * Thump thump! Heart is one of the little hearts on the top left that show health.
  */
 public class Heart extends Entity {
 
-	private static String TYPE = "Heart";
+	public static String TYPE = "Heart";
 	private static String[] IMAGE_FILES = {"EmptyHeart.png", "HalfHeart.png", "FullHeart.png"};
 	
 	/**
@@ -32,7 +33,7 @@ public class Heart extends Entity {
 	 * Initializes a heart entity.
 	 * @param coder The object that creates the entity from a game string.
 	 */
-	public Heart(Coder coder) {
+	public Heart(Coder coder) throws CoderException {
 		super(coder);
 	}
 

@@ -13,23 +13,16 @@ import java.util.ArrayList;
 /** @author Ethan */ 
 public class Coder {
 	private ArrayList<String> tokens;
-	private String error;
-	private String message;
 	int index;
-	boolean errored;
 	
 	public Coder() {
 		this.tokens = new ArrayList<String>();
-		this.error = "";
-		this.message = "";
-		this.errored = false;
+		this.index = 0;
 	}
 	
 	public Coder(String data) {	
 		this.tokens = new ArrayList<String>();
-		this.error = "";
-		this.message = "";
-		this.errored = false;
+		this.index = 0;
 		
 		// Parse string into tokens
 		String acc = "";
@@ -74,101 +67,70 @@ public class Coder {
 		return r;
 	}
 	
-	public String getError() {
-		String errStr = "";
-		if (!message.isEmpty()) {
-			errStr += message + " (";
-		}
-		if (!error.isEmpty()) {
-			errStr += "(" + error + " ";
-		}
-		errStr += "at token " + (index + 1) + ", '" + tokens.get(0) + "')";
-		return errStr;
+	private String getErrorEnd() {
+		return " at token " + (index + 1) + ", '" + tokens.get(0) + "'";
 	}
 	
-	public boolean hasError() {
-		return errored;
-	}
-	
-	public void setErrorMsg(String message) {
-		this.message = message;
-		errored = true;
-	}
-	
-	private void setError(String error) {
-		this.error = error;
-		errored = true;
-	}
-	
-	public String decodeString() {
+	public String decodeString() throws CoderException {
 		if (tokens.isEmpty()) {
-			setError("Unexpected end of string");
-			return null;
+			throw new CoderException("Unexpected end of string: " + getErrorEnd());
 		}
 		index++;
 		return tokens.remove(0);
 	}
 	
-	public Boolean decodeBoolean() {
+	public boolean decodeBoolean() throws CoderException {
 		if (tokens.isEmpty()) {
-			setError("Unexpected end of string");
-			return null;
+			throw new CoderException("Unexpected end of string" + getErrorEnd());
 		}
-		Integer i = decodeInt();
-		if (i == null || (i != 0 && i != 1)) {
-			setError("Invalid boolean");
-			return null;
+		int i = decodeInt();
+		if (i != 0 && i != 1) {
+			throw new CoderException("Invalid boolean" + getErrorEnd());
 		}
 		index++;
 		return i == 0 ? false : true;
 	}
 	
 	
-	public Integer decodeInt() {
+	public int decodeInt() throws CoderException {
 		if (tokens.isEmpty()) {
-			setError("Unexpected end of string");
-			return null;
+			throw new CoderException("Unexpected end of string" + getErrorEnd());
 		}
 		try {
-			Integer i = Integer.parseInt(decodeString());
+			int i = Integer.parseInt(decodeString());
 			index++;
 			return i;
 		}
 		catch(Exception e) {
-			setError("Invalid integer");
-			return null;
+			throw new CoderException("Invalid integer" + getErrorEnd());
 		}
 	}
 	
-	public Long decodeLong() {
+	public long decodeLong() throws CoderException {
 		if (tokens.isEmpty()) {
-			setError("Unexpected end of string");
-			return null;
+			throw new CoderException("Unexpected end of string" + getErrorEnd());
 		}
 		try {
-			Long l = Long.parseLong(decodeString());
+			long l = Long.parseLong(decodeString());
 			index++;
 			return l;
 		}
 		catch(Exception e) {
-			setError("Invalid long integer");
-			return null;
+			throw new CoderException("Invalid long integer" + getErrorEnd());
 		}
 	}
 	
-	public Double decodeDouble() {
+	public double decodeDouble() throws CoderException {
 		if (tokens.isEmpty()) {
-			setError("Unexpected end of string");
-			return null;
+			throw new CoderException("Unexpected end of string" + getErrorEnd());
 		}
 		try {
-			Double d = Double.parseDouble(decodeString());
+			double d = Double.parseDouble(decodeString());
 			index++;
 			return d;
 		}
 		catch(Exception e) {
-			setError("Invalid double");
-			return null;
+			throw new CoderException("Invalid double" + getErrorEnd());
 		}
 	}
 	
