@@ -52,7 +52,6 @@ public class Player extends Entity {
 	private boolean speedUp = false;
 	private long spedUpFrame;
 
-	private Direction direction;
 
 	/**
 	 * Initalizes the player entity.
@@ -63,8 +62,7 @@ public class Player extends Entity {
 		this.yDelta = 0;
 		lastFrameAttacked = -ANIMATION_TIME;
 		currentSlot = 0;
-		direction = Direction.NORTH;
-		this.weapon = new PlayerWeapon(direction, this.attackDamage);
+		this.weapon = new PlayerWeapon(this.attackDamage);
 		setUpHealthAndInventoryAndTimer();
 	}
 
@@ -74,7 +72,6 @@ public class Player extends Entity {
 		this.yDelta = 0;
 		this.lastFrameAttacked = -ANIMATION_TIME;
 		currentSlot = coder.decodeInt();
-		direction = Direction.NORTH;
 		this.weapon = new PlayerWeapon(coder);
 		setUpHealthAndInventoryAndTimer();
 	}
@@ -129,13 +126,6 @@ public class Player extends Entity {
 		attackDamage = damageValue;
 	}
 
-	/**
-	 * Gets the player's direction.
-	 * @return The player's direction.
-	 */
-	public Direction getPlayerDirection() {
-		return direction;
-	}
 
 	/**
 	 * Gets the current slot index.
@@ -219,9 +209,7 @@ public class Player extends Entity {
 		else {
 			weapon.hide();
 		}
-		if (frameCount - lastFrameAttacking > Player.ATTACK_DURATION) {
-			weapon.setDirection(direction);
-		}
+		
 	}
 
 	/**
@@ -467,33 +455,29 @@ public class Player extends Entity {
 	 * @param windowSize The dimensions of the game.
 	 */
 	private void moveOnKeys(Level level, HashSet<Integer> keysDown, Dimension windowSize, ArrayList<Entity> visibleEntities) {
-		if (keysDown.contains(KeyEvent.VK_LEFT)) {
+		if (keysDown.contains(KeyEvent.VK_A)) {
 			xDelta -= Player.PLAYER_SPEED;
-			this.direction = Direction.WEST;
 			updateXBy(xDelta);
 			if (shouldRevertMovement(visibleEntities)) {
 				revertLastHorizontalMovement();
 			}
 		}
-		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
+		if (keysDown.contains(KeyEvent.VK_D)) {
 			xDelta += Player.PLAYER_SPEED;
-			this.direction = Direction.EAST;
 			updateXBy(xDelta);
 			if (shouldRevertMovement(visibleEntities)) {
 				revertLastHorizontalMovement();
 			}
 		}
-		if (keysDown.contains(KeyEvent.VK_UP)) {
+		if (keysDown.contains(KeyEvent.VK_W)) {
 			yDelta -= Player.PLAYER_SPEED;
-			this.direction = Direction.NORTH;
 			updateYBy(yDelta);
 			if (shouldRevertMovement(visibleEntities)) {
 				revertLastVerticalMovement();
 			}
 		}
-		if (keysDown.contains(KeyEvent.VK_DOWN)) {
+		if (keysDown.contains(KeyEvent.VK_S)) {
 			yDelta += Player.PLAYER_SPEED;
-			this.direction = Direction.SOUTH;
 			updateYBy(yDelta);
 			if (shouldRevertMovement(visibleEntities)) {
 				revertLastVerticalMovement();
@@ -571,11 +555,38 @@ public class Player extends Entity {
 		if (l - lastFrameAttacking > ATTACK_DURATION) {
 			isAttacking = false;
 		}
-		if (keysDown.contains(KeyEvent.VK_SPACE)) {
-			if (l - lastFrameAttacking > ATTACK_COOLDOWN) {
-				isAttacking = true;
-				lastFrameAttacking = l;
-				SFX.main.run(SFX.Sound.PLAYERATTACK);
+		if (l - lastFrameAttacking > Player.ATTACK_DURATION) {
+			if (keysDown.contains(KeyEvent.VK_UP)) {
+				if (l - lastFrameAttacking > ATTACK_COOLDOWN) {
+					isAttacking = true;
+					lastFrameAttacking = l;
+					weapon.setDirection(PlayerWeapon.AttackDirection.NORTH);
+					SFX.main.run(SFX.Sound.PLAYERATTACK);
+				}
+			}
+			if (keysDown.contains(KeyEvent.VK_RIGHT)) {
+				if (l - lastFrameAttacking > ATTACK_COOLDOWN) {
+					isAttacking = true;
+					lastFrameAttacking = l;
+					weapon.setDirection(PlayerWeapon.AttackDirection.EAST);
+					SFX.main.run(SFX.Sound.PLAYERATTACK);
+				}
+			}
+			if (keysDown.contains(KeyEvent.VK_DOWN)) {
+				if (l - lastFrameAttacking > ATTACK_COOLDOWN) {
+					isAttacking = true;
+					lastFrameAttacking = l;
+					weapon.setDirection(PlayerWeapon.AttackDirection.SOUTH);
+					SFX.main.run(SFX.Sound.PLAYERATTACK);
+				}
+			}
+			if (keysDown.contains(KeyEvent.VK_LEFT)) {
+				if (l - lastFrameAttacking > ATTACK_COOLDOWN) {
+					isAttacking = true;
+					lastFrameAttacking = l;
+					weapon.setDirection(PlayerWeapon.AttackDirection.WEST);
+					SFX.main.run(SFX.Sound.PLAYERATTACK);
+				}
 			}
 		}
 	}
