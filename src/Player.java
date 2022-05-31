@@ -397,14 +397,15 @@ public class Player extends Entity {
 		}
 
 		// Move with arrow keys
-		moveOnKeysHorizontal(level, info.getKeysDown(), info.getSize());
-		if (shouldRevertMovement(visibleEntities)) {
-			revertLastHorizontalMovement();
-		}
-		moveOnKeysVertical(level, info.getKeysDown(), info.getSize());
-		if (shouldRevertMovement(visibleEntities)) {
-			revertLastVerticalMovement();
-		}
+		moveOnKeys(level, info.getKeysDown(), info.getSize(), visibleEntities);
+		swapRoom(level, info.getKeysDown(), info.getSize());
+//		if (shouldRevertMovement(visibleEntities)) {
+//			revertLastHorizontalMovement();
+//		}
+		
+//		if (shouldRevertMovement(visibleEntities)) {
+//			revertLastVerticalMovement();
+//		}
 	}
 
 	/**
@@ -465,52 +466,62 @@ public class Player extends Entity {
 	 * @param keysDown A hashmap of current keys pressed.
 	 * @param windowSize The dimensions of the game.
 	 */
-	private void moveOnKeysHorizontal(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
+	private void moveOnKeys(Level level, HashSet<Integer> keysDown, Dimension windowSize, ArrayList<Entity> visibleEntities) {
 		if (keysDown.contains(KeyEvent.VK_LEFT)) {
 			xDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.WEST;
-			if (getX() < -2) {
-				this.setPosition((int) windowSize.getWidth() - 2, getY());
-				level.moveRoomLeft();
+			updateXBy(xDelta);
+			if (shouldRevertMovement(visibleEntities)) {
+				revertLastHorizontalMovement();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_RIGHT)) {
 			xDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.EAST;
-			if (getX() + 2 > windowSize.getWidth()) {
-				this.setPosition(-getWidth() + 2, getY());
-				level.moveRoomRight();
+			updateXBy(xDelta);
+			if (shouldRevertMovement(visibleEntities)) {
+				revertLastHorizontalMovement();
 			}
 		}
-		updateXBy(xDelta);
-	}
-
-	/**
-	 * Moves the player vertically.
-	 * @param level The current level.
-	 * @param keysDown A hashmap of current keys pressed.
-	 * @param windowSize The dimensions of the game.
-	 */
-	private void moveOnKeysVertical(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (keysDown.contains(KeyEvent.VK_UP)) {
 			yDelta -= Player.PLAYER_SPEED;
 			this.direction = Direction.NORTH;
-			if (getY() < -getHeight()/2) {
-				this.setPosition(getX(), (int) windowSize.getHeight() - 2);
-				level.moveRoomUp();
+			updateYBy(yDelta);
+			if (shouldRevertMovement(visibleEntities)) {
+				revertLastVerticalMovement();
 			}
 		}
 		if (keysDown.contains(KeyEvent.VK_DOWN)) {
 			yDelta += Player.PLAYER_SPEED;
 			this.direction = Direction.SOUTH;
-			if (getY() + 2 > windowSize.getHeight()) {
-				this.setPosition(getX(), -2);
-				level.moveRoomDown();
+			updateYBy(yDelta);
+			if (shouldRevertMovement(visibleEntities)) {
+				revertLastVerticalMovement();
 			}
 		}
-		updateYBy(yDelta);
 	}
 
+
+	public void swapRoom(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
+		if (getX() + 3 > windowSize.getWidth()) {
+			this.setPosition(-getWidth() + 3, getY());
+			level.moveRoomRight();
+		}
+		else if (getX() < -getWidth() + 3) {
+			this.setPosition((int) windowSize.getWidth() - 3, getY());
+			level.moveRoomLeft();
+		}
+		if (getY() < -3) {
+			this.setPosition(getX(), (int) windowSize.getHeight() - 3);
+			level.moveRoomUp();
+		}
+		else if (getY() + 3 > windowSize.getHeight()) {
+			this.setPosition(getX(), -3);
+			level.moveRoomDown();
+		}
+		
+	}
+	
 	/**
 	 * Updates the inventory.
 	 * @param level The current level.
@@ -585,4 +596,5 @@ public class Player extends Entity {
 		yDelta *= -1;
 		updateYBy(yDelta);
 	}
+	
 }
