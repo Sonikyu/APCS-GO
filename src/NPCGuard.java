@@ -61,7 +61,7 @@ public class NPCGuard extends Entity implements Encodable {
 		super.encode(coder);
 	}
 	
-	public void makeImage() {
+	private void makeImage() {
 		image = new ImageIcon(imageString);
 		label = new JLabel();
 		label.setIcon(image);
