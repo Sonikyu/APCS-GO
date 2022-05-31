@@ -133,12 +133,8 @@ public class Player extends Entity {
 		case SPEEDPOT:
 			speedUp = true;
 			spedUpFrame = frameCount;
-<<<<<<< Updated upstream
 			inventory[currentSlot].getSlotItem().setEmpty();
-=======
-			inventory[currentSlot].setEmpty();
 			SFX.main.run(5);
->>>>>>> Stashed changes
 		case KEY:
 			inventory[currentSlot].getSlotItem().setEmpty();
 		default:

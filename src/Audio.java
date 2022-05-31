@@ -19,17 +19,18 @@ public class Audio extends Thread{
  
    private ArrayList<String> SoundList ;
    public static final Audio main = new Audio();
-   private String root ;
+   private String root;
+   private int curr;
    public Clip c;
-   public Audio(){
+   
+   public Audio() {
 
       SoundList = new ArrayList<String>();         
-<<<<<<< Updated upstream
+
 //      //Use root as the base string for all the sounds
 //      root = path.substring(0, path.length()-10) + "\\sounds\\";
 	  root = "sounds/";
       SoundList.add("Angry Birds Theme Song.wav");
-=======
 
 	   root = "sounds/";
       
@@ -46,7 +47,6 @@ public class Audio extends Thread{
       SoundList.add("PlayerDamaged.wav");
 
       curr = 0;
->>>>>>> Stashed changes
    }
    
    public void setAudio(int x){
@@ -65,15 +65,18 @@ public class Audio extends Thread{
       }
 
    }
-<<<<<<< Updated upstream
+
      
 
    public void run(){
       //TODO fill with 
 	   main.playSound(0);
-	   
-=======
+   }
 
+   public void playSound(int x) {
+	   
+   }
+   
    public void playAudio(){
       c.start(); //Start playing audio
 		System.out.println("Audio Playing : " + SoundList.get(curr));
@@ -81,7 +84,7 @@ public class Audio extends Thread{
       //Thread.sleep((int)(c.getMicrosecondLength() * 0.001));
    }
 
-   public void loopAudio(){
+   public void loopAudio() {
       c.loop(Clip.LOOP_CONTINUOUSLY);
    }
 
@@ -94,7 +97,6 @@ public class Audio extends Thread{
    public void run(int i){
 	      main.setAudio(i);
          main.playAudio();	   
->>>>>>> Stashed changes
 
    }
 

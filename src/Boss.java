@@ -5,9 +5,6 @@ import restore.Coder;
 
 import restore.CoderException;
 
-public class Boss extends Entity {
-
-
 public class Boss extends Entity implements Encodable {
 
 	public static String TYPE = "BossEnemy";
