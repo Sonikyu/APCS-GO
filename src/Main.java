@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import java.util.ArrayList;
 import java.util.Scanner;
 import restore.Coder;
+import restore.CoderException;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -33,9 +34,11 @@ public class Main {
 
 		if (!line.isEmpty()) {
 			Coder coder = new Coder(line);
-			game = new Game(coder);
-			if (coder.hasError()) {
-				System.err.println("Invalid game string: " + coder.getError());
+			try {
+				game = new Game(coder);
+			}
+			catch (CoderException e) {
+				System.err.println("Invalid game string:\n" + e.getMessage());
 				return;
 			}
 		} else {
@@ -47,6 +50,9 @@ public class Main {
 			LevelCreator[] levels = {new LevelOneCreator(), new LevelTwoCreator()};
 			game = new Game(size, player, levels);
 		}
+		
+		Debugger.main.start();
+		Inspector.main.setGame(game);
 
 		// Sets up frame with GameView
 		GameView gameView = new GameView(game);
@@ -64,7 +70,11 @@ public class Main {
 					for (int i = 0; i < msg.length(); i++) System.out.print("=");
 					System.out.println("");
 					Debugger.main.showDebug(!Debugger.main.isShowing());
-				} else if (e.getKeyCode() == KeyEvent.VK_G) {
+				}
+				else if (e.getKeyCode() == KeyEvent.VK_I) {
+					Inspector.main.run();
+				}
+				else if (e.getKeyCode() == KeyEvent.VK_G) {
 					Coder coder = new Coder();
 					coder.encode(gameBox.game);
 					System.out.println("GAME STRING: " + coder.result());
@@ -84,12 +94,18 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 
-<<<<<<< Updated upstream
+
+//		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+//		    public void run() {
+//		        Inspector.main.close();
+//		    }
+//		}));
+		
+
 		// MOOSIC
 		//Audio.main.run();
-=======
-		// MOOSIC : Done through other classes LOl
+
 		
->>>>>>> Stashed changes
+
 	}
 }

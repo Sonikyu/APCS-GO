@@ -218,8 +218,8 @@ public class LevelOneCreator implements LevelCreator {
 		room.placeEntity(enemy, 9, 9);
 
 //		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);
-		ImageIcon icon = new ImageIcon("images/NPCDialogue1.png");
-		room.placeEntity(new NPCGuard(icon), 6, 6);
+		
+		room.placeEntity(new NPCGuard("images/NPCDialogue1.png"), 6, 6);
 
 		return room;
 	}

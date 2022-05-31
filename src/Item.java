@@ -11,12 +11,15 @@
 
 import java.util.ArrayList;
 import restore.Coder;
+import restore.CoderException;
 
 public class Item extends Entity {
 
 	public enum ItemType {
 		EMPTY, KEY, HEALPOT, SPEEDPOT
     }
+	
+	public static String TYPE = "Item";
 
 	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png"};
 	
@@ -27,7 +30,7 @@ public class Item extends Entity {
      * @param object The object that the item is initialzied as. 
      */
 	public Item(ItemType object) {
-		super("Item", 0, IMAGE_FILES);	
+		super(TYPE, 0, IMAGE_FILES);	
 		this.object = object;
 		this.setImageAtIndex(object.ordinal());
 	}
@@ -37,7 +40,7 @@ public class Item extends Entity {
      * @param coder The object that creates the entity from a game string.
      */
 
-	public Item(Coder coder) {
+	public Item(Coder coder) throws CoderException {
 		super(coder);
 		//this.object = (Object)coder.decodeInt();
 	}

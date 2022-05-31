@@ -1,11 +1,10 @@
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import restore.Coder;
+import restore.CoderException;
 
 // AP CS Project
 // Alex, Johnny, Ethan, and Uday
@@ -66,7 +65,7 @@ public class Player extends Entity {
 		setUpHealthAndInventoryAndTimer();
 	}
 
-	public Player(Coder coder) {
+	public Player(Coder coder) throws CoderException {
 		super(coder);
 		this.xDelta = 0;
 		this.yDelta = 0;

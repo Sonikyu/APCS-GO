@@ -10,13 +10,12 @@
 /** @author Johnny*/ 
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-
 import restore.Coder;
 import restore.Encodable;
+import restore.CoderException;
 
 public class InventorySlot extends Entity implements Encodable {
-	private static String TYPE = "InventorySlot";
+	public static String TYPE = "InventorySlot";
 	private static String[] IMAGE_FILES = {"EmptySlot.png", "SelectedSlot.png"};
 	
 	private Item item;
@@ -34,7 +33,7 @@ public class InventorySlot extends Entity implements Encodable {
 	 * Initializes an inventory slot entity.
 	 * @param coder The object that creates the entity from a game string.
 	 */
-	public InventorySlot(Coder coder) {
+	public InventorySlot(Coder coder) throws CoderException {
 		super(coder);
 		this.item = new Item(coder);
 	}
