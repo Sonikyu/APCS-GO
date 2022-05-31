@@ -125,7 +125,7 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG"
 		};
 		Room room = new Room(layout, p);
-		// create nPc dialogiue to congratulate on solving puzzle and then explain boso level 
+		room.placeEntity(new NPCGuard("images/LevelTwoFinishedDialogue.png", 360, 240), 5, 8);
 		return room;
 	}
 	
@@ -190,6 +190,7 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
 		};
+		// create nPc dialogiue to congratulate on solving puzzle and then explain boso level 
 		return new Room(layout, p);
 	}
 
