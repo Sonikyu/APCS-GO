@@ -171,6 +171,9 @@ public class Boss extends Entity{
 					}
 				}
 			}
+			else if (entity.isOfType("BossBattleTracker")) {
+				takeDamage(10000);
+			}
 		}
 		if (aggravated) {
 //			Aggravated sound
