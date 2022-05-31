@@ -44,7 +44,7 @@ public class Player extends Entity {
 	private PlayerWeapon weapon;
 	private static final int ATTACK_COOLDOWN = 100;
 	public static final int ATTACK_DURATION = 20;
-	private int attackDamage = 30;
+	private static int attackDamage = 30;
 
 	public boolean isAttacking;
 	private long lastFrameAttacking;
@@ -387,13 +387,7 @@ public class Player extends Entity {
 		// Move with arrow keys
 		moveOnKeys(level, info.getKeysDown(), info.getSize(), visibleEntities);
 		swapRoom(level, info.getKeysDown(), info.getSize());
-//		if (shouldRevertMovement(visibleEntities)) {
-//			revertLastHorizontalMovement();
-//		}
-		
-//		if (shouldRevertMovement(visibleEntities)) {
-//			revertLastVerticalMovement();
-//		}
+
 	}
 
 	/**
@@ -485,7 +479,12 @@ public class Player extends Entity {
 		}
 	}
 
-
+	/**
+	 * Swaps between rooms if the player leaves a room. 
+	 * @param level The current level.
+	 * @param keysDown A hashmap of the keys currently pressed.
+	 * @param windowSize The dimensions of the game.
+	 */
 	public void swapRoom(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (getX() + 3 > windowSize.getWidth()) {
 			this.setPosition(-getWidth() + 3, getY());
