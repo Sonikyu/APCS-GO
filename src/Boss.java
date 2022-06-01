@@ -185,7 +185,6 @@ public class Boss extends Entity{
 			}
 		}
 		if (aggravated) {
-			SFX.main.run(SFX.Sound.MICHAELJACKSON);
 			if (Math.abs(randY-startY) < Math.abs(randX-startX)) {
 				if(plotLineLow(startX, startY, randX, randY)) {
 					aggravated = false;

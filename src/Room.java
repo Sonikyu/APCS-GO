@@ -99,6 +99,10 @@ public class Room implements Encodable {
 				case 'D':
 					this.tiles[i][j] = new DoorTile();
 					break;
+				case 'd':
+					this.tiles[i][j] = new DoorTile();
+					tiles[i][j].setImageAtIndex(1);
+					break;
 				case 'S':
 					this.tiles[i][j] = new Tile(Tile.Material.START);
 					break;

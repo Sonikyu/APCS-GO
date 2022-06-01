@@ -61,7 +61,7 @@ public class LevelThreeCreator implements LevelCreator {
 				"               |GGGG",
 				"               |GGGG",
 				"####7          |GGGG",
-				"GGGG|----DD----|GGGG",
+				"GGGG|----dd----|GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
