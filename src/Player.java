@@ -116,6 +116,10 @@ public class Player extends Entity {
 		}
 	}
 
+	public boolean hasWeapon() {
+		return hasWeapon;
+	}
+	
 	/**
 	 * Gets the player's damage value.
 	 * @return The player's damage value.

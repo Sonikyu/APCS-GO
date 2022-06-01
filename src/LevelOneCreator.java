@@ -154,7 +154,9 @@ public class LevelOneCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG",
 		};
 		Room room = new Room(layout, p);
-		room.placeEntity(new FauxWeaponItem(), 8, 8);
+		if (!p.hasWeapon()) {
+			room.placeEntity(new FauxWeaponItem(), 8, 8);
+		}
 		return room;
 	}
 	
