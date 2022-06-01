@@ -20,16 +20,20 @@ public class PlayerWeapon extends Entity implements Encodable {
 	
 	private int attackDamage;
 	private long frameAttacking = -Player.ATTACK_DURATION;
-	private Player.Direction pD;
+	private AttackDirection attackDirection;
+	
+	public enum AttackDirection {
+		NORTH, EAST, SOUTH, WEST;
+	}
 	
 	/**
 	 * Initalizes a new playerWeapon.
 	 * @param pD The direction of the player.
 	 * @param attackDamage The player's damage value.
 	 */
-	public PlayerWeapon(Player.Direction pD, int attackDamage) {
+	public PlayerWeapon( int attackDamage) {
 		super(TYPE, 0, IMAGE_FILES);
-		this.pD = pD;
+		this.attackDirection = AttackDirection.NORTH;
 		this.attackDamage = attackDamage;
 	}
 
@@ -42,7 +46,7 @@ public class PlayerWeapon extends Entity implements Encodable {
 	
 	public void encode(Coder coder) {
 		super.encode(coder);
-		coder.encode(pD.ordinal());
+//		coder.encode(pD.ordinal());
 		coder.encode(this.attackDamage);
 		coder.encode(frameAttacking);
 	}
@@ -51,9 +55,9 @@ public class PlayerWeapon extends Entity implements Encodable {
 	 * Sets the direction of the weapon to match the player.
 	 * @param pD The direction of the player.
 	 */
-	public void setDirection(Player.Direction pD) {
-		this.pD = pD;
-		this.setImageAtIndex(this.pD.ordinal());
+	public void setDirection(AttackDirection attackDirection) {
+		this.attackDirection = attackDirection;
+		this.setImageAtIndex(this.attackDirection.ordinal());
 	}
 	
 	/**
@@ -61,7 +65,7 @@ public class PlayerWeapon extends Entity implements Encodable {
 	 * @param player The player entity.
 	 */
 	public void setPosition(Player player) {
-		switch (pD) {
+		switch (attackDirection) {
 			case NORTH:
 				super.setPosition(player.getX() + (player.getWidth() - getWidth())/2, player.getY() - this.getHeight());
 				break;
