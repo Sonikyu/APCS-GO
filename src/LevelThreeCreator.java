@@ -68,16 +68,16 @@ public class LevelThreeCreator implements LevelCreator {
 		};
 		int[] combination = {1};
 		DoorSwitch[] switches = {doorSwitch1};
-		SwitchDoor door1 = new SwitchDoor(combination, switches);
-		SwitchDoor door2 = new SwitchDoor(combination, switches);
-		SwitchDoor door3 = new SwitchDoor(combination, switches);
-		SwitchDoor door4 = new SwitchDoor(combination, switches);
-		SwitchDoor door5 = new SwitchDoor(combination, switches);
-		SwitchDoor door6 = new SwitchDoor(combination, switches);
-		SwitchDoor door7 = new SwitchDoor(combination, switches);
-		SwitchDoor door8 = new SwitchDoor(combination, switches);
-		SwitchDoor door9 = new SwitchDoor(combination, switches);
-		SwitchDoor door10 = new SwitchDoor(combination, switches);
+		SwitchDoor door1 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door2 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door3 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door4 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door5 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door6 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door7 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door8 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door9 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door10 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
 		
 		Room room = new Room(layout, p);
 		room.placeEntity(door1, 5, 0);
@@ -192,8 +192,8 @@ public class LevelThreeCreator implements LevelCreator {
 		Room room = new Room(layout, p);
 		int[] combination = {1};
 		DoorSwitch[] switches = {doorSwitch2};
-		SwitchDoor door1 = new SwitchDoor(combination, switches);
-		SwitchDoor door2 = new SwitchDoor(combination, switches);
+		SwitchDoor door1 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.VERTICAL);
+		SwitchDoor door2 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.VERTICAL);
 		room.placeEntity(door1, 19, 6);
 		room.placeEntity(door2, 19, 7);
 		return room;
