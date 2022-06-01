@@ -25,7 +25,7 @@ class LevelTwoCreator implements LevelCreator {
 		this.doorSwitch2 = new DoorSwitch(3);
 		this.doorSwitch3 = new DoorSwitch(3);
 		
-		Room strt = ULDR();
+		Room strt = createStartingRoom();
 
 		Room sr1 = createTLSwitchRoom();
 		Room sr2 = createBSwitchRoom();
@@ -171,7 +171,11 @@ class LevelTwoCreator implements LevelCreator {
 		return new Room(layout, p);
 	}
 
-
+	private Room createStartingRoom() {
+		Room room = ULDR();
+		room.placeEntity(new NPCGuard("images/LevelTwoStartedDialogue.png", 360, 240), 9, 6);
+		return room;
+	}
 	private Room ULDR(){
 		String [] layout = {
 				"GGGG|          |GGGG",
@@ -190,8 +194,10 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
 		};
-		// create nPc dialogiue to congratulate on solving puzzle and then explain boso level 
-		return new Room(layout, p);
+		
+		Room room = new Room(layout, p);
+
+		return room;
 	}
 
 	private Room DLR(){

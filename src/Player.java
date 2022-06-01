@@ -20,7 +20,7 @@ public class Player extends Entity {
 	public enum Direction {
 		NORTH, EAST, SOUTH, WEST
 	}
-	
+
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
 	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
@@ -46,7 +46,7 @@ public class Player extends Entity {
 	public static final int ATTACK_DURATION = 20;
 	public static final int ATTACK_DAMAGE = Heart.VALUE * 2;
 
-	
+
 	private boolean hasWeapon;
 	public boolean isAttacking;
 	private long lastFrameAttacking;
@@ -102,7 +102,7 @@ public class Player extends Entity {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Respawns the player.
 	 */
@@ -221,13 +221,13 @@ public class Player extends Entity {
 		}
 		inventory = new InventorySlot[Player.INVENTORY_SIZE];
 		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
-			inventory[i] = new InventorySlot(new Item(Item.ItemType.EMPTY)); 
+			inventory[i] = new InventorySlot(new Item(Item.ItemType.EMPTY));
 			inventory[i].setPosition(242 + i * inventory[i].getWidth(), 565);
 		}
 		timer = new TimerDisplay();
 		System.out.println("setUpHealthAndInventoryAndTimer");
 	}
-	
+
 	/**
 	 * Updates the health bar.
 	 */
@@ -247,7 +247,7 @@ public class Player extends Entity {
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the inventory bar.
 	 */
@@ -262,8 +262,8 @@ public class Player extends Entity {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Paints the weapon, player, health bar, inventorybar, and timer entities.
 	 * @param g The graphics object the entities are painted to.
@@ -334,12 +334,12 @@ public class Player extends Entity {
 			weapon.cycle(level, info);
 		}
 
-		// Cycle for Hearts 
+		// Cycle for Hearts
 		updateHearts();
 		for (int i = 0; i < healthBar.length; i++) {
 			healthBar[i].cycle(level, info);
 		}
-		
+
 		// Get current item slot
 		updateInventoryBar();
 		for (int i = 0; i < inventory.length; i++) {
@@ -390,13 +390,7 @@ public class Player extends Entity {
 		// Move with arrow keys
 		moveOnKeys(level, info.getKeysDown(), info.getSize(), visibleEntities);
 		swapRoom(level, info.getKeysDown(), info.getSize());
-//		if (shouldRevertMovement(visibleEntities)) {
-//			revertLastHorizontalMovement();
-//		}
-		
-//		if (shouldRevertMovement(visibleEntities)) {
-//			revertLastVerticalMovement();
-//		}
+
 	}
 
 	/**
@@ -482,7 +476,12 @@ public class Player extends Entity {
 		}
 	}
 
-
+	/**
+	 * Swaps between rooms if the player leaves a room.
+	 * @param level The current level.
+	 * @param keysDown A hashmap of the keys currently pressed.
+	 * @param windowSize The dimensions of the game.
+	 */
 	public void swapRoom(Level level, HashSet<Integer> keysDown, Dimension windowSize) {
 		if (getX() + 3 > windowSize.getWidth()) {
 			this.setPosition(-getWidth() + 3, getY());
@@ -501,7 +500,7 @@ public class Player extends Entity {
 			level.moveRoomDown();
 		}
 	}
-	
+
 	/**
 	 * Updates the inventory.
 	 * @param level The current level.
@@ -599,5 +598,5 @@ public class Player extends Entity {
 		yDelta *= -1;
 		updateYBy(yDelta);
 	}
-	
+
 }

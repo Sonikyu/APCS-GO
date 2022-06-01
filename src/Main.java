@@ -47,7 +47,7 @@ public class Main {
 
 			// Initialize game
 			Player player = new Player();
-			LevelCreator[] levels = {new LevelOneCreator(), new LevelTwoCreator()};
+			LevelCreator[] levels = {new LevelOneCreator(), new LevelTwoCreator(), new LevelThreeCreator()};
 			game = new Game(size, player, levels);
 		}
 		

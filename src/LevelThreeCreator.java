@@ -9,8 +9,8 @@ public class LevelThreeCreator implements LevelCreator {
 	@Override
 	public Level createLevel(Player p) {
 		this.p = p;
-		this.doorSwitch1 = new DoorSwitch(3);
-		this.doorSwitch2 = new DoorSwitch(3);
+		this.doorSwitch1 = new DoorSwitch(2);
+		this.doorSwitch2 = new DoorSwitch(2);
 		this.doorSwitch3 = new DoorSwitch(3);
 		
 		Room strt = this.createStartingRoom();
@@ -48,8 +48,50 @@ public class LevelThreeCreator implements LevelCreator {
 	}
 	
 	private Room createStartingRoom() {
-		Room room = RUD();
-		// add honerkamo explaiantin o r sometihg
+//		Room room = RUD();
+		String [] layout  = {
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"####J          |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"         S     |GGGG",
+				"               |GGGG",
+				"               |GGGG",
+				"####7          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG",
+				"GGGG|          |GGGG"
+		};
+		int[] combination = {1};
+		DoorSwitch[] switches = {doorSwitch1};
+		SwitchDoor door1 = new SwitchDoor(combination, switches);
+		SwitchDoor door2 = new SwitchDoor(combination, switches);
+		SwitchDoor door3 = new SwitchDoor(combination, switches);
+		SwitchDoor door4 = new SwitchDoor(combination, switches);
+		SwitchDoor door5 = new SwitchDoor(combination, switches);
+		SwitchDoor door6 = new SwitchDoor(combination, switches);
+		SwitchDoor door7 = new SwitchDoor(combination, switches);
+		SwitchDoor door8 = new SwitchDoor(combination, switches);
+		SwitchDoor door9 = new SwitchDoor(combination, switches);
+		SwitchDoor door10 = new SwitchDoor(combination, switches);
+		
+		Room room = new Room(layout, p);
+		room.placeEntity(door1, 5, 0);
+		room.placeEntity(door2, 6, 0);
+		room.placeEntity(door3, 7, 0);
+		room.placeEntity(door4, 8, 0);
+		room.placeEntity(door5, 9, 0);
+		room.placeEntity(door6, 10, 0);
+		room.placeEntity(door7, 11, 0);
+		room.placeEntity(door8, 12, 0);
+		room.placeEntity(door9, 13, 0);
+		room.placeEntity(door10, 14, 0);
+		
+		
 		return room;
 	}
 	
@@ -60,9 +102,9 @@ public class LevelThreeCreator implements LevelCreator {
 				"|                  |",
 				"|                  |",
 				"|                  L",
-				"|-------            ", // edit this room to make sense
+				"|                   ", // edit this room to make sense
 				"|                   ",
-				"|                   ",
+				"|-------            ",
 				"|                   ",
 				"|                   ",
 				"|                  P",
@@ -72,7 +114,12 @@ public class LevelThreeCreator implements LevelCreator {
 				"L__________________J",
 		};
 		// add tracking enemy protecting key
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		TrackingEnemy enemy = new TrackingEnemy(7, 5, 3, 50, 300, 0);
+		room.placeEntity(enemy, 5, 3);
+		room.placeEntity(new Item(Item.ItemType.KEY), 3, 3);
+		return room;
+		
 	}
 	
 	private Room createBossStage1() {
@@ -84,7 +131,6 @@ public class LevelThreeCreator implements LevelCreator {
 				"|                  |",
 				"|                  |",
 				"|                  |", // edit this room to make sense
-				"|                  |",
 				"|                  |",
 				"|                  |",
 				"|                  |",
@@ -101,14 +147,13 @@ public class LevelThreeCreator implements LevelCreator {
 	private Room createSwitchRoomStage1() {
 		String [] layout = {
 				"P------------------7",
-				"|                  |",
-				"|                  |",
-				"|                  |",
-				"|                  |",
-				"|                  |", // edit this room to make sense
-				"|                  |",
-				"|                  |",
-				"|                  |",
+				"|          |       |",
+				"|          |       |",
+				"|          |       |",
+				"|          |       |",
+				"|          |       |", // edit this room to make sense
+				"|          |       |",
+				"|          |       |",
 				"|                  |",
 				"|                  |",
 				"|                  |",
@@ -118,30 +163,40 @@ public class LevelThreeCreator implements LevelCreator {
 				"___________________J",
 		};
 		// add tracking enemy protecting switch for stage 2
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		TrackingEnemy enemy = new TrackingEnemy(5, 15, 4, 50, 300, 0);
+		room.placeEntity(enemy, 15, 4);
+		room.placeEntity(doorSwitch1, 17, 2);
+		return room;
 	}
 	
 	private Room createBossStage2() {
 		String [] layout = {
-				"|BBL---------------7",
-				"|BB                |",
+				"PJBBL--------------7",
+				"| BB               |",
 				"|                  |",
 				"|                  |",
 				"|                  |",
 				"|                  L",
-				"|-------            ", // edit this room to make sense
-				"|                   ",
-				"|                   ",
-				"|                   ",
+				"|                   ", // edit this room to make sense
 				"|                   ",
 				"|                  P",
+				"|                  |",
+				"|                  |",
 				"|                  |",
 				"|                  |",
 				"|                  |",
 				"L---J          L---J",
 		};
 		// add stage 1 boss
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		int[] combination = {1};
+		DoorSwitch[] switches = {doorSwitch2};
+		SwitchDoor door1 = new SwitchDoor(combination, switches);
+		SwitchDoor door2 = new SwitchDoor(combination, switches);
+		room.placeEntity(door1, 19, 6);
+		room.placeEntity(door2, 19, 7);
+		return room;
 	}
 	
 	private Room createSwitchRoomStage2() {
@@ -160,11 +215,13 @@ public class LevelThreeCreator implements LevelCreator {
 				"|                  |",
 				"|                  |",
 				"|                  |",
-				"|                  |",
-				"|  P_______________J",
+				"L7  P______________J",
 		};
-		// add 2 switch for grass
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		room.placeEntity(doorSwitch2, 8, 8);
+		
+		
+		return room;
 	}
 	
 	private Room createGrassRoom() {
