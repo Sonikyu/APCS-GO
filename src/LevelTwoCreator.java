@@ -84,12 +84,12 @@ class LevelTwoCreator implements LevelCreator {
 	
 	private Room createUDMob() {
 		Room room = UD();
-		MoveOnlyEnemy enemy = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 5, 2, 2);
+		MoveOnlyEnemy enemy = new MoveOnlyEnemy(Tile.HEIGHT * 3, 0, 5, 2, 2);
 		room.placeEntity(enemy, 9, 7);
-		MoveOnlyEnemy enemy2 = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 5, 2, 2);
+		MoveOnlyEnemy enemy2 = new MoveOnlyEnemy(Tile.HEIGHT * 3, 0, 5, 2, 2);
 		room.placeEntity(enemy2, 10, 7);
-		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 8, 6);
-		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 7, 6);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 10, 6);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 9, 6);
 		return room;
 
 	}
