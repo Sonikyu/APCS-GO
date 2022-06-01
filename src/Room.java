@@ -141,7 +141,6 @@ public class Room implements Encodable {
 				
 				case 'F':
 					this.tiles[i][j] = new Tile(Tile.Material.FARM);
-					placeEntity(new Tile(Tile.Material.FARM), j, i);
 					break;
 				default:
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
@@ -319,6 +318,20 @@ public class Room implements Encodable {
 			}
 		}
 		return visibleEntities;
+	}
+	
+	public ArrayList<Entity> HACK_getEntities() {
+		ArrayList<Entity> hackEntities = new ArrayList<Entity>();
+		hackEntities.add(player);
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[0].length; j++) {
+				hackEntities.add(tiles[i][j]);
+			}
+		}
+		for (int i = 0; i < entities.size(); i++) {
+			hackEntities.add(entities.get(i));
+		}
+		return hackEntities;
 	}
 
 	/**
