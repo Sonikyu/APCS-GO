@@ -151,7 +151,7 @@ class LevelTwoCreator implements LevelCreator {
 		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 5, 2, 2);
 		room.placeEntity(enemy1, 7, 5);
 		MoveOnlyEnemy enemy2 = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 5, 2, 2);
-		room.placeEntity(enemy2, 11, 5);
+		room.placeEntity(enemy2, 11, 9);
 		return room;
 	}
 

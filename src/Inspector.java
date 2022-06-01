@@ -17,15 +17,25 @@ public class Inspector {
 	private Game game;
 	private Scanner in;
 
+	/**
+	 * Initializes the Inspector.
+	 */
 	public Inspector() {
 		this.game = null;
 		this.in = new Scanner(System.in);
 	}
 
+	/**
+	 * Sets the game.
+	 * @param game The current game.
+	 */
 	public void setGame(Game game) {
 		this.game = game;
 	}
 
+	/**
+	 * Runs the inspector.
+	 */
 	public void run() {
 		System.out.println("Inspection begun:");
 		System.out.println(" - Type 'list' to list the current entities.");
@@ -95,6 +105,9 @@ public class Inspector {
 		}
 	}	
 	
+	/**
+	 * Closes the inspector.
+	 */
 	public void close() {
 		in.close();
 	}
