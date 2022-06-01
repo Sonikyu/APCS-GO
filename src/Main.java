@@ -26,21 +26,21 @@ public class Main {
 		// Make JFrame
 		JFrame frame = new JFrame();
 
-		// See if we can load a game
-		Scanner in = new Scanner(System.in);
-		System.out.print("Enter game load string. If none, press enter with empty string: ");
-		String line = in.nextLine();	
-		in.close();
+//		// See if we can load a game
+//		Scanner in = new Scanner(System.in);
+//		System.out.print("Enter game load string. If none, press enter with empty string: ");
+//		String line = in.nextLine();	
+//		in.close();
 
-		if (!line.isEmpty()) {
-			Coder coder = new Coder(line);
-			try {
-				game = new Game(coder);
-			}
-			catch (CoderException e) {
-				System.err.println("Invalid game string:\n" + e.getMessage());
-				return;
-			}
+		if (false/*!line.isEmpty()*/) {
+//			Coder coder = new Coder(line);
+//			try {
+//				game = new Game(coder);
+//			}
+//			catch (CoderException e) {
+//				System.err.println("Invalid game string:\n" + e.getMessage());
+//				return;
+//			}
 		} else {
 			// Window size
 			Dimension size = new Dimension(800, 600);
@@ -62,23 +62,24 @@ public class Main {
 		GameBox gameBox = new GameBox(game);
 		frame.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_D) {
-					String msg = "Debug " + (!Debugger.main.isShowing() ? "En" : "Dis") + "abled";
-					for (int i = 0; i < msg.length(); i++) System.out.print("=");
-					System.out.println("");
-					System.out.println(msg);
-					for (int i = 0; i < msg.length(); i++) System.out.print("=");
-					System.out.println("");
-					Debugger.main.showDebug(!Debugger.main.isShowing());
-				}
-				else if (e.getKeyCode() == KeyEvent.VK_I) {
-					Inspector.main.run();
-				}
-				else if (e.getKeyCode() == KeyEvent.VK_G) {
-					Coder coder = new Coder();
-					coder.encode(gameBox.game);
-					System.out.println("GAME STRING: " + coder.result());
-				}
+//				if (e.getKeyCode() == KeyEvent.VK_D) {
+//					String msg = "Debug " + (!Debugger.main.isShowing() ? "En" : "Dis") + "abled";
+//					for (int i = 0; i < msg.length(); i++) System.out.print("=");
+//					System.out.println("");
+//					System.out.println(msg);
+//					for (int i = 0; i < msg.length(); i++) System.out.print("=");
+//					System.out.println("");
+//					Debugger.main.showDebug(!Debugger.main.isShowing());
+//				}
+//				else if (e.getKeyCode() == KeyEvent.VK_I) {
+//					Inspector.main.run();
+//				}
+				//else 
+//					if (e.getKeyCode() == KeyEvent.VK_G) {
+//					Coder coder = new Coder();
+//					coder.encode(gameBox.game);
+//					System.out.println("GAME STRING: " + coder.result());
+//				}
 
 				gameBox.game.keyPressed(e);
 			}

@@ -26,7 +26,7 @@ public class SFX extends Thread{
       ENTITYKILLED, DOOROPEN, ITEMOBTAINED, ITEMUSED, PLAYERATTACK, PLAYERDAMAGED
    }
 
-   private static final String[] files = {"MonsterDie.wav", "DoorOpen.wav", "ItemObtained.wav", "ItemUsed.wav", "PlayerAttack.wav", "PlayerDamaged.wav"};
+   private static final String[] files = {"MonsterDie.wav", "DoorOpen.wav", "ItemObtained.wav", "ItemUsed.wav", "PlayerAttack.wav", "Oof.wav"};
 
    public SFX(){
     

@@ -18,7 +18,6 @@ public class PlayerWeapon extends Entity implements Encodable {
 	public static String TYPE = "Attack";
 	private static String[] IMAGE_FILES = {"PlayerAttack_North.png", "PlayerAttack_East.png",  "PlayerAttack_South.png",  "PlayerAttack_West.png"};
 	
-	private int attackDamage;
 	private long frameAttacking = -Player.ATTACK_DURATION;
 	private AttackDirection attackDirection;
 	
@@ -31,23 +30,20 @@ public class PlayerWeapon extends Entity implements Encodable {
 	 * @param pD The direction of the player.
 	 * @param attackDamage The player's damage value.
 	 */
-	public PlayerWeapon( int attackDamage) {
+	public PlayerWeapon() {
 		super(TYPE, 0, IMAGE_FILES);
 		this.attackDirection = AttackDirection.NORTH;
-		this.attackDamage = attackDamage;
 	}
 
 	public PlayerWeapon(Coder coder) throws CoderException {
 		super(coder);
 		//this.pD = getint
-		this.attackDamage = coder.decodeInt();
 		this.frameAttacking = coder.decodeLong();
 	}
 	
 	public void encode(Coder coder) {
 		super.encode(coder);
 //		coder.encode(pD.ordinal());
-		coder.encode(this.attackDamage);
 		coder.encode(frameAttacking);
 	}
 	
@@ -97,14 +93,15 @@ public class PlayerWeapon extends Entity implements Encodable {
 				if (collidesWith(entity)) {
 					if (entity.isOfType(MoveOnlyEnemy.TYPE) || entity.isOfType(TrackingEnemy.TYPE) || entity.isOfType("BossBattleMinion") || entity.isOfType(BreakableTile.TYPE)) {
 						frameAttacking = info.getFrameCount();
-						entity.takeDamage(attackDamage);
-						Debugger.main.print(entity + " took " + attackDamage + " damage.");
+						entity.takeDamage(Player.ATTACK_DAMAGE);
+						SFX.main.run(SFX.Sound.PLAYERATTACK);
 					}
 					else if (entity.isOfType(DoorSwitch.TYPE)) {
 						DoorSwitch s = (DoorSwitch) entity;
 						frameAttacking = info.getFrameCount();
 						s.nextCombNumber();
 						s.setImageAtIndex(s.getCombNumber());
+						SFX.main.run(SFX.Sound.PLAYERATTACK);
 					}
 				}
 			}

@@ -16,12 +16,12 @@ import restore.CoderException;
 public class Item extends Entity {
 
 	public enum ItemType {
-		EMPTY, KEY, HEALPOT, SPEEDPOT, LUCKPOT
+		EMPTY, KEY, HEALPOT, SPEEDPOT, LUCKPOT, FAUX_WEAP
     }
 	
 	public static String TYPE = "Item";
 
-	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png", "LuckPot.png"};
+	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png", "LuckPot.png", "PlayerAttack_North.png"};
 	
 	private ItemType object;
 	
@@ -87,17 +87,12 @@ public class Item extends Entity {
 					if (entity.isOfType(Player.TYPE)) {
 						Player p = (Player) entity;						
 						int temp = p.firstOccur(ItemType.EMPTY);							
-						if(temp >= 0){
+						if (temp >= 0) {
 							p.addItem(this); 
-							Debugger.main.print("Player obtained " + this);
 							SFX.main.run(SFX.Sound.ITEMOBTAINED);
 							hide();
 						}
-						else{
-							Debugger.main.print("Full inventory, didn't pick up " + this);
-						}
 					}
-
 				}
 			}
 		}

@@ -13,7 +13,7 @@ public class BreakableTile extends Entity implements Encodable{
 	 * @param health The health of the entity.
 	 */
 	public BreakableTile(int health) {
-		super(TYPE, 70, IMAGE_FILES);
+		super(TYPE, Player.ATTACK_DAMAGE * 3, IMAGE_FILES);
 		counter = 0;
 	}
 	

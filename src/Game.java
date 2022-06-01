@@ -58,7 +58,7 @@ public class Game implements Encodable {
 		endScreen = new EndScreen();
 		
 		this.levels[currLevel] = levelCreators[currLevel].createLevel(p);
-		initialDebug();
+		setup();
 	}
 	
 	/**
@@ -84,8 +84,15 @@ public class Game implements Encodable {
 		this.info.frameCount = frameCount;
 //		TODO: Fix encoder
 //		this.levels = new Level(coder); if (coder.hasError()) { coder.setErrorMsg("Failed to decode level"); return; }
-		
-		initialDebug();
+		currLevel = 0;
+		int levelCount = coder.decodeInt();
+		levels2 = new Level[levelCount];
+		levels = new Level[levelCount];
+		for (int i = 0; i < levelCount; i++) {
+			levels2[i] = new Level(coder); 
+		}
+		loadCurrentLevel();
+		setup();
 	}
 	
 	/**
@@ -100,9 +107,11 @@ public class Game implements Encodable {
 		coder.encode((int) info.size.getHeight());
 		
 		coder.encode(info.frameCount);
-//		TODO: complete coder
-//		coder.encode(level);
-		System.out.println("Encoded game");
+		
+		coder.encode(levels.length);
+		for (Level level: levels) {
+			coder.encode(level);
+		}
 	}
 	
 	/**
@@ -137,13 +146,14 @@ public class Game implements Encodable {
 			}
 		} else {
 			levels[levIndex] = levelCreators[levIndex].createLevel(player);
+			System.out.println(player.firstOccur(Item.ItemType.FAUX_WEAP));
 		}
 	}
 	
 	/**
 	 * Restarts the current level.
 	 */
-	public void restartLevel() {
+	public void loadCurrentLevel() {
 		resetLevel(currLevel);
 	}
 	
@@ -221,9 +231,11 @@ public class Game implements Encodable {
 	/**
 	 * Determines if the game version is up to date.
 	 */
-	private void initialDebug() {		
+	private void setup() {		
 		System.out.println("Game v" + VER_MAJ + "." + verBreak + "\n==========");
 		System.out.println("Window Size: " + info.size.getWidth() + "px by " + info.size.getHeight() + "px");
+		System.out.println("Name: Jognny Droplet Touches Grass");
+		System.out.println("Creators: Johnny, Alex, Uday, Ethan");
 		Audio.main.run(Audio.main.getCurr());
 	}
 	
@@ -261,7 +273,7 @@ public class Game implements Encodable {
 		 * Restarts the current level.
 		 */
 		public void restartLevel() {
-			game.restartLevel();
+			game.loadCurrentLevel();
 		}
 
 		/**
@@ -305,7 +317,6 @@ public class Game implements Encodable {
 		 * Ends the game.
 		 */
 		public void endGame() {
-			System.err.println("endGame");
 			state = GameState.END_GAME;
 		}
 		

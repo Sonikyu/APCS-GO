@@ -270,7 +270,6 @@ public class Room implements Encodable {
 	 * @param entity The entity added to the room.
 	 */
 	public void addEntity(Entity entity) {
-		System.out.println("entities[" + entities.size() + "] = " + entity);
 		entities.add(entity);
 	}
 	

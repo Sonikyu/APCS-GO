@@ -50,7 +50,11 @@ public class Level implements Encodable {
 		this.map = new Room[numRows][numCols];
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
-				map[i][j] = new Room(coder);
+				if (coder.decodeBoolean()) {
+					map[i][j] = new Room(coder);
+				} else {
+					map[i][j] = null;
+				}
 			}
 		}
 	}
@@ -64,10 +68,14 @@ public class Level implements Encodable {
 		coder.encode(map[0].length);
 		for (Room[] row : map) {
 			for (Room col : row) {
-				coder.encode(col);
+				if (col == null) {
+					coder.encode(false);
+				} else {
+					coder.encode(true);
+					coder.encode(col);
+				}
 			}
 		}
-		System.out.println("Encoding Room");
 	}
 	
 	/**
@@ -87,7 +95,6 @@ public class Level implements Encodable {
 			currentRoom.unloadRoom();
 			currentRow -= 1;
 			currentRoom.loadRoom();
-			Debugger.main.print(player.getID() + " moved to Room" + "[" + currentRow + "]" + "[" + currentCol + "]");
 		}
 	}
 
@@ -100,7 +107,6 @@ public class Level implements Encodable {
 			currentRoom.unloadRoom();
 			currentCol += 1;
 			currentRoom.loadRoom();
-			Debugger.main.print(player.getID() + " moved to Room" + "[" + currentRow + "]" + "[" + currentCol + "]");
 		}
 	}
 	
@@ -113,7 +119,6 @@ public class Level implements Encodable {
 			currentRoom.unloadRoom();
 			currentRow += 1;
 			currentRoom.loadRoom();
-			Debugger.main.print(player.getID() + " moved to Room" + "[" + currentRow + "]" + "[" + currentCol + "]");
 		}
 	}
 	
@@ -126,7 +131,6 @@ public class Level implements Encodable {
 			currentRoom.unloadRoom();
 			currentCol -= 1;
 			currentRoom.loadRoom();
-			Debugger.main.print(player.getID() + " moved to Room" + "[" + currentRow + "]" + "[" + currentCol + "]");
 		}
 	}
 	

@@ -18,7 +18,7 @@ import restore.CoderException;
  * Thump thump! Heart is one of the little hearts on the top left that show health.
  */
 public class Heart extends Entity {
-
+	public static final int VALUE = 5;
 	public static String TYPE = "Heart";
 	private static String[] IMAGE_FILES = {"EmptyHeart.png", "HalfHeart.png", "FullHeart.png"};
 	
