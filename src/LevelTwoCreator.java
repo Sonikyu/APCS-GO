@@ -32,14 +32,18 @@ class LevelTwoCreator implements LevelCreator {
 		Room sr3 = createTRSwitchRoom();
 		Room drR = createDoorRoom();
 		Room lvR = createLevelRoom();
+		Room udm1 = createUDMob();
+		Room udm2 = createUDMob();
+		Room udm3 = createUDMob();
+		Room udm4 = createUDMob();
 
 		Room[][] rooms = {
 			{L(),   UL(),	null,	null,	null,	null,	null},
 			{sr1, 	UD(),	U(),	UR(),	LR(),	sr3,	U()},
-			{UD(), 	UD(),   DR(),	RUD(),	UR(),	LR(),	RUD()},
+			{udm2, 	UD(),   DR(),	RUD(),	UR(),	LR(),	RUD()},
 			{DR(), 	DLR(),	ULR(),	strt,	RUD(),	L(),	RUD()},
-			{null, 	UR(),	RUD(),	UD(),	DR(),	UL(),	UD()},
-			{L(), 	DL(),	UD(),	drR,	null,	UD(),	UD()},
+			{null, 	UR(),	RUD(),	udm1,	DR(),	UL(),	udm4},
+			{L(), 	DL(),	UD(),	drR,	null,	udm3,	UD()},
 			{null, 	null,	D(),	lvR,	sr2,	DL(),	D()},
 		};
 
@@ -78,6 +82,17 @@ class LevelTwoCreator implements LevelCreator {
 		return room;
 	}
 	
+	private Room createUDMob() {
+		Room room = UD();
+		MoveOnlyEnemy enemy = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 5, 2, 2);
+		room.placeEntity(enemy, 9, 7);
+		MoveOnlyEnemy enemy2 = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 5, 2, 2);
+		room.placeEntity(enemy2, 10, 7);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 8, 6);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 7, 6);
+		return room;
+
+	}
 	private Room createDoorRoom() {
 		String[] layout = {
 				"GGGG|          |GGGG",
@@ -147,10 +162,8 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG"
 		};
-		Room room = new Room(layout, p);
-		MoveOnlyEnemy enemy = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 5, 2, 2);
-		room.placeEntity(enemy, 8, 3);
-		return room;
+		return new Room(layout, p);
+
 	}
 
 	private Room UD(){
@@ -211,7 +224,7 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",
-				"####J          P####",
+				"####J          L####",
 				"                    ",
 				"                    ",
 				"                    ",
