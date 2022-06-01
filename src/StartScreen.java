@@ -15,7 +15,7 @@ import restore.Encodable;
 
 public class StartScreen extends Entity implements Encodable {
 	public static String TYPE = "StartScreen";
-	private static String IMAGE_FILE =  "StartScreen.png";
+	private static String IMAGE_FILE =  "Wall2.png";
 	
 	/**
 	 * Initializes a StartScreen entity.

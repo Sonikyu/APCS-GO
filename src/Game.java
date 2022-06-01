@@ -187,6 +187,9 @@ public class Game implements Encodable {
 	 * Cycles the game.
 	 */
 	public void cycle() {
+		if (info.getKeysDown().contains(KeyEvent.VK_I)) {
+			Inspector.main.run();
+		}
 		if (state == GameState.IN_GAME) {
 			levels[currLevel].cycle(info);
 			info.frameCount++;

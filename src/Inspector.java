@@ -42,31 +42,52 @@ public class Inspector {
 
 			if (line != null && game != null) {
 				final Room room = game.getCurrentLevel().getCurrentRoom();
-				final ArrayList<Entity> visibleEntities = room.getVisibleEntities();
+				ArrayList<Entity> visibleEntities = room.getVisibleEntities();
+				for (int i = visibleEntities.size() - 1; i >= 0; i--) {
+					if (visibleEntities.get(i).isOfType(Tile.BORING_TYPES)) {
+						visibleEntities.remove(i);
+					}
+				}
 				if (line.equals("list")) {
-					int maxLength = 0;
 					for (Entity entity: visibleEntities) {
-						if (entity.getID().length() > maxLength) {
-							maxLength = entity.getID().length();
-						}
+						System.out.println(entity.getID());
 					}
-					maxLength = (maxLength + 3) & ~3;
-					int col = 0;
-					for (Entity entity: visibleEntities) {
-						if (col >= 4) {
-							col = 0;
-							System.out.println();
-						}
-						System.out.print(entity.getID());
-						int dif = maxLength - entity.getID().length();
-						while (dif > 0) {
-							System.out.print(" ");
-							dif--;
-						}
-					}
-					System.out.println();
+//					int maxLength = 0;
+//					for (Entity entity: visibleEntities) {
+//						if (entity.getID().length() > maxLength) {
+//							maxLength = entity.getID().length();
+//						}
+//					}
+//					maxLength = (maxLength + 3) & ~3;
+//					int col = 0;
+//					for (Entity entity: visibleEntities) {
+//						if (col >= 4) {
+//							col = 0;
+//							System.out.println();
+//						}
+//						System.out.print(entity.getID());
+//						int dif = maxLength - entity.getID().length();
+//						while (dif > 0) {
+//							System.out.print(" ");
+//							dif--;
+//						}
+//					}
+//					System.out.println();
+				} else if (line.equals("help")) {
+					System.out.println(" - Type 'list' to list the current entities.");
+					System.out.println(" - Type the id of an entity (as printed by 'list') to inspect it.");
+					System.out.println(" - Type 'q', 'quit', 'e', or 'end' to exit.");
 				} else {
-
+					boolean foundEntity = false;
+					for (Entity entity: visibleEntities) {
+						if (entity.getID().equals(line)) {
+							foundEntity = true;
+							entity.printDetailedDebug();
+						}
+					}
+					if (!foundEntity) {
+						System.err.println("Please enter a valid command or an entity id. Try 'help' for a list of the avaliable commands.");
+					}
 				}
 			} else {
 				System.err.println("[Inspector] Your input was null. Please try again.");

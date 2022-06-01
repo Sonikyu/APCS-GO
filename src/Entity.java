@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
+import java.util.Arrays;
 import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 import restore.Coder;
@@ -452,8 +453,6 @@ public abstract class Entity implements ImageObserver, Encodable {
 	 */
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-//		size = new Dimension(width, height);
-//		sizeIsLoaded = true;
 		return false;
 	}
 	
@@ -464,5 +463,24 @@ public abstract class Entity implements ImageObserver, Encodable {
 	@Override
 	public String toString() {
 		return id + "[health=" + health + ", at=(" + x + ", " + y + "), " + (visible ? "visible" : "not visible") + "]"; 
+	}
+	
+	public void printDetailedDebug() {
+		System.out.println(getClass().getName() + " extends Entity = {");
+		System.out.println("    id = \"" + id + "\",");
+		System.out.println("    type = \"" + type + "\",");
+		System.out.println("    health = " + health + ",");
+		System.out.println("    maxHealth = " + maxHealth + ",");
+		System.out.println("    x = " + x + ",");
+		System.out.println("    y = " + y + ",");
+		System.out.println("    imageNames = " + Arrays.toString(imageNames) + ",");
+		System.out.println("    images = " + images + ",");
+		System.out.println("    currentImage = " + currentImage + ",");
+		System.out.println("    size = {,");
+		System.out.println("        width = " + (int)size.getWidth() + ",");
+		System.out.println("        height = " + (int)size.getHeight() + ",");
+		System.out.println("    }");
+		System.out.println("    visible = " + visible + ",");
+		System.out.println("}");
 	}
 }

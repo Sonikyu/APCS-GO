@@ -71,9 +71,6 @@ public class Main {
 //					System.out.println("");
 //					Debugger.main.showDebug(!Debugger.main.isShowing());
 //				}
-//				else if (e.getKeyCode() == KeyEvent.VK_I) {
-//					Inspector.main.run();
-//				}
 				//else 
 //					if (e.getKeyCode() == KeyEvent.VK_G) {
 //					Coder coder = new Coder();

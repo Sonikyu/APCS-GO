@@ -19,6 +19,7 @@ public class Tile extends Entity {
 
     public static final String[] TYPES = {"WallTile", "FloorTile", "DoorTile", "StartTile", "GoalTile", "LevelUpTile", "GrassTile", "Farm" };
     public static final String[] WALL_TYPES = { "WallTile", "DoorTile" };
+    public static final String[] BORING_TYPES = {"WallTile", "FloorTile","GrassTile"};
     private static final String[][] PNGS = {{"WallTileH.png","WallTileV.png","WallTileDL.png","WallTIleDR.png", "WallTileUL.png","WallTileUR.png"}, {"FloorTile.png"}, {"DoorTile.png", "FloorTile.png"}, {"FloorTile.png"}, {"GoalTile.png"}, {"LevelUpTile.png"}, {"GrassTile.png"}, {"Farm.png"}};
 
 

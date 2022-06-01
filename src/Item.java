@@ -21,7 +21,7 @@ public class Item extends Entity {
 	
 	public static String TYPE = "Item";
 
-	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png", "LuckPot.png", "PlayerAttack_North.png"};
+	private static String[] IMAGE_FILES = {"Empty.png", "Key.png", "HealPot.png", "SpeedPot.png", "LuckPot.png", "PlayerWeapon.png"};
 	
 	private ItemType object;
 	
