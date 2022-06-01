@@ -93,7 +93,7 @@ public class LevelOneCreator implements LevelCreator {
 				"|    |      |GGGGGGG",
 				"|    |      |GGGGGGG",
 				"--J LJ      L------7",
-				"                   |",
+				"B                  |",
 				"-----7             |",
 				"GGGGG|   S         D",
 				"GGGGG|             |",

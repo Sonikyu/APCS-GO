@@ -121,6 +121,9 @@ public class LevelThreeCreator implements LevelCreator {
 		TrackingEnemy enemy = new TrackingEnemy(7, 5, 3, 10, 300, 0);
 		room.placeEntity(enemy, 5, 3);
 		room.placeEntity(new Item(Item.ItemType.KEY), 3, 3);
+		room.placeEntity(new Item(Item.ItemType.LUCKPOT), 3, 9);
+		room.placeEntity(new Item(Item.ItemType.HEALPOT), 5, 10);
+		room.placeEntity(new Item(Item.ItemType.LUCKPOT), 3, 11);
 		return room;
 		
 	}
@@ -174,6 +177,10 @@ public class LevelThreeCreator implements LevelCreator {
 		TrackingEnemy enemy = new TrackingEnemy(5, 15, 4, 50, 300, 0);
 		room.placeEntity(enemy, 15, 4);
 		room.placeEntity(doorSwitch1, 17, 2);
+		room.placeEntity(new Item(Item.ItemType.LUCKPOT), 3, 3);
+		room.placeEntity(new Item(Item.ItemType.HEALPOT), 5, 3);
+		room.placeEntity(new Item(Item.ItemType.LUCKPOT), 7, 3);
+		room.placeEntity(new Item(Item.ItemType.HEALPOT), 9, 3);
 		return room;
 	}
 	

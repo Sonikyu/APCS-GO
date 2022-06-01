@@ -52,7 +52,7 @@ public class Game implements Encodable {
 		this.info = new GameInfo(size, this);
 		this.levels = new Level[levels.length];
 		this.levels2AsSource = false;
-		currLevel = 2;
+		currLevel = 0;
 		state = GameState.START_GAME;
 		startScreen = new StartScreen();
 		endScreen = new EndScreen();
