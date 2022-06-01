@@ -61,7 +61,7 @@ public class LevelThreeCreator implements LevelCreator {
 				"               |GGGG",
 				"               |GGGG",
 				"####7          |GGGG",
-				"GGGG|----DD----|GGGG",
+				"GGGG|----dd----|GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
@@ -82,17 +82,17 @@ public class LevelThreeCreator implements LevelCreator {
 		
 		
 		Room room = new Room(layout, p);
-		//room.placeEntity(door1, 5, 0);
-		//room.placeEntity(door2, 6, 0);
-		//room.placeEntity(door3, 7, 0);
-		//room.placeEntity(door4, 8, 0);
-		//room.placeEntity(door5, 9, 0);
-		//room.placeEntity(door6, 10, 0);
-		//room.placeEntity(door7, 11, 0);
-		//room.placeEntity(door8, 12, 0);
-		//room.placeEntity(door9, 13, 0);
-		//room.placeEntity(door10, 14, 0);
-		room.placeEntity(new FauxWeaponItem(), 6, 6);
+		room.placeEntity(door1, 5, 0);
+		room.placeEntity(door2, 6, 0);
+		room.placeEntity(door3, 7, 0);
+		room.placeEntity(door4, 8, 0);
+		room.placeEntity(door5, 9, 0);
+		room.placeEntity(door6, 10, 0);
+		room.placeEntity(door7, 11, 0);
+		room.placeEntity(door8, 12, 0);
+		room.placeEntity(door9, 13, 0);
+		room.placeEntity(door10, 14, 0);
+
 		
 		
 		return room;

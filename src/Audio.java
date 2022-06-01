@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
+
 
 //AP CS Project
 //Alex, Johnny, Ethan, and Uday
@@ -54,6 +56,9 @@ public class Audio extends Thread{
             c = AudioSystem.getClip();
             c.open(ais);
             
+            FloatControl gainControl =   (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
+
          } 
          catch (Exception e) {
             System.out.println(e.getMessage());
