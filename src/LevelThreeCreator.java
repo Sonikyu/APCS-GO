@@ -180,7 +180,7 @@ public class LevelThreeCreator implements LevelCreator {
 				"|                  L",
 				"|                   ", // edit this room to make sense
 				"|                   ",
-				"|                  p",
+				"|                  P",
 				"|                  |",
 				"|                  |",
 				"|                  |",
