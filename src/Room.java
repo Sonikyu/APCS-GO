@@ -138,9 +138,9 @@ public class Room implements Encodable {
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
 					placeEntity(new BreakableTile(100), j, i);
 					break;
-				
 				case 'F':
-					this.tiles[i][j] = new Tile(Tile.Material.FARM);
+					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
+					placeEntity(new Tile(Tile.Material.FARM), j, i);
 					break;
 				default:
 					this.tiles[i][j] = new Tile(Tile.Material.FLOOR);
