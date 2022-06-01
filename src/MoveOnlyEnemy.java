@@ -16,7 +16,7 @@ import restore.CoderException;
 public class MoveOnlyEnemy extends Entity {
 	public static String TYPE = "MoveOnlyEnemy";
 	private static int MAX_HEALTH = 100;
-	private static String IMAGE_FILE = "Enemy.png";
+	private static String IMAGE_FILE[] = {"Enemy.png", "EnemyHurt.png"};
 	
 	private int xDelta;
 	private int yDelta;
@@ -99,6 +99,7 @@ public class MoveOnlyEnemy extends Entity {
 	@Override
 	public void whenDead() {
 		SFX.main.run(SFX.Sound.ENTITYKILLED); //DIE NOISE
+
 		hide();
 	}
 	

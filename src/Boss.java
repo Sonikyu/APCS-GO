@@ -167,6 +167,7 @@ public class Boss extends Entity{
 					if (info.getFrameCount() - lastFrameAttacked >= 100) {
 //						Boss makes contact with player, damage sound
 						p.takeDamage(info, 10);
+						SFX.main.run(SFX.Sound.BICEPSDIFF);
 						lastFrameAttacked = info.getFrameCount();
 					}
 				}
@@ -176,7 +177,7 @@ public class Boss extends Entity{
 			}
 		}
 		if (aggravated) {
-//			Aggravated sound
+			SFX.main.run(SFX.Sound.MICHAELJACKSON);
 			if (Math.abs(randY-startY) < Math.abs(randX-startX)) {
 				if(plotLineLow(startX, startY, randX, randY)) {
 					aggravated = false;

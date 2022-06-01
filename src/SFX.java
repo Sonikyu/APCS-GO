@@ -23,10 +23,10 @@ public class SFX extends Thread{
    public Clip c;
 
    public enum Sound {
-      ENTITYKILLED, DOOROPEN, ITEMOBTAINED, ITEMUSED, PLAYERATTACK, PLAYERDAMAGED
+      ENTITYKILLED, DOOROPEN, ITEMOBTAINED, ITEMUSED, PLAYERATTACK, PLAYERDAMAGED, BICEPSDIFF, MICHAELJACKSON
    }
 
-   private static final String[] files = {"MonsterDie.wav", "DoorOpen.wav", "ItemObtained.wav", "ItemUsed.wav", "PlayerAttack.wav", "Oof.wav"};
+   private static final String[] files = {"MonsterDie.wav", "DoorOpen.wav", "ItemObtained.wav", "ItemUsed.wav", "PlayerAttack.wav", "Oof.wav", "BicepsDiff.wav", "MichaelJackson.wav"};
 
    public SFX(){
     
