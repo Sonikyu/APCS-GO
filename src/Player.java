@@ -20,7 +20,7 @@ public class Player extends Entity {
 	public enum Direction {
 		NORTH, EAST, SOUTH, WEST
 	}
-	
+
 	public static String TYPE = "Player";
 	private static int MAX_HEALTH = 100;
 	private static String[] IMAGE_FILES = {"Player.png", "PlayerDamageStage1.png"};
@@ -44,8 +44,10 @@ public class Player extends Entity {
 	private PlayerWeapon weapon;
 	private static final int ATTACK_COOLDOWN = 100;
 	public static final int ATTACK_DURATION = 20;
-	private static int attackDamage = 30;
+	public static final int ATTACK_DAMAGE = Heart.VALUE * 2;
 
+
+	private boolean hasWeapon;
 	public boolean isAttacking;
 	private long lastFrameAttacking;
 
@@ -62,7 +64,8 @@ public class Player extends Entity {
 		this.yDelta = 0;
 		lastFrameAttacked = -ANIMATION_TIME;
 		currentSlot = 0;
-		this.weapon = new PlayerWeapon(this.attackDamage);
+		this.weapon = new PlayerWeapon();
+		this.hasWeapon = false;
 		setUpHealthAndInventoryAndTimer();
 	}
 
@@ -92,21 +95,24 @@ public class Player extends Entity {
 	public int getHeartCount() {
 		int health = getHealth();
 		if (health > 0) {
-			if (health % 5 != 0) {
-				return health/5 + 1;
+			if (health % Heart.VALUE != 0) {
+				return health/Heart.VALUE + 1;
 			}
-			return health/5;
+			return health/Heart.VALUE;
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Respawns the player.
 	 */
 	public void respawn() {
+		System.out.println("Player.respawn LOL");
 		setHealth(MAX_HEALTH);
 		for (int i = 0; i < inventory.length; i++) {
-			inventory[i].getSlotItem().setEmpty();
+			if (inventory[i].getSlotItem().getItemType() != Item.ItemType.FAUX_WEAP) {
+				inventory[i].getSlotItem().setEmpty();
+			}
 		}
 	}
 
@@ -115,15 +121,7 @@ public class Player extends Entity {
 	 * @return The player's damage value.
 	 */
 	public int getAttackDamage() {
-		return attackDamage;
-	}
-
-	/**
-	 * Sets the player's damage value.
-	 * @param damageValue The player's new damage value.
-	 */
-	public void setAttackDamage(int damageValue) {
-		attackDamage = damageValue;
+		return ATTACK_DAMAGE;
 	}
 
 
@@ -209,7 +207,6 @@ public class Player extends Entity {
 		else {
 			weapon.hide();
 		}
-		
 	}
 
 	/**
@@ -224,12 +221,13 @@ public class Player extends Entity {
 		}
 		inventory = new InventorySlot[Player.INVENTORY_SIZE];
 		for (int i = 0; i < Player.INVENTORY_SIZE; i++) {
-			inventory[i] = new InventorySlot(new Item(Item.ItemType.EMPTY)); 
+			inventory[i] = new InventorySlot(new Item(Item.ItemType.EMPTY));
 			inventory[i].setPosition(242 + i * inventory[i].getWidth(), 565);
 		}
 		timer = new TimerDisplay();
+		System.out.println("setUpHealthAndInventoryAndTimer");
 	}
-	
+
 	/**
 	 * Updates the health bar.
 	 */
@@ -249,7 +247,7 @@ public class Player extends Entity {
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the inventory bar.
 	 */
@@ -264,15 +262,15 @@ public class Player extends Entity {
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Paints the weapon, player, health bar, inventorybar, and timer entities.
 	 * @param g The graphics object the entities are painted to.
 	 */
 	@Override
 	public void paint(Graphics2D g) {
-		if (weapon.isVisible()) {
+		if (hasWeapon && weapon.isVisible()) {
 			weapon.paint(g);
 		}
 		super.paint(g);
@@ -331,15 +329,17 @@ public class Player extends Entity {
 		inventoryUpdate(level, info.getKeysDown(), frameCount);
 
 		// Update player attack
-		updateWeapon(frameCount);
-		weapon.cycle(level, info);
+		if (hasWeapon) {
+			updateWeapon(frameCount);
+			weapon.cycle(level, info);
+		}
 
-		// Cycle for Hearts 
+		// Cycle for Hearts
 		updateHearts();
 		for (int i = 0; i < healthBar.length; i++) {
 			healthBar[i].cycle(level, info);
 		}
-		
+
 		// Get current item slot
 		updateInventoryBar();
 		for (int i = 0; i < inventory.length; i++) {
@@ -373,13 +373,16 @@ public class Player extends Entity {
 
 			if (collidesWith(entity) ) {
 				if (entity.isOfType("LevelUpTile")) {
-					for (int j = 0; j < inventory.length; j++) {
-						inventory[j].getSlotItem().setEmpty();
-					}
 					info.nextLevel();
 				}
 				else if (entity.isOfType("GrassTile")) {
 					info.endGame();
+				}
+				else if (entity.isOfType(FauxWeaponItem.TYPE)) {
+					this.hasWeapon = true;
+					level.getCurrentRoom().removeEntityByID(entity.getID());
+					SFX.main.run(SFX.Sound.ITEMOBTAINED);
+					this.addItem(new Item(Item.ItemType.FAUX_WEAP));
 				}
 			}
 		}
@@ -423,7 +426,6 @@ public class Player extends Entity {
 	@Override
 	public void heal(int change) {
 		super.heal(change);
-		Debugger.main.print(getID() + " healed " + change + ", now at " + getHealth());
 	}
 
 	/**
@@ -435,11 +437,6 @@ public class Player extends Entity {
 		super.takeDamage(change);
 		lastFrameAttacked = (int) info.getFrameCount();
 		SFX.main.run(SFX.Sound.PLAYERDAMAGED);
-		if (isDead()) {
-			Debugger.main.print(getID() + " is dead and cannot be damaged further");
-		} else {
-			Debugger.main.print(getID() + " took " + change + " damage points" + ", now at " + getHealth());
-		}
 	}
 
 	/**
@@ -480,7 +477,7 @@ public class Player extends Entity {
 	}
 
 	/**
-	 * Swaps between rooms if the player leaves a room. 
+	 * Swaps between rooms if the player leaves a room.
 	 * @param level The current level.
 	 * @param keysDown A hashmap of the keys currently pressed.
 	 * @param windowSize The dimensions of the game.
@@ -502,9 +499,8 @@ public class Player extends Entity {
 			this.setPosition(getX(), -3);
 			level.moveRoomDown();
 		}
-		
 	}
-	
+
 	/**
 	 * Updates the inventory.
 	 * @param level The current level.
@@ -560,7 +556,6 @@ public class Player extends Entity {
 					isAttacking = true;
 					lastFrameAttacking = l;
 					weapon.setDirection(PlayerWeapon.AttackDirection.NORTH);
-					SFX.main.run(SFX.Sound.PLAYERATTACK);
 				}
 			}
 			if (keysDown.contains(KeyEvent.VK_RIGHT)) {
@@ -568,7 +563,6 @@ public class Player extends Entity {
 					isAttacking = true;
 					lastFrameAttacking = l;
 					weapon.setDirection(PlayerWeapon.AttackDirection.EAST);
-					SFX.main.run(SFX.Sound.PLAYERATTACK);
 				}
 			}
 			if (keysDown.contains(KeyEvent.VK_DOWN)) {
@@ -576,7 +570,6 @@ public class Player extends Entity {
 					isAttacking = true;
 					lastFrameAttacking = l;
 					weapon.setDirection(PlayerWeapon.AttackDirection.SOUTH);
-					SFX.main.run(SFX.Sound.PLAYERATTACK);
 				}
 			}
 			if (keysDown.contains(KeyEvent.VK_LEFT)) {
@@ -584,7 +577,6 @@ public class Player extends Entity {
 					isAttacking = true;
 					lastFrameAttacking = l;
 					weapon.setDirection(PlayerWeapon.AttackDirection.WEST);
-					SFX.main.run(SFX.Sound.PLAYERATTACK);
 				}
 			}
 		}
@@ -606,5 +598,5 @@ public class Player extends Entity {
 		yDelta *= -1;
 		updateYBy(yDelta);
 	}
-	
+
 }

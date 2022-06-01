@@ -409,9 +409,11 @@ public abstract class Entity implements ImageObserver, Encodable {
 	public void takeDamage(int change) {
 		if (health - change < 0) {
 			health = 0;
-			whenDead();
 		} else {
 			health -= change;
+		}
+		if (health == 0) {
+			whenDead();
 		}
 	}
 		

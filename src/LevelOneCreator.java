@@ -154,7 +154,7 @@ public class LevelOneCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG",
 		};
 		Room room = new Room(layout, p);
-		// add faux weapon "item"
+		room.placeEntity(new FauxWeaponItem(), 8, 8);
 		return room;
 	}
 	
@@ -227,7 +227,7 @@ public class LevelOneCreator implements LevelCreator {
 		};
 		Room room = new Room(layout, p);
 
-		TrackingEnemy enemy = new TrackingEnemy(7, 9, 9, 0, 20, 100);
+		TrackingEnemy enemy = new TrackingEnemy(14, 9, 9, 0, 20, 100);
 		room.placeEntity(enemy, 9, 9);
 
 //		room.placeEntity(new Item(Item.ItemType.HEALPOT), 6, 6);

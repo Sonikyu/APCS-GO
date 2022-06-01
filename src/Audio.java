@@ -17,7 +17,7 @@ import javax.sound.sampled.Clip;
 
 public class Audio extends Thread{
  
-   private ArrayList<String> SoundList ;
+   private ArrayList<String> SoundList;
    public static final Audio main = new Audio();
    private String root ;
    private int curr;
