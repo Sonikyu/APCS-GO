@@ -99,8 +99,8 @@ class LevelTwoCreator implements LevelCreator {
 		Room room = new Room(layout, p);
 		int[] combination = { 0, 2, 1 };
 		DoorSwitch[] switches = { doorSwitch1, doorSwitch2, doorSwitch3 };
-		SwitchDoor door1 = new SwitchDoor(combination, switches);
-		SwitchDoor door2 = new SwitchDoor(combination, switches);
+		SwitchDoor door1 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+		SwitchDoor door2 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
 		room.placeEntity(door1, 9, 7);
 		room.placeEntity(door2, 10, 7);
 		return room;

@@ -15,18 +15,22 @@ import restore.CoderException;
 
 public class SwitchDoor extends Entity implements Encodable {
 	public static String TYPE = "SwitchDoor";
-	private static String[] IMAGE_FILES = { "SwitchDoor.png", "FloorTile.png" };
+	private static String[][] IMAGE_FILES = { {"SwitchDoor.png", "FloorTile.png"}, {"SwitchDoorV.png", "FloorTile.png"} };
 	
 	private int[] combination;
 	private DoorSwitch[] switches;
+	
+	public enum Orientation {
+		HORIZONTAL, VERTICAL;
+	}
 	
 	/**
 	 * Initalizes a SwitchDoor entity.
 	 * @param combination The combination of the SwitchDoor entity.
 	 * @param switches An array of doorswtich entities.
 	 */
-	public SwitchDoor(int[] combination, DoorSwitch[] switches) {
-		super(TYPE, 0, IMAGE_FILES);
+	public SwitchDoor(int[] combination, DoorSwitch[] switches, Orientation orientation) {
+		super(TYPE, 0, IMAGE_FILES[orientation.ordinal()]);
 		this.combination = combination;
 		this.switches = switches;
 	}
