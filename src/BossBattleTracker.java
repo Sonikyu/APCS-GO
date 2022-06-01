@@ -5,8 +5,8 @@ import restore.CoderException;
 import restore.Encodable;
 
 public class BossBattleTracker extends Entity implements Encodable {
-	public static String TYPE = "BossBattleMinion";
-	private static int MAX_HEALTH = 100;
+	public static String TYPE;
+	private static int MAX_HEALTH = 140;
 	private static String IMAGE_FILE = "Enemy.png";
 	
 	private long frameCount;
@@ -61,6 +61,7 @@ public class BossBattleTracker extends Entity implements Encodable {
 	 */
 	@Override
 	public void whenDead() {
+		boss.minionDead();
 		hide();
 	}
 	
@@ -123,3 +124,4 @@ public class BossBattleTracker extends Entity implements Encodable {
 		}
 	}
 }
+

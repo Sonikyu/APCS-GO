@@ -18,7 +18,7 @@ import restore.CoderException;
 public class Boss extends Entity{
 	public static String TYPE = "BossEnemy";
 	private static int MAX_HEALTH = 100;
-	private static String IMAGE_FILE = "ParthInThePark.png";
+	private static String IMAGE_FILE = "Boss.png";
 	
 	private int startX;
 	private int startY;
@@ -40,7 +40,7 @@ public class Boss extends Entity{
 	private boolean retreat = false;
 	private boolean aggravated = false;
 	
-	
+	private boolean minionDetected = false;
 	/**
 	 * Constructs a boss object
 	 */
@@ -68,7 +68,7 @@ public class Boss extends Entity{
 		super.encode(coder);
 	}
 	
-
+	
 	/**
 	 * Tells the boss whether the minion has been attacked
 	 * @param attack Boolean value to represent whether the minion has been attacked
@@ -76,6 +76,10 @@ public class Boss extends Entity{
 	 */
 	public void setMinionAttack(boolean attack) {
 		minionAttack = attack;
+	}
+	
+	public void minionDead() {
+		takeDamage(10000);
 	}
 	
 	/**
@@ -174,6 +178,10 @@ public class Boss extends Entity{
 			}
 			else if (entity.isOfType("BossBattleTracker")) {
 				takeDamage(10000);
+				if (collidesWith(entity)) {
+					hide();
+					entity.hide();
+				}
 			}
 		}
 		if (aggravated) {
@@ -224,43 +232,47 @@ public class Boss extends Entity{
 					py = p.getY();
 				}
 				else if (entity.getType().equals("BossBattleMinion")) {
+					minionDetected = true;
 					ex = entity.getX();
 					ey = entity.getY();
 				}
 					
-			}		
-			int deltay = (ey-py);
-			int deltax = (ex-px);
-			
-			double hypotenuse = Math.sqrt(Math.pow(deltax, 2) + Math.pow(deltay, 2));
-			
-
-			double centerX = -(deltax * radius/hypotenuse - px);
-			double centerY = -(deltay * radius/hypotenuse - py);
-			
-			double r = radius * Math.sqrt(Math.random());
-			double theta = Math.random() * 2 * Math.PI;
-			
-			randX = (int) (centerX + r * Math.cos(theta));
-			randY = (int) (centerY + r * Math.sin(theta));
-			
-			randX = Math.max(Tile.WIDTH, randX);
-			randX = Math.min((int)info.getSize().getWidth() - getWidth(), randX);
-			
-			randY = Math.max(Tile.HEIGHT, randY);
-			randY = Math.min((int)info.getSize().getHeight() - getHeight(), randY);
-			minionAttack = false;
-			aggravated = true;
-			
-			startX = getX();
-			startY = getY();
-			dx = randX - startX;
-			
-			dy = randY - startY;
-			d = (2*dy) - dx;
-			xi = 2;
-			yi = 2;
+			}
+			if (minionDetected) {
+				int deltay = (ey-py);
+				int deltax = (ex-px);
+				
+				double hypotenuse = Math.sqrt(Math.pow(deltax, 2) + Math.pow(deltay, 2));
+				
+	
+				double centerX = -(deltax * radius/hypotenuse - px);
+				double centerY = -(deltay * radius/hypotenuse - py);
+				
+				double r = radius * Math.sqrt(Math.random());
+				double theta = Math.random() * 2 * Math.PI;
+				
+				randX = (int) (centerX + r * Math.cos(theta));
+				randY = (int) (centerY + r * Math.sin(theta));
+				
+				randX = Math.max(Tile.WIDTH, randX);
+				randX = Math.min((int)info.getSize().getWidth() - getWidth(), randX);
+				
+				randY = Math.max(Tile.HEIGHT, randY);
+				randY = Math.min((int)info.getSize().getHeight() - getHeight(), randY);
+				minionAttack = false;
+				aggravated = true;
+				
+				startX = getX();
+				startY = getY();
+				dx = randX - startX;
+				
+				dy = randY - startY;
+				d = (2*dy) - dx;
+				xi = 2;
+				yi = 2;
+			}
 		}
 	}
 }
+
 
