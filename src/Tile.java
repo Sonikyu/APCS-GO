@@ -21,23 +21,23 @@ public class Tile extends Entity {
     public static final String[] WALL_TYPES = { "WallTile", "DoorTile" };
     public static final String[] BORING_TYPES = {"WallTile", "FloorTile","GrassTile"};
     private static final String[][] PNGS = {
-    		{"WallTileH.png","WallTileV.png","WallTileDL.png","WallTIleDR.png", "WallTileUL.png","WallTileUR.png"}, 
-    		{"FloorTile.png"}, 
-    		{"DoorTile.png", "FloorTile.png"}, 
-    		{"FloorTile.png"}, 
+    		{"WallTileH.png","WallTileV.png","WallTileDL.png","WallTIleDR.png", "WallTileUL.png","WallTileUR.png"},
+    		{"FloorTile.png"},
+    		{"DoorTile.png", "FloorTile.png"},
+    		{"FloorTile.png"},
     		{"GoalTile.png"},
-    		{"LevelUpTile.png"}, 
-    		{"GrassTile.png"}, 
+    		{"LevelUpTile.png"},
+    		{"GrassTile.png"},
     		{"farm.png"}
     };
 
 
     public static final int HEIGHT = 40;
     public static final int WIDTH = 40;
-    
+
     private final Material material;
-    
-   
+
+
 	/**
 	 * Initializes a tile entity.
 	 * @param material The type of tile.
@@ -46,12 +46,12 @@ public class Tile extends Entity {
         super(TYPES[material.ordinal()], 0, PNGS[material.ordinal()]);
         this.material = material;
     }
-    
+
     public Tile(Coder coder) throws CoderException {
     	super(coder);
         material = Material.FLOOR; // FIX
     }
-    
+
     public void encode(Coder coder) {
     	super.encode(coder);
     }
@@ -63,7 +63,7 @@ public class Tile extends Entity {
     public Material getMaterial() {
     	return material;
     }
-    
+
     /**
 	 * Cycles the entity.
 	 * @param level The current level.
@@ -76,4 +76,4 @@ public class Tile extends Entity {
 }
 
 // Tile images are 40 x 40, total frame is 800 x 600
-// Types of tiles: Floor, Wall, Door, 
+// Types of tiles: Floor, Wall, Door,

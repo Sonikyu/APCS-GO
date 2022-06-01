@@ -61,7 +61,7 @@ public class LevelThreeCreator implements LevelCreator {
 				"               |GGGG",
 				"               |GGGG",
 				"####7          |GGGG",
-				"GGGG|          |GGGG",
+				"GGGG|----dd----|GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
@@ -78,6 +78,8 @@ public class LevelThreeCreator implements LevelCreator {
 		SwitchDoor door8 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
 		SwitchDoor door9 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
 		SwitchDoor door10 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
+
+		
 		
 		Room room = new Room(layout, p);
 		room.placeEntity(door1, 5, 0);
@@ -90,6 +92,7 @@ public class LevelThreeCreator implements LevelCreator {
 		room.placeEntity(door8, 12, 0);
 		room.placeEntity(door9, 13, 0);
 		room.placeEntity(door10, 14, 0);
+
 		
 		
 		return room;
@@ -115,7 +118,7 @@ public class LevelThreeCreator implements LevelCreator {
 		};
 		// add tracking enemy protecting key
 		Room room = new Room(layout, p);
-		TrackingEnemy enemy = new TrackingEnemy(7, 5, 3, 50, 300, 0);
+		TrackingEnemy enemy = new TrackingEnemy(7, 5, 3, 10, 300, 0);
 		room.placeEntity(enemy, 5, 3);
 		room.placeEntity(new Item(Item.ItemType.KEY), 3, 3);
 		return room;
@@ -141,7 +144,11 @@ public class LevelThreeCreator implements LevelCreator {
 				"L___________________",
 		};
 		// add stage 1 boss
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		Boss boss = new Boss();
+		room.placeEntity(new BossBattleTracker(boss, "BossBattleMinion", 3), 10, 10);
+		room.placeEntity(boss, 2, 10);
+		return room;
 	}
 	
 	private Room createSwitchRoomStage1() {
@@ -194,6 +201,9 @@ public class LevelThreeCreator implements LevelCreator {
 		DoorSwitch[] switches = {doorSwitch2};
 		SwitchDoor door1 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.VERTICAL);
 		SwitchDoor door2 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.VERTICAL);
+		Boss boss = new Boss();
+		room.placeEntity(new BossBattleTracker(boss, "BossBattleTracker", 10), 6, 2);
+		room.placeEntity(boss, 3, 9);
 		room.placeEntity(door1, 19, 6);
 		room.placeEntity(door2, 19, 7);
 		return room;
@@ -230,13 +240,13 @@ public class LevelThreeCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
-				"###############7GGGG",
-				"               |GGGG",
-				"               |GGGG",
-				"               |GGGG",
-				"               |GGGG",
-				"               |GGGG",
-				"###############JGGGG",
+				"###############-GGGG",
+				"                GGGG",
+				"                GGGG",
+				"                GGGG",
+				"                GGGG",
+				"                GGGG",
+				"###############-GGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG",
@@ -310,3 +320,4 @@ public class LevelThreeCreator implements LevelCreator {
 		return new Room(layout, p);
 	}
 }
+

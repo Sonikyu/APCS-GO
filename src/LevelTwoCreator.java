@@ -162,8 +162,14 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG"
 		};
-		return new Room(layout, p);
-
+		Room room = new Room(layout, p);
+		MoveOnlyEnemy enemy1 = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 15, 2, 2);
+		room.placeEntity(enemy1, 7, 5);
+		MoveOnlyEnemy enemy2 = new MoveOnlyEnemy(0, Tile.HEIGHT * 15, 15, 2, 2);
+		room.placeEntity(enemy2, 11, 5);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 9, 7);
+		
+		return room;
 	}
 
 	private Room UD(){
@@ -184,9 +190,10 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
 		};
-
-
-		return new Room(layout, p);
+		Room room  = new Room(layout, p);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 10, 8);
+		
+		return room;
 	}
 
 	private Room createStartingRoom() {
@@ -361,7 +368,8 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
 		};	
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		return room;
 	}
 
 	private Room UL(){
@@ -425,7 +433,9 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
 		};	
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 10, 6);
+		return room;
 	}
 
 
@@ -447,7 +457,10 @@ class LevelTwoCreator implements LevelCreator {
 				"GGGGGGGGGGGGGGGGGGGG",
 				"GGGGGGGGGGGGGGGGGGGG"
 		};
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 9, 6);
+		room.placeEntity(new Item(Item.ItemType.SPEEDPOT), 10, 6);
+		return room;
 	}
 
 	private Room L(){
