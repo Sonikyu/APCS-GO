@@ -108,6 +108,7 @@ public class LevelOneCreator implements LevelCreator {
 //		room.placeEntity(new BreakableTile(100), 7, 7);
 //		return new Room(layout, p);
 		room.placeEntity(new NPCGuard("images/KeyRequiredDialogue.png", 360, 240), 16, 8);
+		room.placeEntity(new NPCGuard("images/WeaponNeeded.png", 360, 240), 9, 10);
 		return room;
 	}
 	

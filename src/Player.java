@@ -369,7 +369,7 @@ public class Player extends Entity {
 					if(!t.isOpen()){
 						inventory[currentSlot].getSlotItem().setEmpty();
 						t.setOpen(true);
-						t.setImageAtIndex(1);
+						t.setImageAtIndex(2);
 						SFX.main.run(SFX.Sound.DOOROPEN);
 					}
 				}

@@ -80,7 +80,6 @@ public class LevelThreeCreator implements LevelCreator {
 		SwitchDoor door10 = new SwitchDoor(combination, switches, SwitchDoor.Orientation.HORIZONTAL);
 
 		
-		
 		Room room = new Room(layout, p);
 		room.placeEntity(door1, 5, 0);
 		room.placeEntity(door2, 6, 0);
@@ -92,8 +91,8 @@ public class LevelThreeCreator implements LevelCreator {
 		room.placeEntity(door8, 12, 0);
 		room.placeEntity(door9, 13, 0);
 		room.placeEntity(door10, 14, 0);
-
-		
+		room.placeEntity(new NPCGuard("images/LevelThreeGetKey.png", 360, 240), 3, 8);
+		room.placeEntity(new NPCGuard("images/SwitchActivationNecessary.png", 360, 240), 9, 2);
 		
 		return room;
 	}
@@ -107,7 +106,7 @@ public class LevelThreeCreator implements LevelCreator {
 				"|                  L",
 				"|                   ", // edit this room to make sense
 				"|                   ",
-				"|-------            ",
+				"|--------           ",
 				"|                   ",
 				"|                   ",
 				"|                  P",
@@ -118,12 +117,12 @@ public class LevelThreeCreator implements LevelCreator {
 		};
 		// add tracking enemy protecting key
 		Room room = new Room(layout, p);
-		TrackingEnemy enemy = new TrackingEnemy(7, 5, 3, 10, 300, 0);
+		TrackingEnemy enemy = new TrackingEnemy(7, 5, 3, 25, 300, 0);
 		room.placeEntity(enemy, 5, 3);
 		room.placeEntity(new Item(Item.ItemType.KEY), 3, 3);
 		room.placeEntity(new Item(Item.ItemType.HEALPOT), 3, 9);
-		room.placeEntity(new Item(Item.ItemType.HEALPOT), 5, 10);
-		room.placeEntity(new Item(Item.ItemType.HEALPOT), 3, 11);
+//		room.placeEntity(new Item(Item.ItemType.HEALPOT), 5, 10);
+//		room.placeEntity(new Item(Item.ItemType.HEALPOT), 3, 11);
 		return room;
 		
 	}
@@ -212,6 +211,7 @@ public class LevelThreeCreator implements LevelCreator {
 		room.placeEntity(boss, 3, 9);
 		room.placeEntity(door1, 19, 6);
 		room.placeEntity(door2, 19, 7);
+		
 		return room;
 	}
 	
@@ -302,7 +302,10 @@ public class LevelThreeCreator implements LevelCreator {
 				"GGGG|          |GGGG",
 				"GGGG|          |GGGG"
 		};
-		return new Room(layout, p);
+		Room room = new Room(layout, p);
+		room.placeEntity(new NPCGuard("images/BossStage1.png", 360, 240), 10, 10);
+//		room.placeEntity(doorSwitch1, 0, 0);
+		return room;
 	}
 		
 	private Room RUD(){

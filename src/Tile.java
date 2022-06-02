@@ -23,7 +23,7 @@ public class Tile extends Entity {
     private static final String[][] PNGS = {
     		{"WallTileH.png","WallTileV.png","WallTileDL.png","WallTIleDR.png", "WallTileUL.png","WallTileUR.png"},
     		{"FloorTile.png"},
-    		{"DoorTile.png", "DoorTileH.png"},
+    		{"DoorTile.png", "DoorTileH.png", "FloorTile.png"},
     		{"FloorTile.png"},
     		{"GoalTile.png"},
     		{"LevelUpTile.png"},
